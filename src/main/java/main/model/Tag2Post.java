@@ -18,11 +18,9 @@ public class Tag2Post {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    //@TODO Настроить связь
     private Post post;
 
     @ManyToOne
     @JoinColumn(name = "tag_id")
-    //@TODO Настроить связь
     private Tag tag;
 }

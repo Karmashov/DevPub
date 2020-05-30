@@ -6,21 +6,27 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
-@Table(name = "tags")
-public class Tag {
+@Table(name = "global_settings")
+public class GlobalSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //@TODO code
+    @NotNull
+    @Enumerated(value = EnumType.STRING)
+    private GlobalSettingsValues code;
+
+    //@TODO name
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "tag")
-    private List<Tag2Post> posts;
+    //@TODO value
+    @NotNull
+    private String value;
 }

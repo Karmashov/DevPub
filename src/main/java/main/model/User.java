@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class User {
     private Integer id;
 
     @NotNull
+    @Column(columnDefinition = "tinyint")
     private Boolean isModerator;
 
     @NotNull
@@ -38,4 +40,16 @@ public class User {
 
     @Type(type = "text")
     private String photo;
+
+    @OneToMany(mappedBy = "moderator")
+    private List<Post> moderatedPosts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    private List<PostVote> votes;
+
+    @OneToMany(mappedBy = "user")
+    private List<PostComment> comments;
 }

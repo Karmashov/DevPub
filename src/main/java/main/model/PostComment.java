@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,12 +26,10 @@ public class PostComment {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    //@TODO Настроить связь
     private Post post;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    //@TODO Настроить связь
     private User user;
 
     @NotNull
@@ -40,4 +39,7 @@ public class PostComment {
     @NotNull
     @Type(type = "text")
     private String text;
+
+    @OneToMany(mappedBy = "parentComment")
+    private List<PostComment> comments;
 }

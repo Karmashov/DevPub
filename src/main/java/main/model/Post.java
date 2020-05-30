@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class Post {
     private Integer id;
 
     @NotNull
+    @Column(columnDefinition = "tinyint")
     private Boolean isActive;
 
     @NotNull
@@ -29,12 +31,10 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "moderator_id")
-    //@TODO Настроить связь
     private User moderator;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    //@TODO Настроить связь
     private User user;
 
     @NotNull
@@ -50,4 +50,13 @@ public class Post {
 
     @NotNull
     private Integer viewCount;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostVote> votes;
+
+    @OneToMany(mappedBy = "post")
+    private List<Tag2Post> tags;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostComment> comments;
 }

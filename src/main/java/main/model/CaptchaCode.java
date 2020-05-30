@@ -22,7 +22,11 @@ public class CaptchaCode {
     //@TODO Дата?
     private Date time;
 
-    //code
+    @NotNull
+    @Column(columnDefinition = "tinytext")
+    private String code;
 
-    //secret_code
+    @NotNull
+    @Column(columnDefinition = "tinytext")
+    private String secretCode;
 }

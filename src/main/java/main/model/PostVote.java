@@ -20,18 +20,19 @@ public class PostVote {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    //@TODO Настроить связь
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    //@TODO Настроить связь
     private Post post;
 
     @NotNull
     //@TODO Дата?
     private Date time;
 
-//    @NotNull
-//    private Boolean
+    @NotNull
+//    @Enumerated
+    @Column(columnDefinition = "tinyint")
+    //@TODO решить вопрос с предопределенностью лайков/дизлайков
+    private Integer value;
 }
