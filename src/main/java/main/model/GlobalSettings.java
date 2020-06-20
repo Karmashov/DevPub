@@ -19,8 +19,8 @@ public class GlobalSettings {
 
     //@TODO code
     @NotNull
-    @Enumerated(value = EnumType.STRING)
-    private GlobalSettingsValues code;
+//    @Enumerated(value = EnumType.STRING)
+    private String code;
 
     //@TODO name
     @NotNull

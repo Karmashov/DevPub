@@ -7,7 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,7 +26,6 @@ public class Post {
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
-    //@TODO Можно ли инициализировать Entity?
     private ModerationStatus moderationStatus = ModerationStatus.NEW;
 
     @ManyToOne
@@ -38,8 +37,7 @@ public class Post {
     private User user;
 
     @NotNull
-    //@TODO Дата?
-    private Date time;
+    private LocalDateTime time;
 
     @NotNull
     private String title;

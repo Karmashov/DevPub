@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,8 +27,7 @@ public class PostVote {
     private Post post;
 
     @NotNull
-    //@TODO Дата?
-    private Date time;
+    private LocalDateTime time;
 
     @NotNull
 //    @Enumerated

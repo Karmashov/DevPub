@@ -7,7 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class User {
     private Boolean isModerator;
 
     @NotNull
-    private Date regTime;
+    private LocalDateTime regTime;
 
     @NotNull
     private String name;

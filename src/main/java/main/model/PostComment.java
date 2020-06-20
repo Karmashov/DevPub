@@ -7,7 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -33,8 +33,7 @@ public class PostComment {
     private User user;
 
     @NotNull
-    //@TODO Дата?
-    private Date time;
+    private LocalDateTime time;
 
     @NotNull
     @Type(type = "text")

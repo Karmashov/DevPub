@@ -16,6 +16,11 @@ public class DefaultController {
 //        configuration.customFaviconHandlerMapping();
         return new ModelAndView("index");
     }
+    
+    @RequestMapping(method = {RequestMethod.OPTIONS, RequestMethod.GET}, value = "/**/{path:[^\\.]*}")
+    public String all() {
+        return "forward:/";
+    }
 }
 //@Controller
 //public class DefaultController {

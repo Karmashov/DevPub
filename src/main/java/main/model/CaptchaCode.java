@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +19,7 @@ public class CaptchaCode {
     private Integer id;
 
     @NotNull
-    //@TODO Дата?
-    private Date time;
+    private LocalDateTime time;
 
     @NotNull
     @Column(columnDefinition = "tinytext")
