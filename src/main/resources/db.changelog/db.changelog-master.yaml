@@ -1,10 +1,80 @@
 databaseChangeLog:
   - logicalFilePath: db/changelog/db.changelog.yaml
-  - changeSet:
-      id: 1563876485764-1
-      author: your_liquibase_username (generated)
-      changes:
-      - addNotNullConstraint:
-          columnDataType: varchar(255)
-          columnName: photo
-          tableName: users
+#  - changeSet:
+#      id: 1.0.1
+#      author: andrey
+#      changes:
+#        - createTable:
+#            tableName: users
+#            columns:
+#              - column:
+#                  autoIncrement: true
+#                  constraints:
+#                    nullable: false
+#                    primaryKey: true
+#                  name: id
+#                  type: INT
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  defaultValue: false
+#                  name: is_moderator
+#                  type: LONGTEXT
+#              - column:
+#
+#                  name: is_approved
+#                  type: BIT(1)
+#              - column:
+#                  name: birth_date
+#                  type: date
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  defaultValue: false
+#                  name: is_blocked
+#                  type: BIT(1)
+#              - column:
+#                  name: confirmation_code
+#                  type: VARCHAR(255)
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                    unique: true
+#                  name: e_mail
+#                  type: VARCHAR(255)
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  name: first_name
+#                  type: VARCHAR(255)
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  name: last_name
+#                  type: VARCHAR(255)
+#              - column:
+#                  name: last_online_time
+#                  type: datetime
+#              - column:
+#                  name: messages_permission
+#                  type: ENUM("ALL", "FRIENDS")
+#                  defaultValue: "ALL"
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  name: password
+#                  type: VARCHAR(255)
+#              - column:
+#                  name: phone
+#                  type: VARCHAR(255)
+#              - column:
+#                  name: photo
+#                  type: LONGTEXT
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  name: reg_date
+#                  type: datetime
+#              - column:
+#                  name: town_id
+#                  type: INT

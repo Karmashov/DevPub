@@ -39,7 +39,7 @@ public class User {
     private String code;
 
     @Type(type = "text")
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String photo;
 
     @OneToMany(mappedBy = "moderator")
