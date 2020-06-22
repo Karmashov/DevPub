@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog.yaml
+  - changeSet:
+      id: 1563876485764-1
+      author: your_liquibase_username (generated)
+      changes:
+      - addNotNullConstraint:
+          columnDataType: varchar(255)
+          columnName: photo
+          tableName: users
