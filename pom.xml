@@ -10,8 +10,8 @@
 
     <properties>
         <java.version>11</java.version>
-        <timestamp>${maven.build.timestamp}</timestamp>
-        <maven.build.timestamp.format>ddMMyyyy-HHmmss</maven.build.timestamp.format>
+<!--        <timestamp>${maven.build.timestamp}</timestamp>-->
+<!--        <maven.build.timestamp.format>ddMMyyyy-HHmmss</maven.build.timestamp.format>-->
 <!--        <jsonwebtoken.version>0.8.0</jsonwebtoken.version>-->
     </properties>
 
