@@ -85,9 +85,13 @@ databaseChangeLog:
                   name: parent_id
                   type: INT
               - column:
+                  constraints:
+                    nullable: false
                   name: post_id
                   type: INT
               - column:
+                  constraints:
+                    nullable: false
                   name: user_id
                   type: INT
             tableName: post_comments
@@ -115,9 +119,13 @@ databaseChangeLog:
                   name: value
                   type: TINYINT(3)
               - column:
+                  constraints:
+                    nullable: false
                   name: post_id
                   type: INT
               - column:
+                  constraints:
+                    nullable: false
                   name: user_id
                   type: INT
             tableName: post_votes
@@ -168,6 +176,8 @@ databaseChangeLog:
                   name: moderator_id
                   type: INT
               - column:
+                  constraints:
+                    nullable: false
                   name: user_id
                   type: INT
             tableName: posts
@@ -185,9 +195,13 @@ databaseChangeLog:
                   name: id
                   type: INT
               - column:
+                  constraints:
+                    nullable: false
                   name: post_id
                   type: INT
               - column:
+                  constraints:
+                    nullable: false
                   name: tag_id
                   type: INT
             tableName: tag2posts

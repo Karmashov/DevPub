@@ -1,17 +1,12 @@
 package com.skillbox.devpub.main.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Data
 @Table(name = "post_comments")
@@ -32,10 +27,8 @@ public class PostComment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
     private LocalDateTime time;
 
-    @NotNull
     @Type(type = "text")
     private String text;
 

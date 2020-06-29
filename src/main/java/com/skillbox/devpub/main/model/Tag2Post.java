@@ -1,13 +1,9 @@
 package com.skillbox.devpub.main.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Data
 @Table(name = "tag2posts")

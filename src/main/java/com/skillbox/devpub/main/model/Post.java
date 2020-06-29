@@ -6,12 +6,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Data
 @Table(name = "posts")
@@ -20,11 +17,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     @Column(columnDefinition = "tinyint")
     private Boolean isActive;
 
-    @NotNull
     @Enumerated(value = EnumType.STRING)
     private ModerationStatus moderationStatus = ModerationStatus.NEW;
 
@@ -36,17 +31,13 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
     private LocalDateTime time;
 
-    @NotNull
     private String title;
 
-    @NotNull
     @Type(type = "text")
     private String text;
 
-    @NotNull
     private Integer viewCount;
 
     @OneToMany(mappedBy = "post")
