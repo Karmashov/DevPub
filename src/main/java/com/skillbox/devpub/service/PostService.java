@@ -1,14 +1,8 @@
 package com.skillbox.devpub.service;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-public class PostService {
+public interface PostService {
 
-    //@TODO получение постов
-    public List getPosts() {
-        return null;
-    }
+    List getPosts();
 }

@@ -1,7 +1,4 @@
-package com.skillbox.devpub.dto;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.skillbox.devpub.dto.universal;
 
 public class ResponseFactory {
     public static BaseResponse getBaseResponse(Dto dto){

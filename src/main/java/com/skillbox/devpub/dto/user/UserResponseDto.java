@@ -1,6 +1,6 @@
-package com.skillbox.devpub.dto;
+package com.skillbox.devpub.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.skillbox.devpub.dto.universal.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonResponseDto implements Dto {
+public class UserResponseDto implements Dto {
     protected Integer id;
     protected Boolean isModerator;
     protected LocalDateTime regTime;

@@ -1,13 +1,12 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.AuthenticationRequestDto;
-import com.skillbox.devpub.dto.AuthenticationResponseFactory;
-import com.skillbox.devpub.dto.Response;
+import com.skillbox.devpub.dto.authentication.AuthenticationRequestDto;
+import com.skillbox.devpub.dto.authentication.AuthenticationResponseFactory;
+import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.security.jwt.JwtTokenProvider;
 import com.skillbox.devpub.service.AuthenticationService;
 import com.skillbox.devpub.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

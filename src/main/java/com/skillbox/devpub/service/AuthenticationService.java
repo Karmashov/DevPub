@@ -1,7 +1,7 @@
 package com.skillbox.devpub.service;
 
-import com.skillbox.devpub.dto.AuthenticationRequestDto;
-import com.skillbox.devpub.dto.Response;
+import com.skillbox.devpub.dto.authentication.AuthenticationRequestDto;
+import com.skillbox.devpub.dto.universal.Response;
 
 import javax.servlet.http.HttpServletRequest;
 

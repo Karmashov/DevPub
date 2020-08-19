@@ -1,5 +1,6 @@
-package com.skillbox.devpub.dto;
+package com.skillbox.devpub.dto.authentication;
 
+import com.skillbox.devpub.dto.user.UserResponseDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -7,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AuthPersonResponseDto extends PersonResponseDto {
+public class AuthenticationUserResponseDto extends UserResponseDto {
     private String token;
 
-    public AuthPersonResponseDto(
+    public AuthenticationUserResponseDto(
             Integer id,
             Boolean isModerator,
             LocalDateTime regTime,

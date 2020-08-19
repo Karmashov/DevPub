@@ -32,7 +32,7 @@ public class JwtTokenFilter extends GenericFilterBean {
                 }
             }
             filterChain.doFilter(servletRequest, servletResponse);
-//        } catch (JwtAuthenticationException | PersonNotFoundException ex) {
+//        } catch (JwtAuthenticationException | UserNotFoundException ex) {
 //            log.warn(ex.getMessage());
 //        }
     }

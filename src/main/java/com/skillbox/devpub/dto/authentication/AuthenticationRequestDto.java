@@ -1,4 +1,4 @@
-package com.skillbox.devpub.dto;
+package com.skillbox.devpub.dto.authentication;
 
 import lombok.Data;
 

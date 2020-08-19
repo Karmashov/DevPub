@@ -1,4 +1,4 @@
-package com.skillbox.devpub.dto;
+package com.skillbox.devpub.dto.universal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
