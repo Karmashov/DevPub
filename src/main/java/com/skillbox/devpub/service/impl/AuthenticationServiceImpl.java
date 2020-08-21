@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Response login(AuthenticationRequestDto request, HttpServletRequest httpServletRequest, String referer) {
-        String userEmail = request.getEmail();
+        String userEmail = request.getE_mail();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, request.getPassword()));
             User user = userService.findByEmail(userEmail);

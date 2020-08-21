@@ -9,17 +9,18 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class AuthenticationUserResponseDto extends UserResponseDto {
+
     private String token;
 
     public AuthenticationUserResponseDto(
             Integer id,
+            String name,
+            String photo,
+            String email,
             Boolean isModerator,
             LocalDateTime regTime,
-            String name,
-            String email,
             String password,
             String code,
-            String photo,
             String token
     ) {
         super(id, isModerator, regTime, name, email,

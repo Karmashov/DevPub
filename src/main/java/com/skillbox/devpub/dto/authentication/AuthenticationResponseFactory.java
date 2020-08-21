@@ -10,13 +10,13 @@ public class AuthenticationResponseFactory {
         return ResponseFactory.getBaseResponse(
                 new AuthenticationUserResponseDto(
                         user.getId(),
+                        user.getName(),
+                        user.getPhoto(),
+                        user.getEmail(),
                         user.getIsModerator(),
                         user.getRegTime(),
-                        user.getName(),
-                        user.getEmail(),
                         user.getPassword(),
                         user.getCode(),
-                        user.getPhoto(),
                         token
                 )
         );
