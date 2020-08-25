@@ -25,7 +25,7 @@ public class ApiAuthController {
     public ResponseEntity<?> login(HttpServletRequest request,
                                    @RequestBody AuthenticationRequestDto requestDto,
                                    @RequestHeader(name = "Referer", required = false) String referer) {
-        Response login = authService.login(requestDto, request, referer);
+        Response login = authService.login(requestDto/*, request, referer*/);
 //            if (login.getClass().equals(ErrorResponse.class)) {
 //                return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(login);
 //            }

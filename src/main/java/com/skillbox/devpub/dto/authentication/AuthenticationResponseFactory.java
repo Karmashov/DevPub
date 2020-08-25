@@ -13,11 +13,19 @@ public class AuthenticationResponseFactory {
                         user.getName(),
                         user.getPhoto(),
                         user.getEmail(),
-                        user.getIsModerator(),
-                        user.getRegTime(),
-                        user.getPassword(),
-                        user.getCode(),
-                        token
+                        user.getIsModerator()
+//                        Integer moderationCount,
+//                        Boolean settings
+//
+//                        user.getId(),
+//                        user.getName(),
+//                        user.getPhoto(),
+//                        user.getEmail(),
+//                        user.getIsModerator(),
+//                        user.getRegTime(),
+//                        user.getPassword(),
+//                        user.getCode(),
+//                        token
                 )
         );
     }

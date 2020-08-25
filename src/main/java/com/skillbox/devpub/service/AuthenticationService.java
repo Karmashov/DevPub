@@ -7,6 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AuthenticationService {
 
-    Response login(AuthenticationRequestDto request, HttpServletRequest httpServletRequest, String referer);
+    Response login(AuthenticationRequestDto request/*, HttpServletRequest httpServletRequest, String referer*/);
 
 }
