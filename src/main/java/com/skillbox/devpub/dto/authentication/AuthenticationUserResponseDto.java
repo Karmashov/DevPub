@@ -41,9 +41,9 @@ public class AuthenticationUserResponseDto implements Dto/* extends UserResponse
             String name,
             String photo,
             String email,
-            Boolean moderation
+            Boolean moderation,
 //            Integer moderationCount,
-//            Boolean settings
+            Boolean settings
     ) {
         this.id = id;
         this.name = name;
@@ -51,6 +51,6 @@ public class AuthenticationUserResponseDto implements Dto/* extends UserResponse
         this.email = email;
         this.moderation = moderation;
         this.moderationCount = 0;
-        this.settings = true;
+        this.settings = settings;
     }
 }

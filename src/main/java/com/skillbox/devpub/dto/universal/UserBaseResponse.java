@@ -3,18 +3,16 @@ package com.skillbox.devpub.dto.universal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @Data
-public class BaseResponse implements Response {
+public class UserBaseResponse implements Response {
     private Boolean result;
-//    private Long timestamp;
-    private Dto data;
+    //    private Long timestamp;
+    private Dto user;
 
-    public BaseResponse(Dto data) {
+    public UserBaseResponse(Dto user) {
         result = true;
 //        timestamp = new Date().getTime();
-        this.data = data;
+        this.user = user;
     }
 }

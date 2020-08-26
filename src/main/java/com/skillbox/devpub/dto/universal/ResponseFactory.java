@@ -5,6 +5,14 @@ public class ResponseFactory {
         return new BaseResponse(dto);
     }
 
+    public static UserBaseResponse getUserBaseResponse(Dto dto){
+        return new UserBaseResponse(dto);
+    }
+
+    public static ErrorResponse getErrorResponse() {
+        return new ErrorResponse();
+    }
+
 //    public static BaseResponse responseOk(){
 //        return new BaseResponse(new MessageResponseDto("ok"));
 //    }
