@@ -1,5 +1,6 @@
 package com.skillbox.devpub.service.impl;
 
+import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.model.Role;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.repository.RoleRepository;
@@ -29,22 +30,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(User user) {
-        Role roleUser = roleRepository.findByName("ROLE_USER");
-        List<Role> userRoles = new ArrayList<>();
-        userRoles.add(roleUser);
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(userRoles);
-
-        User registeredUser = userRepository.save(user);
-
-        log.info("IN register - user: {} successfully registered", registeredUser);
-
-        return registeredUser;
-    }
-
-    @Override
     public User findByEmail(String email) {
         User result = userRepository.findByEmail(email);
 
@@ -68,5 +53,34 @@ public class UserServiceImpl implements UserService {
 
         log.info("IN findById - user: {} found by ID: {}", result, id);
         return result;
+    }
+
+    @Override
+    public User register(RegistrationRequestDto requestDto) {
+
+
+        User user = new User();
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(userRoles);
+
+        User registeredUser = userRepository.save(user);
+
+        log.info("IN register - user: {} successfully registered", registeredUser);
+
+        return registeredUser;
+    }
+
+    private List<Role> getBasePermission() {
+        Role roleUser = roleRepository.findByName("ROLE_USER");
+        List<Role> userRoles = new ArrayList<>();
+        userRoles.add(roleUser);
+        return userRoles;
+    }
+
+    private void checkUserLogin(String email) throws RuntimeException {
+        if (userRepository.findByEmail(email) != null) {
+            throw new InvalidRequestException("Данный email уже зарегистрирован");
+        }
     }
 }

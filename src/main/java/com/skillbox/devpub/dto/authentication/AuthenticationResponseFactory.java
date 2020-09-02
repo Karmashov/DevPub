@@ -8,7 +8,7 @@ import com.skillbox.devpub.model.User;
 
 public class AuthenticationResponseFactory {
 
-    public static UserBaseResponse getAuthResponse(User user, String token) {
+    public static UserBaseResponse getAuthResponse(User user/*, String token*/) {
         Boolean settings = true;
         if (!user.getIsModerator()) {
             settings = false;
@@ -37,7 +37,7 @@ public class AuthenticationResponseFactory {
         );
     }
 
-    public static ErrorResponse getErrorResponse() {
-        return ResponseFactory.getErrorResponse();
-    }
+//    public static ErrorResponse getErrorResponse() {
+//        return ResponseFactory.getErrorResponse();
+//    }
 }

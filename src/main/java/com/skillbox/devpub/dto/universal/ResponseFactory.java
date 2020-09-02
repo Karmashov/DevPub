@@ -13,10 +13,10 @@ public class ResponseFactory {
         return new ErrorResponse();
     }
 
-//    public static BaseResponse responseOk(){
-//        return new BaseResponse(new MessageResponseDto("ok"));
-//    }
-//
+    public static BaseResponse responseOk(){
+        return new BaseResponse(new MessageResponseDto("ok"));
+    }
+
 //    public static BaseResponseList getBaseResponseList(List<Dto> list, int total, int offset, int limit){
 //        return new BaseResponseList(
 //                total,

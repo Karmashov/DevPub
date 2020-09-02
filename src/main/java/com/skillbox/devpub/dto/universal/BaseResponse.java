@@ -10,11 +10,15 @@ import java.util.Date;
 public class BaseResponse implements Response {
     private Boolean result;
 //    private Long timestamp;
-    private Dto data;
+//    private Dto data;
 
     public BaseResponse(Dto data) {
         result = true;
 //        timestamp = new Date().getTime();
-        this.data = data;
+//        this.data = data;
     }
+
+//    public BaseResponse(){
+//        result = true;
+//    }
 }
