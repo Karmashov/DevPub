@@ -1,8 +1,12 @@
 package com.skillbox.devpub.service.impl;
 
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
+import com.skillbox.devpub.dto.universal.Response;
+import com.skillbox.devpub.dto.universal.ResponseFactory;
+import com.skillbox.devpub.exception.InvalidRequestException;
 import com.skillbox.devpub.model.Role;
 import com.skillbox.devpub.model.User;
+import com.skillbox.devpub.model.enumerated.ERole;
 import com.skillbox.devpub.repository.RoleRepository;
 import com.skillbox.devpub.repository.UserRepository;
 import com.skillbox.devpub.service.UserService;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,23 +61,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(RegistrationRequestDto requestDto) {
-
+    public Response register(RegistrationRequestDto requestDto) {
+        checkUserLogin(requestDto.getE_mail());
+        checkUserName(requestDto.getName());
+        checkUserPassword(requestDto.getPassword());
+        checkCaptcha(requestDto.getCaptcha(), requestDto.getCaptcha_secret());
 
         User user = new User();
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(userRoles);
+        user.setEmail(requestDto.getE_mail());
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        user.setName(requestDto.getName());
+        user.setIsModerator(false);
+        user.setRegTime(LocalDateTime.now());
+        user.setRoles(getBasePermission());
+        user.setPhoto("/static/default-1.png");
+        //@TODO код?
+//        user.setCode();
 
         User registeredUser = userRepository.save(user);
 
         log.info("IN register - user: {} successfully registered", registeredUser);
 
-        return registeredUser;
+        return ResponseFactory.responseOk();
     }
 
     private List<Role> getBasePermission() {
-        Role roleUser = roleRepository.findByName("ROLE_USER");
+        Role roleUser = roleRepository.findByName(ERole.ROLE_USER);
         List<Role> userRoles = new ArrayList<>();
         userRoles.add(roleUser);
         return userRoles;
@@ -80,7 +94,23 @@ public class UserServiceImpl implements UserService {
 
     private void checkUserLogin(String email) throws RuntimeException {
         if (userRepository.findByEmail(email) != null) {
-            throw new InvalidRequestException("Данный email уже зарегистрирован");
+            throw new InvalidRequestException("Данный e-mail уже зарегистрирован");
         }
+    }
+
+    //@TODO проверка имени пользователя
+    private void checkUserName(String name) {
+
+    }
+
+    private void checkUserPassword(String password) {
+        if (password.length() < 6) {
+            throw new InvalidRequestException("Пароль короче 6-ти символов");
+        }
+    }
+
+    //@TODO проверка каптчи
+    private void checkCaptcha(String captcha, String captchaSecret) {
+
     }
 }

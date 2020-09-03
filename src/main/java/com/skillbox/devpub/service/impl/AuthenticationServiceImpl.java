@@ -92,6 +92,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Response register(RegistrationRequestDto requestDto, HttpServletRequest httpServletRequest) {
         Response registration = userService.register(requestDto);
+        User user = userService.findByEmail(requestDto.getE_mail());
         loggedIn.put(httpServletRequest.getSession().getId(), user.getId());
         return registration;
     }
