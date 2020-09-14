@@ -63,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return AuthenticationResponseFactory.getAuthResponse(user/*, token*/);
 
         } catch (AuthenticationException exception) {
-            return new ErrorResponse();
+            return new ErrorResponse(false, null);
 //            throw new BadCredentialsException("Invalid username or password");
         }
     }

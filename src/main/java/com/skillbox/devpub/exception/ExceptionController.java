@@ -22,7 +22,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         log.warn(ex.getMessage());
         return handleExceptionInternal(
                 ex,
-                new ErrorResponse(/*"invalid_request", ex.getMessage()*/),
+                new ErrorResponse(false, ex.getMessage()),
                 new HttpHeaders(),
                 HttpStatus.BAD_REQUEST,
                 request

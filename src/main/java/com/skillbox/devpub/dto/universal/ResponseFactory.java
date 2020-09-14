@@ -9,8 +9,8 @@ public class ResponseFactory {
         return new UserBaseResponse(dto);
     }
 
-    public static ErrorResponse getErrorResponse() {
-        return new ErrorResponse();
+    public static ErrorResponse getErrorResponse(/*String error,*/ String errorDescription) {
+        return new ErrorResponse(false, errorDescription);
     }
 
     public static BaseResponse responseOk(){

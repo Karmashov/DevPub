@@ -6,6 +6,6 @@ public class InvalidRequestException extends RuntimeException {
 
     public InvalidRequestException(String message) {
         super(message);
-        error = "invalid_request";
+//        error = message;
     }
 }
