@@ -63,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return AuthenticationResponseFactory.getAuthResponse(user/*, token*/);
 
         } catch (AuthenticationException exception) {
-            return new ErrorResponse(false, null);
+            return new ErrorResponse(false);
 //            throw new BadCredentialsException("Invalid username or password");
         }
     }
@@ -78,7 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return AuthenticationResponseFactory.getAuthResponse(user);
         }
 
-        return new ErrorResponse();
+        return new ErrorResponse(false);
     }
 
     @Override
@@ -92,8 +92,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Response register(RegistrationRequestDto requestDto, HttpServletRequest httpServletRequest) {
         Response registration = userService.register(requestDto);
-        User user = userService.findByEmail(requestDto.getE_mail());
-        loggedIn.put(httpServletRequest.getSession().getId(), user.getId());
+//        User user = userService.findByEmail(requestDto.getE_mail());
+//        loggedIn.put(httpServletRequest.getSession().getId(), user.getId());
         return registration;
     }
 }

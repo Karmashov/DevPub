@@ -1,28 +1,23 @@
 package com.skillbox.devpub.dto.universal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 //@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class ErrorResponse implements Response {
-//    private String error;
+
     private Boolean result;
+//    private String errorType;
+//    private String errorMessage;
 
-    @JsonProperty("error")
-    private String errorDescription;
-
-
-    public ErrorResponse(Boolean result/*, String error*/, String errorDescription){
-        this.result = result;
-//        this.error = error;
-        this.errorDescription = errorDescription;
-    }
-
-//    public ErrorResponse() {
-//        result = false;
+//    public ErrorResponse(Boolean result, String errorType, String errorMessage) {
+//        this.result = result;
+////        this.errorType = errorType;
+////        this.errorMessage = errorMessage;
 //    }
+
+    public ErrorResponse(Boolean result) {
+        this.result = result;
+    }
 }
