@@ -18,8 +18,8 @@ public class ErrorListResponse implements Response {
     private HashMap<String, String> errors;
 
 
-    public ErrorListResponse(Boolean result/*, String error*/, HashMap<String, String> errors){
-        this.result = result;
+    public ErrorListResponse(HashMap<String, String> errors){
+        this.result = false;
 //        this.error = error;
         this.errors = errors;
     }

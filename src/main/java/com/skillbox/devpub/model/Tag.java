@@ -15,6 +15,6 @@ public class Tag {
 
     private String name;
 
-    @OneToMany(mappedBy = "tag")
-    private List<Tag2Post> posts;
+    @ManyToMany(mappedBy = "tags")
+    private List<Post> posts;
 }

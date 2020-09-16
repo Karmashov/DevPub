@@ -17,7 +17,7 @@ public class ErrorResponse implements Response {
 ////        this.errorMessage = errorMessage;
 //    }
 
-    public ErrorResponse(Boolean result) {
-        this.result = result;
+    public ErrorResponse() {
+        this.result = false;
     }
 }

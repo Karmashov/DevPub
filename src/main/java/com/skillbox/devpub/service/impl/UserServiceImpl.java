@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public Response register(RegistrationRequestDto requestDto) {
         HashMap<String, String> errors = new HashMap<>();
 //        List<NamedErrorResponse> errors = new ArrayList<>();
-        checkUserLogin(requestDto.getE_mail(), errors);
+        checkUserLogin(requestDto.getEmail(), errors);
         checkUserName(requestDto.getName(), errors);
         checkUserPassword(requestDto.getPassword(), errors);
         checkCaptcha(requestDto.getCaptcha(), requestDto.getCaptcha_secret(), errors);
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = new User();
-        user.setEmail(requestDto.getE_mail());
+        user.setEmail(requestDto.getEmail());
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         user.setName(requestDto.getName());
         user.setIsModerator(false);

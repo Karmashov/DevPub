@@ -1,10 +1,12 @@
 package com.skillbox.devpub.dto.authentication;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class RegistrationRequestDto {
-    private String e_mail;
+    @JsonProperty("e_mail")
+    private String email;
     private String password;
     private String name;
     private String captcha;

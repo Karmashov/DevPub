@@ -3,18 +3,14 @@ package com.skillbox.devpub.service.impl;
 import com.skillbox.devpub.dto.authentication.AuthenticationRequestDto;
 import com.skillbox.devpub.dto.authentication.AuthenticationResponseFactory;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
-import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.ErrorResponse;
 import com.skillbox.devpub.dto.universal.Response;
-import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.security.jwt.JwtTokenProvider;
-import com.skillbox.devpub.service.AuthenticationService;
+import com.skillbox.devpub.service.AuthService;
 import com.skillbox.devpub.service.UserService;
-import org.apache.catalina.connector.ResponseFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthServiceImpl implements AuthService {
 
     private Map<String, Integer> loggedIn = new HashMap<>();
 
@@ -34,7 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
 
     @Autowired
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
@@ -43,7 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Response login(AuthenticationRequestDto request, HttpServletRequest httpServletRequest/*, String referer*/) {
         try {
-            String userEmail = request.getE_mail();
+            String userEmail = request.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, request.getPassword()));
             User user = userService.findByEmail(userEmail);
 
@@ -63,22 +59,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return AuthenticationResponseFactory.getAuthResponse(user/*, token*/);
 
         } catch (AuthenticationException exception) {
-            return new ErrorResponse(false);
+            return new ErrorResponse();
 //            throw new BadCredentialsException("Invalid username or password");
         }
     }
 
     @Override
     public Response authCheck(HttpServletRequest httpServletRequest) {
-        String sessionId = httpServletRequest.getSession().getId();
-        if (loggedIn.containsKey(sessionId))
-        {
-            User user = userService.findById(loggedIn.get(sessionId));
-
+        User user = getAuthUser(httpServletRequest);
+        if (user != null) {
             return AuthenticationResponseFactory.getAuthResponse(user);
         }
-
-        return new ErrorResponse(false);
+        return  new ErrorResponse();
+//        String sessionId = httpServletRequest.getSession().getId();
+//        if (loggedIn.containsKey(sessionId))
+//        {
+//            User user = userService.findById(loggedIn.get(sessionId));
+//
+//            return AuthenticationResponseFactory.getAuthResponse(user);
+//        }
+//
+//        return new ErrorResponse(false);
     }
 
     @Override
@@ -90,10 +91,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Response register(RegistrationRequestDto requestDto, HttpServletRequest httpServletRequest) {
+    public Response register(RegistrationRequestDto requestDto) {
         Response registration = userService.register(requestDto);
 //        User user = userService.findByEmail(requestDto.getE_mail());
 //        loggedIn.put(httpServletRequest.getSession().getId(), user.getId());
         return registration;
+    }
+
+    @Override
+    public User getAuthUser(HttpServletRequest servletRequest) {
+        String sessionId = servletRequest.getSession().getId();
+        if (loggedIn.containsKey(sessionId))
+        {
+            User user = userService.findById(loggedIn.get(sessionId));
+
+            return user;
+        }
+
+        return null;
     }
 }

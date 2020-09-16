@@ -13,11 +13,11 @@ public class ResponseFactory {
     }
 
     public static ErrorResponse getErrorResponse(/*String error,*/ String errorDescription) {
-        return new ErrorResponse(false/*, errorDescription*/);
+        return new ErrorResponse();
     }
 
     public static ErrorListResponse getErrorListResponse (HashMap<String, String> errors) {
-        return new ErrorListResponse(false, errors);
+        return new ErrorListResponse(errors);
     }
 
     public static BaseResponse responseOk(){

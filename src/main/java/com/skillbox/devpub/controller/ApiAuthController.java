@@ -5,24 +5,22 @@ import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.ErrorResponse;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
-import com.skillbox.devpub.service.AuthenticationService;
+import com.skillbox.devpub.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSessionEvent;
 
 @RestController
 @RequestMapping(value = "/api/auth")
 public class ApiAuthController {
 
-    private final AuthenticationService authService;
+    private final AuthService authService;
 
     @Autowired
-    public ApiAuthController(AuthenticationService authService)
+    public ApiAuthController(AuthService authService)
     {
         this.authService = authService;
     }
@@ -55,8 +53,8 @@ public class ApiAuthController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> register(@RequestBody RegistrationRequestDto requestDto, HttpServletRequest request) {
-        Response result = authService.register(requestDto, request);
+    public ResponseEntity<?> register(@RequestBody RegistrationRequestDto requestDto) {
+        Response result = authService.register(requestDto);
         return ResponseEntity.ok(result);
     }
 }

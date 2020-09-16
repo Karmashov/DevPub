@@ -1,5 +1,6 @@
 package com.skillbox.devpub.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
 import lombok.Data;
 import org.hibernate.annotations.Type;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,7 +22,7 @@ public class Post {
     private Boolean isActive;
 
     @Enumerated(value = EnumType.STRING)
-    private ModerationStatus moderationStatus = ModerationStatus.NEW;
+    private ModerationStatus moderationStatus/* = ModerationStatus.NEW*/;
 
     @ManyToOne
     @JoinColumn(name = "moderator_id")
@@ -42,8 +44,17 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostVote> votes;
 
-    @OneToMany(mappedBy = "post")
-    private List<Tag2Post> tags;
+//    @OneToMany(mappedBy = "post")
+//    private Set<Tag2Post> tags;
+    //@TODO исправить тэги
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(
+            name = "tag2posts",
+            joinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")}
+    )
+    private Set<Tag> tags;
 
     @OneToMany(mappedBy = "post")
     private List<PostComment> comments;
