@@ -8,4 +8,8 @@ public interface TagRepository extends JpaRepository<Tag,Integer> {
 //    Tag findFirstByTagIgnoreCase(String name);
 //
 //    boolean existsByTagIgnoreCase(String name);
+
+    boolean existsTagByNameIgnoreCase(String name);
+
+    Tag findFirstTagByNameIgnoreCase(String name);
 }

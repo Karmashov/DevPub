@@ -66,12 +66,12 @@ public class PostServiceImpl implements PostService {
             requestDto.getTags().forEach(tag -> {
                 Tag postTag;
                 //@TODO проверка существования тэгов в базе
-//                if (tagRepository.existsByTagIgnoreCase(tag)) {
-//                    postTag = tagRepository.findFirstByTagIgnoreCase(tag);
-//                } else {
+                if (tagRepository.existsTagByNameIgnoreCase(tag)) {
+                    postTag = tagRepository.findFirstTagByNameIgnoreCase(tag);
+                } else {
                     postTag = new Tag();
                     postTag.setName(tag);
-//                }
+                }
                 tags.add(postTag);
             });
             post.setTags(tags);

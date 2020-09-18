@@ -46,7 +46,6 @@ public class Post {
 
 //    @OneToMany(mappedBy = "post")
 //    private Set<Tag2Post> tags;
-    //@TODO исправить тэги
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(
@@ -58,4 +57,9 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<PostComment> comments;
+
+    @Override
+    public String toString() {
+        return getId() + " " + title + " " + text;
+    }
 }
