@@ -1,11 +1,10 @@
 package com.skillbox.devpub.dto.universal;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ResponseFactory {
-    public static BaseResponse getBaseResponse(Dto dto){
-        return new BaseResponse(dto);
+    public static ResponseOk getBaseResponse(Dto dto){
+        return new ResponseOk(dto);
     }
 
     public static UserBaseResponse getUserBaseResponse(Dto dto){
@@ -20,8 +19,8 @@ public class ResponseFactory {
         return new ErrorListResponse(errors);
     }
 
-    public static BaseResponse responseOk(){
-        return new BaseResponse(new MessageResponseDto("ok"));
+    public static ResponseOk responseOk(){
+        return new ResponseOk(new MessageResponseDto("ok"));
     }
 
 //    public static BaseResponseList getBaseResponseList(List<Dto> list, int total, int offset, int limit){

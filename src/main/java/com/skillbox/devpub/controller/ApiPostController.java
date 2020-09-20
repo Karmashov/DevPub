@@ -2,6 +2,7 @@ package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.universal.ErrorResponse;
+import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.service.AuthService;
 import com.skillbox.devpub.service.PostService;
@@ -49,6 +50,11 @@ public class ApiPostController {
             return ResponseEntity.ok(postService.editPost(requestDto, id, user));
         }
         return ResponseEntity.ok(new ErrorResponse());
+    }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getPost(@PathVariable Integer id) {
+//        Response result = postService.getPost(id);
+        return ResponseEntity.ok(postService.getPost(id));
     }
 }

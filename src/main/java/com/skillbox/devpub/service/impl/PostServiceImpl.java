@@ -1,6 +1,8 @@
 package com.skillbox.devpub.service.impl;
 
 import com.skillbox.devpub.dto.post.PostRequestDto;
+import com.skillbox.devpub.dto.post.PostResponseDto;
+import com.skillbox.devpub.dto.post.PostResponseFactory;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Post;
@@ -112,6 +114,18 @@ public class PostServiceImpl implements PostService {
         log.info("IN findById - post: {} found by ID: {}", post, id);
 
         return post;
+    }
+
+    @Override
+    public PostResponseDto getPost(Integer id) {
+        Post post = postRepository.findPostById(id);
+//        System.out.println(PostResponseFactory.getSinglePost(post));
+        if (post.getIsActive() &&
+                post.getModerationStatus() == ModerationStatus.ACCEPTED &&
+                post.getTime().isBefore(LocalDateTime.now())) {
+            return PostResponseFactory.getSinglePost(post);
+        }
+        return null;
     }
 
     private Set<Tag> setPostTag(Set<Tag> tags, PostRequestDto requestDto) {

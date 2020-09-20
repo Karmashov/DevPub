@@ -1,7 +1,5 @@
 package com.skillbox.devpub.dto.authentication;
 
-import com.skillbox.devpub.dto.universal.BaseResponse;
-import com.skillbox.devpub.dto.universal.ErrorResponse;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.UserBaseResponse;
 import com.skillbox.devpub.model.User;

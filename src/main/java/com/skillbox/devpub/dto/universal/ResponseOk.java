@@ -7,12 +7,12 @@ import java.util.Date;
 
 @AllArgsConstructor
 @Data
-public class BaseResponse implements Response {
+public class ResponseOk implements Response {
     private Boolean result;
 //    private Long timestamp;
 //    private Dto data;
 
-    public BaseResponse(Dto data) {
+    public ResponseOk(Dto data) {
         result = true;
 //        timestamp = new Date().getTime();
 //        this.data = data;

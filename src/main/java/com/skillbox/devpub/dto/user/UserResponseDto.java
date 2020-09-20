@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponseDto implements Dto {
-    protected Integer id;
-    protected Boolean isModerator;
-    protected LocalDateTime regTime;
-    protected String name;
-    protected String email;
-    protected String password;
-    protected String code;
-    protected String photo;
-    protected String token;
+    private Integer id;
+    private Boolean isModerator;
+    private LocalDateTime regTime;
+    private String name;
+    private String email;
+    private String password;
+    private String code;
+    private String photo;
+//    private String token;
 }
