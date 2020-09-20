@@ -27,12 +27,12 @@ public class ApiAuthController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(HttpServletRequest request,
-                                   @RequestBody AuthenticationRequestDto requestDto,
-                                   @RequestHeader(name = "Referer", required = false) String referer) {
+                                   @RequestBody AuthenticationRequestDto requestDto/*,
+                                   @RequestHeader(name = "Referer", required = false) String referer*/) {
         Response login = authService.login(requestDto, request/*, referer*/);
-        if (login.getClass().equals(ErrorResponse.class)) {
-                return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(login);
-            }
+//        if (login.getClass().equals(ErrorResponse.class)) {
+//                return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(login);
+//            }
 
 //        System.out.println(request);
 //        System.out.println(referer);

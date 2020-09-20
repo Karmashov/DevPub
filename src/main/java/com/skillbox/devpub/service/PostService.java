@@ -1,18 +1,19 @@
 package com.skillbox.devpub.service;
 
-import com.skillbox.devpub.dto.post.AddPostRequestDto;
-import com.skillbox.devpub.dto.universal.BaseResponse;
+import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.Post;
-import com.skillbox.devpub.model.Tag;
+import com.skillbox.devpub.model.User;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PostService {
 
     List getPosts();
 
-    Response addPost(AddPostRequestDto requestDto, Integer id);
+    Response addPost(PostRequestDto requestDto, User user);
+
+    Response editPost(PostRequestDto requestDto, Integer postId, User user);
+
+    Post findById(Integer id);
 }

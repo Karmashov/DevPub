@@ -13,7 +13,7 @@ import java.util.List;
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@ToString
-public class AddPostRequestDto {
+public class PostRequestDto {
     private String time;
     private Boolean active;
     private String title;

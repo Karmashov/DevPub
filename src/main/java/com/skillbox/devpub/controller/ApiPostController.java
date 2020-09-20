@@ -1,21 +1,15 @@
 package com.skillbox.devpub.controller;
 
-import com.skillbox.devpub.dto.post.AddPostRequestDto;
+import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.universal.ErrorResponse;
-import com.skillbox.devpub.dto.universal.Response;
-import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.service.AuthService;
 import com.skillbox.devpub.service.PostService;
-import com.skillbox.devpub.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/post")
@@ -35,14 +29,26 @@ public class ApiPostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addPost(@RequestBody AddPostRequestDto requestDto,
+    public ResponseEntity<?> addPost(@RequestBody PostRequestDto requestDto,
                                      HttpServletRequest servletRequest) {
 //        System.out.println(requestDto);
         User user = authService.getAuthUser(servletRequest);
         if (user != null) {
 //            System.out.println(user);
-            return ResponseEntity.ok(postService.addPost(requestDto, user.getId()));
+            return ResponseEntity.ok(postService.addPost(requestDto, user));
         }
         return ResponseEntity.ok(new ErrorResponse());
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> editPost(@PathVariable Integer id,
+                                      @RequestBody PostRequestDto requestDto,
+                                      HttpServletRequest servletRequest) {
+        User user = authService.getAuthUser(servletRequest);
+        if (user != null) {
+            return ResponseEntity.ok(postService.editPost(requestDto, id, user));
+        }
+        return ResponseEntity.ok(new ErrorResponse());
+
     }
 }

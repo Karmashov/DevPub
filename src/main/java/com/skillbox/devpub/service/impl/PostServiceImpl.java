@@ -1,7 +1,6 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.post.AddPostRequestDto;
-import com.skillbox.devpub.dto.universal.BaseResponse;
+import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Post;
@@ -39,7 +38,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response addPost(AddPostRequestDto requestDto, Integer userId) {
+    public Response addPost(PostRequestDto requestDto, User user) {
         HashMap<String, String> errors = new HashMap<>();
         checkTitle(requestDto.getTitle(), errors);
         checkText(requestDto.getText(), errors);
@@ -48,39 +47,85 @@ public class PostServiceImpl implements PostService {
             return ResponseFactory.getErrorListResponse(errors);
         }
 
-        User user = userService.findById(userId);
         Post post = new Post();
         post.setIsActive(requestDto.getActive());
         post.setModerationStatus(ModerationStatus.NEW);
         post.setUser(user);
-//        post.setTime(requestDto.getTime());
         post.setTime(parseDate(requestDto.getTime()));
         post.setTitle(requestDto.getTitle());
         post.setText(requestDto.getText());
         post.setVotes(new ArrayList<>());
         post.setComments(new ArrayList<>());
         post.setViewCount(0);
-//        post.setTags(requestDto.getTags().add);
+
         Set<Tag> tags = new HashSet<>();
         if (requestDto.getTags().size() != 0) {
-            requestDto.getTags().forEach(tag -> {
-                Tag postTag;
-                //@TODO проверка существования тэгов в базе
-                if (tagRepository.existsTagByNameIgnoreCase(tag)) {
-                    postTag = tagRepository.findFirstTagByNameIgnoreCase(tag);
-                } else {
-                    postTag = new Tag();
-                    postTag.setName(tag);
-                }
-                tags.add(postTag);
-            });
-            post.setTags(tags);
+            post.setTags(setPostTag(tags, requestDto));
         }
-        Post result = postRepository.save(post);
+        postRepository.save(post);
 
         log.info("IN addPost post: {} added with tags: {} successfully", post.getId(), tags);
 
         return ResponseFactory.responseOk();
+    }
+
+    @Override
+    public Response editPost(PostRequestDto requestDto, Integer postId, User user) {
+        HashMap<String, String> errors = new HashMap<>();
+        checkTitle(requestDto.getTitle(), errors);
+        checkText(requestDto.getText(), errors);
+
+        if (!errors.isEmpty()) {
+            return ResponseFactory.getErrorListResponse(errors);
+        }
+
+        Post post = postRepository.findPostById(postId);
+        post.setTime(parseDate(requestDto.getTime()));
+        post.setIsActive(requestDto.getActive());
+        post.setTitle(requestDto.getTitle());
+        post.setText(requestDto.getText());
+
+        Set<Tag> tags = new HashSet<>();
+        if (requestDto.getTags().size() != 0) {
+            post.setTags(setPostTag(tags, requestDto));
+        }
+
+        //@TODO Изменение модератором
+        if (!user.getIsModerator()) {
+            post.setModerationStatus(ModerationStatus.NEW);
+        }
+
+        postRepository.save(post);
+
+        log.info("IN editPost post: {} edited with tags: {} successfully", post.getId(), tags);
+
+        return ResponseFactory.responseOk();
+    }
+
+    @Override
+    public Post findById(Integer id) {
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null) {
+            log.warn("IN findById - no post found by ID: {}", id);
+            return null;
+        }
+        log.info("IN findById - post: {} found by ID: {}", post, id);
+
+        return post;
+    }
+
+    private Set<Tag> setPostTag(Set<Tag> tags, PostRequestDto requestDto) {
+        requestDto.getTags().forEach(tag -> {
+            Tag postTag;
+            if (tagRepository.existsTagByNameIgnoreCase(tag)) {
+                postTag = tagRepository.findFirstTagByNameIgnoreCase(tag);
+            } else {
+                postTag = new Tag();
+                postTag.setName(tag);
+            }
+            tags.add(postTag);
+        });
+        return tags;
     }
 
     private void checkTitle(String title, HashMap<String, String> errors) {
@@ -101,9 +146,7 @@ public class PostServiceImpl implements PostService {
         LocalDateTime now = LocalDateTime.now();
         if (requestDate.isEmpty() || localDateTime.isBefore(now)) {
             return now;
-        } else {
-            return localDateTime;
         }
-//        return localDateTime;
+        return localDateTime;
     }
 }
