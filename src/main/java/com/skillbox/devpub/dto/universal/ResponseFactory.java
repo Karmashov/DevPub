@@ -1,27 +1,41 @@
 package com.skillbox.devpub.dto.universal;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
+
 import java.util.HashMap;
 
 public class ResponseFactory {
-    public static ResponseOk getBaseResponse(Dto dto){
-        return new ResponseOk(dto);
+//    public static BaseResponse getBaseResponse(Dto dto){
+//        return new BaseResponse(dto);
+//    }
+
+    public static DtoResponse getDtoResponse(Dto dto) {
+        return new DtoResponse(dto);
     }
 
-    public static UserBaseResponse getUserBaseResponse(Dto dto){
-        return new UserBaseResponse(dto);
+    public static BaseDtoResponse getBaseDtoResponse(Boolean result, Dto dto) {
+        return new BaseDtoResponse(result, dto);
     }
 
-    public static ErrorResponse getErrorResponse(/*String error,*/ String errorDescription) {
-        return new ErrorResponse();
-    }
+//    public static UserBaseResponse getUserBaseResponse(Dto dto){
+//        return new UserBaseResponse(dto);
+//    }
+
+//    public static ErrorResponse getErrorResponse(/*String error,*/ String errorDescription) {
+//        return new ErrorResponse();
+//    }
 
     public static ErrorListResponse getErrorListResponse (HashMap<String, String> errors) {
         return new ErrorListResponse(errors);
     }
 
-    public static ResponseOk responseOk(){
-        return new ResponseOk(new MessageResponseDto("ok"));
+    public static BaseResponse responseOk() {
+        return new BaseResponse(true);
     }
+
+//    public static BaseResponse responseError() {
+//        return new BaseResponse(false);
+//    }
 
 //    public static BaseResponseList getBaseResponseList(List<Dto> list, int total, int offset, int limit){
 //        return new BaseResponseList(

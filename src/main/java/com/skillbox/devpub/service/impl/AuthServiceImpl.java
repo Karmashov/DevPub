@@ -1,9 +1,9 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.authentication.AuthenticationRequestDto;
-import com.skillbox.devpub.dto.authentication.AuthenticationResponseFactory;
+import com.skillbox.devpub.dto.authentication.AuthRequestDto;
+import com.skillbox.devpub.dto.authentication.AuthResponseFactory;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
-import com.skillbox.devpub.dto.universal.ErrorResponse;
+import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.security.jwt.JwtTokenProvider;
@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Response login(AuthenticationRequestDto request, HttpServletRequest httpServletRequest/*, String referer*/) {
+    public Response login(AuthRequestDto request, HttpServletRequest httpServletRequest/*, String referer*/) {
         try {
             String userEmail = request.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, request.getPassword()));
@@ -56,10 +56,10 @@ public class AuthServiceImpl implements AuthService {
 //            response.put("username", userEmail);
 //            response.put("token", token);
 
-            return AuthenticationResponseFactory.getAuthResponse(user/*, token*/);
+            return AuthResponseFactory.getAuthResponse(true, user/*, token*/);
 
         } catch (AuthenticationException exception) {
-            return new ErrorResponse();
+            return new BaseResponse(false);
 //            throw new BadCredentialsException("Invalid username or password");
         }
     }
@@ -68,9 +68,9 @@ public class AuthServiceImpl implements AuthService {
     public Response authCheck(HttpServletRequest httpServletRequest) {
         User user = getAuthUser(httpServletRequest);
         if (user != null) {
-            return AuthenticationResponseFactory.getAuthResponse(user);
+            return AuthResponseFactory.getAuthResponse(true, user);
         }
-        return  new ErrorResponse();
+        return new BaseResponse(false);
 //        String sessionId = httpServletRequest.getSession().getId();
 //        if (loggedIn.containsKey(sessionId))
 //        {

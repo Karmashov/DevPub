@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PostResponseDto implements Dto{
+public class PostResponseDto implements Dto {
     private Integer id;
     private LocalDateTime time;
     private Dto user;

@@ -1,13 +1,11 @@
 package com.skillbox.devpub.controller;
 
-import com.skillbox.devpub.dto.authentication.AuthenticationRequestDto;
+import com.skillbox.devpub.dto.authentication.AuthRequestDto;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
-import com.skillbox.devpub.dto.universal.ErrorResponse;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +25,7 @@ public class ApiAuthController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(HttpServletRequest request,
-                                   @RequestBody AuthenticationRequestDto requestDto/*,
+                                   @RequestBody AuthRequestDto requestDto/*,
                                    @RequestHeader(name = "Referer", required = false) String referer*/) {
         Response login = authService.login(requestDto, request/*, referer*/);
 //        if (login.getClass().equals(ErrorResponse.class)) {

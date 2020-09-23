@@ -60,6 +60,6 @@ public class Post {
 
     @Override
     public String toString() {
-        return getId() + " " + title + " " + text;
+        return id + " " + title + " " + text;
     }
 }

@@ -3,15 +3,15 @@ package com.skillbox.devpub.dto.comment;
 import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.user.UserResponseFactory;
 import com.skillbox.devpub.model.PostComment;
-import com.skillbox.devpub.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommentResponseFactory {
-    public static CommentDto getCommentDto(PostComment comment, List<Dto> subList/*, Person person*/)
-    {
-        return new CommentDto(
+
+    //@TODO родительские комментарии и вложенные комментарии
+    public static CommentResponseDto getCommentDto(PostComment comment, List<Dto> subList/*, Person person*/) {
+        return new CommentResponseDto(
                 comment.getId(),
                 comment.getTime(),
                 comment.getText(),

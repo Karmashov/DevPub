@@ -1,15 +1,11 @@
 package com.skillbox.devpub.dto.authentication;
 
 import com.skillbox.devpub.dto.universal.Dto;
-import com.skillbox.devpub.dto.user.UserResponseDto;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 @Data
 //@EqualsAndHashCode(callSuper = true)
-public class AuthenticationUserResponseDto implements Dto/* extends UserResponseDto*/ {
+public class AuthUserResponseDto implements Dto/* extends UserResponseDto*/ {
 
     private Integer id;
     private String name;
@@ -36,7 +32,7 @@ public class AuthenticationUserResponseDto implements Dto/* extends UserResponse
 //        this.token = token;
 //    }
 
-    public AuthenticationUserResponseDto(
+    public AuthUserResponseDto(
             Integer id,
             String name,
             String photo,

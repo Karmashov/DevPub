@@ -1,8 +1,7 @@
 package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.post.PostRequestDto;
-import com.skillbox.devpub.dto.universal.ErrorResponse;
-import com.skillbox.devpub.dto.universal.Response;
+import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.service.AuthService;
 import com.skillbox.devpub.service.PostService;
@@ -38,7 +37,7 @@ public class ApiPostController {
 //            System.out.println(user);
             return ResponseEntity.ok(postService.addPost(requestDto, user));
         }
-        return ResponseEntity.ok(new ErrorResponse());
+        return ResponseEntity.ok(new BaseResponse(false));
     }
 
     @PutMapping(value = "/{id}")
@@ -49,7 +48,7 @@ public class ApiPostController {
         if (user != null) {
             return ResponseEntity.ok(postService.editPost(requestDto, id, user));
         }
-        return ResponseEntity.ok(new ErrorResponse());
+        return ResponseEntity.ok(new BaseResponse(false));
     }
 
     @GetMapping(value = "/{id}")

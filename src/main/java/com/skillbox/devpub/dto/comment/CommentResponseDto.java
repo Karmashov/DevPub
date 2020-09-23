@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class CommentDto implements Dto {
+public class CommentResponseDto implements Dto {
 //    @JsonProperty("parent_id")
 //    private int parentId;
 //    @JsonProperty("comment_text")

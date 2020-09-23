@@ -18,6 +18,5 @@ public interface PostService {
 
     Post findById(Integer id);
 
-    //@TODO разобраться с респонсами (ResponseOk)
-    PostResponseDto getPost(Integer id);
+    Response getPost(Integer id);
 }

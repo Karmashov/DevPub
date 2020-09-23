@@ -117,7 +117,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponseDto getPost(Integer id) {
+    public Response getPost(Integer id) {
         Post post = postRepository.findPostById(id);
 //        System.out.println(PostResponseFactory.getSinglePost(post));
         if (post.getIsActive() &&

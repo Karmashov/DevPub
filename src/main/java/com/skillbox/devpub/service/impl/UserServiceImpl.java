@@ -107,7 +107,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    //@TODO проверка имени пользователя
     private void checkUserName(String name, HashMap<String, String> errors) {
         if (name.length() < 2) {
 //            errors.add(new NamedErrorResponse("name", "Имя указано неверно"));
