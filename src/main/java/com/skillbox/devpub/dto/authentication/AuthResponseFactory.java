@@ -11,7 +11,7 @@ public class AuthResponseFactory {
         if (!user.getIsModerator()) {
             settings = false;
         }
-        return ResponseFactory.getBaseDtoResponse(result,
+        return ResponseFactory.getUserBaseResponse(result,
                 new AuthUserResponseDto(
                         user.getId(),
                         user.getName(),

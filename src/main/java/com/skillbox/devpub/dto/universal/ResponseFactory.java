@@ -13,13 +13,13 @@ public class ResponseFactory {
         return new DtoResponse(dto);
     }
 
-    public static BaseDtoResponse getBaseDtoResponse(Boolean result, Dto dto) {
-        return new BaseDtoResponse(result, dto);
-    }
-
-//    public static UserBaseResponse getUserBaseResponse(Dto dto){
-//        return new UserBaseResponse(dto);
+//    public static BaseDtoResponse getBaseDtoResponse(Boolean result, Dto dto) {
+//        return new BaseDtoResponse(result, dto);
 //    }
+
+    public static UserBaseResponse getUserBaseResponse(Boolean result, Dto dto){
+        return new UserBaseResponse(result, dto);
+    }
 
 //    public static ErrorResponse getErrorResponse(/*String error,*/ String errorDescription) {
 //        return new ErrorResponse();
