@@ -4,9 +4,11 @@ import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.post.PostResponseDto;
 import com.skillbox.devpub.dto.post.PostResponseFactory;
 import com.skillbox.devpub.dto.universal.BaseResponseList;
+import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Post;
+import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -37,9 +40,42 @@ public class PostServiceImpl implements PostService {
     //@TODO доделать получение постов
     @Override
     public BaseResponseList getPosts(Integer offset, Integer limit, String mode) {
-        List<Post> result = postRepository.searchPosts();
-        System.out.println(result);
-        return null;
+        List<Post> result = postRepository.findAll().stream().filter(Post::getIsActive)
+                .filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED)
+                .filter(p -> p.getTime().isBefore(LocalDateTime.now()))/*.map(p -> PostResponseFactory.postToDto(p))*/.collect(Collectors.toList());
+//        Collections.sort(result, Post.COMPARE_BY_TIME); //@TODO использовать
+//        Collections.sort(songs, Collections.reverseOrder(ModelMusic.COMPARE_BY_COUNT));
+        //@TODO разобраться с mode сортировки, может через switch или как там его?
+        if (mode.equals("recent")) {
+            result.sort((p1, p2) -> {
+                if (p1.getTime() == p2.getTime()) return 0;
+                else if (p1.getTime().isAfter(p2.getTime())) return -1;
+                else return 1;
+            });
+        } else if (mode.equals("early")) {
+            result.sort((p1, p2) -> {
+                if (p1.getTime() == p2.getTime()) return 0;
+                else if (p1.getTime().isAfter(p2.getTime())) return 1;
+                else return -1;
+            });
+        } else if (mode.equals("popular")) {
+            result.sort((p1, p2) -> {
+                if (p1.getComments().size() == p2.getComments().size()) return 0;
+                else if (p1.getComments().size() > p2.getComments().size()) return -1;
+                else return 1;
+                });
+        } else if (mode.equals("best")) {           //@TODO влияют ли дизлайки?
+            result.sort((p1, p2) -> {
+                int v1 = p1.getVotes().stream().filter(v -> v.getValue() > 0)
+                        .map(PostVote::getValue).collect(Collectors.toList()).size();
+                int v2 = p2.getVotes().stream().filter(v -> v.getValue() > 0)
+                        .map(PostVote::getValue).collect(Collectors.toList()).size();
+                if (v1 == v2) return 0;
+                else if (v1 > v2) return -1;
+                else return 1;
+            });
+        }
+        return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override

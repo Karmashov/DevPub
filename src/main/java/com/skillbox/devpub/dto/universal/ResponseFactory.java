@@ -1,6 +1,8 @@
 package com.skillbox.devpub.dto.universal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ResponseFactory {
 //    public static BaseResponse getBaseResponse(Dto dto){
@@ -44,31 +46,35 @@ public class ResponseFactory {
 //        );
 //    }
 //
-//    public static BaseResponseList getBaseResponseListWithLimit(List<Dto> list, int offset, int limit){
-//        List<Dto> data = getElementsInRange(list, offset, limit);
-//        return new BaseResponseList(
-//                list.size(),
+    public static BaseResponseList getBaseResponseListWithLimit(List<Dto> list, int offset, int limit){
+        List<Dto> data = getElementsInRange(list, offset, limit);
+//        System.out.println(getElementsInRange(list, offset, limit));
+        return new BaseResponseList(
+                list.size(),
 //                offset,
 //                limit,
-//                data
-//        );
-//    }
-//
+                data //@TODO возврат ответа в нужном формате (поля поста)
+        );
+    }
+
+    private static List<Dto> getElementsInRange(List<Dto> list, int offset, int limit) {
+        int lastElementIndex = offset + limit;
+        int lastPostIndex = list.size();
+        if (lastPostIndex >= offset) {//если есть элементы входящие в нужный диапазон
+            if (lastElementIndex <= lastPostIndex) {//если все элементы с нужными индексами есть в листе
+//                System.out.println("1 " + list.subList(offset, lastElementIndex));
+                return list.subList(offset, lastElementIndex);
+            } else {//если не хватает элементов, то в посты записываем остаток, считая от offset
+//                System.out.println("2 " + list.subList(offset, lastPostIndex));
+                return list.subList(offset, lastPostIndex);
+            }
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
 //    public static ErrorResponse getErrorResponse(String error, String errorDescription){
 //        return new ErrorResponse(error, errorDescription);
-//    }
-//
-//    private static List<Dto> getElementsInRange(List<Dto> list, int offset, int limit) {
-//        int lastElementIndex = offset + limit;
-//        int lastPostIndex = list.size();
-//        if (lastPostIndex >= offset) {//если есть элементы входящие в нужный диапазон
-//            if (lastElementIndex <= lastPostIndex) {//если все элементы с нужными индексами есть в листе
-//                return list.subList(offset, lastElementIndex);
-//            } else {//если не хватает элементов, то в посты записываем остаток, считая от offset
-//                return list.subList(offset, lastPostIndex);
-//            }
-//        } else {
-//            return new ArrayList<>();
-//        }
+
 //    }
 }

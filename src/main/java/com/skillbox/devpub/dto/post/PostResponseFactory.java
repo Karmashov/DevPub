@@ -1,9 +1,7 @@
 package com.skillbox.devpub.dto.post;
 
 import com.skillbox.devpub.dto.comment.CommentResponseFactory;
-import com.skillbox.devpub.dto.universal.DtoResponse;
-import com.skillbox.devpub.dto.universal.Response;
-import com.skillbox.devpub.dto.universal.ResponseFactory;
+import com.skillbox.devpub.dto.universal.*;
 import com.skillbox.devpub.dto.user.UserResponseFactory;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostComment;
@@ -12,6 +10,8 @@ import com.skillbox.devpub.model.Tag;
 import org.apache.catalina.connector.ResponseFacade;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class PostResponseFactory {
@@ -44,5 +44,17 @@ public class PostResponseFactory {
                         .collect(Collectors.toList())
                         : new ArrayList<>()
         );
+    }
+
+    public static BaseResponseList getPostsListWithLimit(List<Post> result, Integer offset, Integer limit) {
+        List<Dto> postsDto = new ArrayList<>();
+        for (Post post : result) {
+            postsDto.add(PostResponseFactory.postToDto(post));
+
+//            if (post.getTime().before(new Date()))
+//                postsDto.add(PostResponseFactory.postToDto(post, person));
+        }
+
+        return ResponseFactory.getBaseResponseListWithLimit(postsDto, offset, limit);
     }
 }
