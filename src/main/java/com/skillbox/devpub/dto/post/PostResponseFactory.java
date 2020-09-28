@@ -6,6 +6,7 @@ import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.user.UserResponseFactory;
 import com.skillbox.devpub.model.Post;
+import com.skillbox.devpub.model.PostComment;
 import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
 import org.apache.catalina.connector.ResponseFacade;
@@ -16,11 +17,15 @@ import java.util.stream.Collectors;
 public class PostResponseFactory {
     public static Response getSinglePost(Post post) {
 //        System.out.println(ResponseFactory.getBaseResponse(postToDto(post)));
-        return ResponseFactory.getDtoResponse(postToDto(post));
-//        return postToDto(post);
+//        return ResponseFactory.getDtoResponse(postToDto(post));
+//        return ResponseFactory.getSinglePostResponse(postToDto(post));
+        return postToDto(post);
     }
 
     private static PostResponseDto postToDto(Post post) {
+//        for (PostComment comment : post.getComments()) {
+//            System.out.println(comment);
+//        }
         return new PostResponseDto(
                 post.getId(),
                 post.getTime(),

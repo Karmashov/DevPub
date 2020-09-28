@@ -1,6 +1,7 @@
 package com.skillbox.devpub.model;
 
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class PostComment {
     @Type(type = "text")
     private String text;
 
-    @OneToMany(mappedBy = "parentComment")
-    private List<PostComment> comments;
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<PostComment> childComments;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CommentResponseFactory {
 
-    //@TODO родительские комментарии и вложенные комментарии
+    //@TODO родительские комментарии и вложенные комментарии???
     public static CommentResponseDto getCommentDto(PostComment comment, List<Dto> subList/*, Person person*/) {
         return new CommentResponseDto(
                 comment.getId(),
@@ -37,13 +37,19 @@ public class CommentResponseFactory {
             return list;
         }
         for (PostComment comment : commentList) {
-            if ((parentComment == null && comment.getParentComment() == null) ||
-                    (parentComment != null && comment.getParentComment().getId().equals(parentComment.getId()))) {
-                list.add(CommentResponseFactory.getCommentDto(comment, null
-//                        getCommentList(comment.getChildComments(), comment, person))
-                ));
-            }
+            list.add(CommentResponseFactory.getCommentDto(comment, null));
         }
+//        for (PostComment comment : commentList) {
+//            if ((parentComment == null && comment.getParentComment() == null) ||
+//                    (parentComment != null && comment.getParentComment().getId().equals(parentComment.getId()))) {
+////                System.out.println(comment.getText());
+////                System.out.println(comment.getChildComments());
+//                list.add(CommentResponseFactory.getCommentDto(comment,
+//                        getCommentList(comment.getChildComments(), comment))
+//                );
+//            }
+//        }
+//        System.out.println(commentList);
         return list;
     }
 }

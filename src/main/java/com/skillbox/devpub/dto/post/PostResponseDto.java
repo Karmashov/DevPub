@@ -1,6 +1,7 @@
 package com.skillbox.devpub.dto.post;
 
 import com.skillbox.devpub.dto.universal.Dto;
+import com.skillbox.devpub.dto.universal.Response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PostResponseDto implements Dto {
+public class PostResponseDto implements Dto, Response {
     private Integer id;
     private LocalDateTime time;
     private Dto user;

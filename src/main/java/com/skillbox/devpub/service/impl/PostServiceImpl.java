@@ -3,6 +3,7 @@ package com.skillbox.devpub.service.impl;
 import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.post.PostResponseDto;
 import com.skillbox.devpub.dto.post.PostResponseFactory;
+import com.skillbox.devpub.dto.universal.BaseResponseList;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Post;
@@ -33,9 +34,11 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-    //@TODO получение постов
+    //@TODO доделать получение постов
     @Override
-    public List getPosts() {
+    public BaseResponseList getPosts(Integer offset, Integer limit, String mode) {
+        List<Post> result = postRepository.searchPosts();
+        System.out.println(result);
         return null;
     }
 
