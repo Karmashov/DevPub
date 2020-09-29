@@ -46,35 +46,21 @@ public class PostServiceImpl implements PostService {
 //        Collections.sort(result, Post.COMPARE_BY_TIME); //@TODO использовать
 //        Collections.sort(songs, Collections.reverseOrder(ModelMusic.COMPARE_BY_COUNT));
         //@TODO разобраться с mode сортировки, может через switch или как там его?
-        if (mode.equals("recent")) {
-            result.sort((p1, p2) -> {
-                if (p1.getTime() == p2.getTime()) return 0;
-                else if (p1.getTime().isAfter(p2.getTime())) return -1;
-                else return 1;
-            });
-        } else if (mode.equals("early")) {
-            result.sort((p1, p2) -> {
-                if (p1.getTime() == p2.getTime()) return 0;
-                else if (p1.getTime().isAfter(p2.getTime())) return 1;
-                else return -1;
-            });
-        } else if (mode.equals("popular")) {
-            result.sort((p1, p2) -> {
-                if (p1.getComments().size() == p2.getComments().size()) return 0;
-                else if (p1.getComments().size() > p2.getComments().size()) return -1;
-                else return 1;
-                });
-        } else if (mode.equals("best")) {           //@TODO влияют ли дизлайки?
-            result.sort((p1, p2) -> {
-                int v1 = p1.getVotes().stream().filter(v -> v.getValue() > 0)
-                        .map(PostVote::getValue).collect(Collectors.toList()).size();
-                int v2 = p2.getVotes().stream().filter(v -> v.getValue() > 0)
-                        .map(PostVote::getValue).collect(Collectors.toList()).size();
-                if (v1 == v2) return 0;
-                else if (v1 > v2) return -1;
-                else return 1;
-            });
+        switch (mode) {
+            case "recent": Collections.sort(result, Post.COMPARE_BY_TIME);
+            case "early": Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
+            case "popular": Collections.sort(result, Post.COMPARE_BY_COMMENTS);
+            case "best": Collections.sort(result, Post.COMPARE_BY_VOTES);
         }
+//        if (mode.equals("recent")) {
+//            Collections.sort(result, Post.COMPARE_BY_TIME);
+//        } else if (mode.equals("early")) {
+//            Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
+//        } else if (mode.equals("popular")) {
+//            Collections.sort(result, Post.COMPARE_BY_COMMENTS);
+//        } else if (mode.equals("best")) {           //@TODO влияют ли дизлайки?
+//            Collections.sort(result, Post.COMPARE_BY_VOTES);
+//        }
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 

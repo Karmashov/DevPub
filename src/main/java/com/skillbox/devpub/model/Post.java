@@ -7,8 +7,10 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -44,7 +46,7 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostVote> votes;
 
-//    @OneToMany(mappedBy = "post")
+    //    @OneToMany(mappedBy = "post")
 //    private Set<Tag2Post> tags;
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
@@ -62,4 +64,33 @@ public class Post {
     public String toString() {
         return id + " " + title + " " + text;
     }
+
+    @JsonIgnore
+    public static final Comparator<? super Post> COMPARE_BY_TIME = (Comparator<Post>) (p1, p2) -> {
+        if (p1.getTime() == p2.getTime()) return 0;
+        else if (p1.getTime().isAfter(p2.getTime())) return -1;
+        else return 1;
+    };
+
+    @JsonIgnore
+    public static final Comparator<? super Post> COMPARE_BY_COMMENTS = (Comparator<Post>) (p1, p2) -> {
+        if (p1.getComments().size() == p2.getComments().size()) return 0;
+        else if (p1.getComments().size() > p2.getComments().size()) return -1;
+        else return 1;
+    };
+
+    @JsonIgnore
+    public static final Comparator<? super Post> COMPARE_BY_VOTES = (Comparator<Post>) (p1, p2) -> {
+        int v1 = p1.getVotes().stream().filter(v -> v.getValue() > 0)
+                .map(PostVote::getValue).collect(Collectors.toList()).size() +
+                p1.getVotes().stream().filter(v -> v.getValue() < 0)
+                .map(PostVote::getValue).collect(Collectors.toList()).size();
+        int v2 = p2.getVotes().stream().filter(v -> v.getValue() > 0)
+                .map(PostVote::getValue).collect(Collectors.toList()).size() +
+                p2.getVotes().stream().filter(v -> v.getValue() < 0)
+                .map(PostVote::getValue).collect(Collectors.toList()).size();
+        if (v1 == v2) return 0;
+        else if (v1 > v2) return -1;
+        else return 1;
+    };
 }

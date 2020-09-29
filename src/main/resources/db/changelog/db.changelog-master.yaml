@@ -586,3 +586,7 @@ databaseChangeLog:
               - column:
                   name: role_id
                   value: "1"
+  - include:
+      file: db/changelog/db.changelog-insertUsers.yaml
+  - include:
+      file: db/changelog/db.changelog-insertPosts.yaml
