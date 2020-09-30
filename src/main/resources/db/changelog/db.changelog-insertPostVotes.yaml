@@ -1,0 +1,1490 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.3.1
+      author: karmashov
+      changes:
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "5"
+              - column:
+                  name: post_id
+                  value: "38"
+              - column:
+                  name: time
+                  value: "2020-03-01 04:09:48"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "33"
+              - column:
+                  name: post_id
+                  value: "31"
+              - column:
+                  name: time
+                  value: "2019-12-18 12:59:36"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "1"
+              - column:
+                  name: post_id
+                  value: "36"
+              - column:
+                  name: time
+                  value: "2020-09-02 12:59:34"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "40"
+              - column:
+                  name: post_id
+                  value: "50"
+              - column:
+                  name: time
+                  value: "2019-10-23 02:10:08"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "99"
+              - column:
+                  name: post_id
+                  value: "50"
+              - column:
+                  name: time
+                  value: "2019-10-04 05:57:54"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "80"
+              - column:
+                  name: post_id
+                  value: "26"
+              - column:
+                  name: time
+                  value: "2019-10-05 17:39:58"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "82"
+              - column:
+                  name: post_id
+                  value: "40"
+              - column:
+                  name: time
+                  value: "2020-06-08 16:02:05"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "81"
+              - column:
+                  name: post_id
+                  value: "22"
+              - column:
+                  name: time
+                  value: "2020-02-13 22:06:25"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "27"
+              - column:
+                  name: post_id
+                  value: "44"
+              - column:
+                  name: time
+                  value: "2020-02-16 03:46:15"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "52"
+              - column:
+                  name: post_id
+                  value: "19"
+              - column:
+                  name: time
+                  value: "2020-04-10 02:52:52"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "51"
+              - column:
+                  name: post_id
+                  value: "70"
+              - column:
+                  name: time
+                  value: "2020-08-21 22:28:20"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "65"
+              - column:
+                  name: post_id
+                  value: "63"
+              - column:
+                  name: time
+                  value: "2020-01-03 04:58:47"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "22"
+              - column:
+                  name: post_id
+                  value: "3"
+              - column:
+                  name: time
+                  value: "2020-07-10 12:33:48"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "60"
+              - column:
+                  name: post_id
+                  value: "5"
+              - column:
+                  name: time
+                  value: "2020-04-14 16:28:20"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "27"
+              - column:
+                  name: post_id
+                  value: "2"
+              - column:
+                  name: time
+                  value: "2020-01-31 00:08:28"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "74"
+              - column:
+                  name: post_id
+                  value: "70"
+              - column:
+                  name: time
+                  value: "2020-08-11 19:38:47"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "100"
+              - column:
+                  name: post_id
+                  value: "60"
+              - column:
+                  name: time
+                  value: "2019-11-29 03:56:28"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "21"
+              - column:
+                  name: post_id
+                  value: "30"
+              - column:
+                  name: time
+                  value: "2020-07-13 04:02:22"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "33"
+              - column:
+                  name: post_id
+                  value: "28"
+              - column:
+                  name: time
+                  value: "2020-04-30 07:43:20"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "34"
+              - column:
+                  name: post_id
+                  value: "30"
+              - column:
+                  name: time
+                  value: "2019-11-11 23:32:18"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "52"
+              - column:
+                  name: post_id
+                  value: "51"
+              - column:
+                  name: time
+                  value: "2020-04-09 09:22:42"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "23"
+              - column:
+                  name: post_id
+                  value: "3"
+              - column:
+                  name: time
+                  value: "2020-06-12 22:36:50"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "36"
+              - column:
+                  name: post_id
+                  value: "18"
+              - column:
+                  name: time
+                  value: "2020-05-28 20:57:39"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "59"
+              - column:
+                  name: post_id
+                  value: "43"
+              - column:
+                  name: time
+                  value: "2020-03-19 06:35:39"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "18"
+              - column:
+                  name: post_id
+                  value: "54"
+              - column:
+                  name: time
+                  value: "2020-07-23 05:43:23"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "57"
+              - column:
+                  name: post_id
+                  value: "49"
+              - column:
+                  name: time
+                  value: "2020-09-15 09:14:40"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "76"
+              - column:
+                  name: post_id
+                  value: "16"
+              - column:
+                  name: time
+                  value: "2020-07-03 05:31:37"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "5"
+              - column:
+                  name: post_id
+                  value: "22"
+              - column:
+                  name: time
+                  value: "2019-12-04 14:42:22"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "38"
+              - column:
+                  name: post_id
+                  value: "84"
+              - column:
+                  name: time
+                  value: "2020-03-03 11:27:50"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "27"
+              - column:
+                  name: post_id
+                  value: "61"
+              - column:
+                  name: time
+                  value: "2020-07-23 18:44:41"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "99"
+              - column:
+                  name: post_id
+                  value: "49"
+              - column:
+                  name: time
+                  value: "2020-08-07 10:49:24"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "77"
+              - column:
+                  name: post_id
+                  value: "9"
+              - column:
+                  name: time
+                  value: "2019-11-06 20:45:54"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "77"
+              - column:
+                  name: post_id
+                  value: "74"
+              - column:
+                  name: time
+                  value: "2020-09-16 22:49:32"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "10"
+              - column:
+                  name: post_id
+                  value: "95"
+              - column:
+                  name: time
+                  value: "2020-06-27 20:28:51"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "22"
+              - column:
+                  name: post_id
+                  value: "66"
+              - column:
+                  name: time
+                  value: "2020-04-18 20:19:18"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "90"
+              - column:
+                  name: post_id
+                  value: "87"
+              - column:
+                  name: time
+                  value: "2019-10-29 07:10:01"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "66"
+              - column:
+                  name: post_id
+                  value: "86"
+              - column:
+                  name: time
+                  value: "2020-06-03 08:21:42"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "13"
+              - column:
+                  name: post_id
+                  value: "7"
+              - column:
+                  name: time
+                  value: "2020-09-20 15:13:26"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "46"
+              - column:
+                  name: post_id
+                  value: "64"
+              - column:
+                  name: time
+                  value: "2020-01-23 20:57:16"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "63"
+              - column:
+                  name: post_id
+                  value: "51"
+              - column:
+                  name: time
+                  value: "2020-07-11 19:39:41"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "65"
+              - column:
+                  name: post_id
+                  value: "17"
+              - column:
+                  name: time
+                  value: "2020-08-29 19:19:09"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "64"
+              - column:
+                  name: post_id
+                  value: "39"
+              - column:
+                  name: time
+                  value: "2020-06-25 04:35:28"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "66"
+              - column:
+                  name: post_id
+                  value: "28"
+              - column:
+                  name: time
+                  value: "2020-02-04 15:52:28"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "33"
+              - column:
+                  name: post_id
+                  value: "80"
+              - column:
+                  name: time
+                  value: "2020-05-18 16:51:42"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "42"
+              - column:
+                  name: post_id
+                  value: "10"
+              - column:
+                  name: time
+                  value: "2020-06-29 23:45:20"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "93"
+              - column:
+                  name: post_id
+                  value: "1"
+              - column:
+                  name: time
+                  value: "2020-02-29 11:19:54"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "15"
+              - column:
+                  name: post_id
+                  value: "65"
+              - column:
+                  name: time
+                  value: "2020-05-26 15:34:40"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "79"
+              - column:
+                  name: post_id
+                  value: "55"
+              - column:
+                  name: time
+                  value: "2020-05-29 22:24:34"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "90"
+              - column:
+                  name: post_id
+                  value: "81"
+              - column:
+                  name: time
+                  value: "2020-08-14 08:07:35"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "30"
+              - column:
+                  name: post_id
+                  value: "10"
+              - column:
+                  name: time
+                  value: "2020-06-14 13:52:43"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "95"
+              - column:
+                  name: post_id
+                  value: "97"
+              - column:
+                  name: time
+                  value: "2020-05-21 07:39:29"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "85"
+              - column:
+                  name: post_id
+                  value: "16"
+              - column:
+                  name: time
+                  value: "2020-02-21 00:44:07"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "29"
+              - column:
+                  name: post_id
+                  value: "23"
+              - column:
+                  name: time
+                  value: "2020-03-16 01:44:39"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "85"
+              - column:
+                  name: post_id
+                  value: "96"
+              - column:
+                  name: time
+                  value: "2019-12-25 21:31:44"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "62"
+              - column:
+                  name: post_id
+                  value: "75"
+              - column:
+                  name: time
+                  value: "2019-12-08 13:10:44"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "30"
+              - column:
+                  name: post_id
+                  value: "4"
+              - column:
+                  name: time
+                  value: "2020-02-14 23:26:49"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "41"
+              - column:
+                  name: post_id
+                  value: "50"
+              - column:
+                  name: time
+                  value: "2020-01-16 10:58:38"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "77"
+              - column:
+                  name: post_id
+                  value: "59"
+              - column:
+                  name: time
+                  value: "2020-06-02 17:11:11"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "83"
+              - column:
+                  name: post_id
+                  value: "58"
+              - column:
+                  name: time
+                  value: "2019-10-27 23:37:10"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "26"
+              - column:
+                  name: post_id
+                  value: "34"
+              - column:
+                  name: time
+                  value: "2020-09-09 19:51:13"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "20"
+              - column:
+                  name: post_id
+                  value: "57"
+              - column:
+                  name: time
+                  value: "2020-01-27 09:44:37"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "38"
+              - column:
+                  name: post_id
+                  value: "62"
+              - column:
+                  name: time
+                  value: "2020-06-15 00:54:09"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "11"
+              - column:
+                  name: post_id
+                  value: "68"
+              - column:
+                  name: time
+                  value: "2020-05-22 22:43:32"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "75"
+              - column:
+                  name: post_id
+                  value: "20"
+              - column:
+                  name: time
+                  value: "2020-08-29 11:34:51"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "1"
+              - column:
+                  name: post_id
+                  value: "57"
+              - column:
+                  name: time
+                  value: "2019-12-11 02:35:26"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "15"
+              - column:
+                  name: post_id
+                  value: "23"
+              - column:
+                  name: time
+                  value: "2020-08-21 07:57:49"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "36"
+              - column:
+                  name: post_id
+                  value: "71"
+              - column:
+                  name: time
+                  value: "2020-06-21 00:11:26"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "40"
+              - column:
+                  name: post_id
+                  value: "3"
+              - column:
+                  name: time
+                  value: "2020-05-21 01:15:46"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "57"
+              - column:
+                  name: post_id
+                  value: "58"
+              - column:
+                  name: time
+                  value: "2020-03-26 19:29:41"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "66"
+              - column:
+                  name: post_id
+                  value: "87"
+              - column:
+                  name: time
+                  value: "2020-02-29 04:47:30"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "55"
+              - column:
+                  name: post_id
+                  value: "34"
+              - column:
+                  name: time
+                  value: "2019-10-06 20:27:36"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "52"
+              - column:
+                  name: post_id
+                  value: "6"
+              - column:
+                  name: time
+                  value: "2019-10-23 17:11:34"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "37"
+              - column:
+                  name: post_id
+                  value: "68"
+              - column:
+                  name: time
+                  value: "2020-02-11 19:30:19"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "59"
+              - column:
+                  name: post_id
+                  value: "37"
+              - column:
+                  name: time
+                  value: "2020-05-28 17:06:39"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "82"
+              - column:
+                  name: post_id
+                  value: "77"
+              - column:
+                  name: time
+                  value: "2020-06-11 03:20:37"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "53"
+              - column:
+                  name: post_id
+                  value: "25"
+              - column:
+                  name: time
+                  value: "2020-04-26 17:05:25"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "22"
+              - column:
+                  name: post_id
+                  value: "77"
+              - column:
+                  name: time
+                  value: "2020-07-15 21:38:22"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "94"
+              - column:
+                  name: post_id
+                  value: "10"
+              - column:
+                  name: time
+                  value: "2019-11-04 09:40:20"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "68"
+              - column:
+                  name: post_id
+                  value: "19"
+              - column:
+                  name: time
+                  value: "2020-06-09 21:25:20"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "26"
+              - column:
+                  name: post_id
+                  value: "29"
+              - column:
+                  name: time
+                  value: "2020-03-27 18:05:36"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "7"
+              - column:
+                  name: post_id
+                  value: "6"
+              - column:
+                  name: time
+                  value: "2020-04-05 11:54:36"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "63"
+              - column:
+                  name: post_id
+                  value: "68"
+              - column:
+                  name: time
+                  value: "2020-08-18 15:38:18"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "11"
+              - column:
+                  name: post_id
+                  value: "52"
+              - column:
+                  name: time
+                  value: "2019-10-09 06:12:56"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "31"
+              - column:
+                  name: post_id
+                  value: "68"
+              - column:
+                  name: time
+                  value: "2019-10-25 23:11:20"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "71"
+              - column:
+                  name: post_id
+                  value: "98"
+              - column:
+                  name: time
+                  value: "2019-12-31 13:46:02"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "13"
+              - column:
+                  name: post_id
+                  value: "87"
+              - column:
+                  name: time
+                  value: "2020-04-07 13:45:31"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "2"
+              - column:
+                  name: post_id
+                  value: "73"
+              - column:
+                  name: time
+                  value: "2020-06-19 04:27:46"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "38"
+              - column:
+                  name: post_id
+                  value: "21"
+              - column:
+                  name: time
+                  value: "2020-08-22 02:47:51"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "40"
+              - column:
+                  name: post_id
+                  value: "58"
+              - column:
+                  name: time
+                  value: "2020-08-30 00:13:53"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "44"
+              - column:
+                  name: post_id
+                  value: "55"
+              - column:
+                  name: time
+                  value: "2019-12-01 15:13:07"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "85"
+              - column:
+                  name: post_id
+                  value: "56"
+              - column:
+                  name: time
+                  value: "2020-06-16 02:31:44"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "76"
+              - column:
+                  name: post_id
+                  value: "83"
+              - column:
+                  name: time
+                  value: "2020-05-07 11:12:45"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "73"
+              - column:
+                  name: post_id
+                  value: "85"
+              - column:
+                  name: time
+                  value: "2020-08-06 13:29:04"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "25"
+              - column:
+                  name: post_id
+                  value: "92"
+              - column:
+                  name: time
+                  value: "2020-07-05 16:37:19"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "87"
+              - column:
+                  name: post_id
+                  value: "78"
+              - column:
+                  name: time
+                  value: "2020-02-22 09:25:39"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "29"
+              - column:
+                  name: post_id
+                  value: "54"
+              - column:
+                  name: time
+                  value: "2019-10-11 00:30:06"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "89"
+              - column:
+                  name: post_id
+                  value: "15"
+              - column:
+                  name: time
+                  value: "2019-10-31 20:37:29"
+              - column:
+                  name: value
+                  value: "1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "25"
+              - column:
+                  name: post_id
+                  value: "64"
+              - column:
+                  name: time
+                  value: "2020-01-21 12:43:44"
+              - column:
+                  name: value
+                  value: "-1"
+        - insert:
+            tableName:  post_votes
+            columns:
+              - column:
+                  name: user_id
+                  value: "48"
+              - column:
+                  name: post_id
+                  value: "63"
+              - column:
+                  name: time
+                  value: "2019-11-17 05:17:25"
+              - column:
+                  name: value
+                  value: "-1"

@@ -9,12 +9,14 @@ import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
 import org.apache.catalina.connector.ResponseFacade;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PostResponseFactory {
+
     public static Response getSinglePost(Post post) {
 //        System.out.println(ResponseFactory.getBaseResponse(postToDto(post)));
 //        return ResponseFactory.getDtoResponse(postToDto(post));
@@ -26,6 +28,7 @@ public class PostResponseFactory {
 //        for (PostComment comment : post.getComments()) {
 //            System.out.println(comment);
 //        }
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new PostResponseDto(
                 post.getId(),
                 post.getTime(),

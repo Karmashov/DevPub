@@ -46,21 +46,22 @@ public class PostServiceImpl implements PostService {
 //        Collections.sort(result, Post.COMPARE_BY_TIME); //@TODO использовать
 //        Collections.sort(songs, Collections.reverseOrder(ModelMusic.COMPARE_BY_COUNT));
         //@TODO разобраться с mode сортировки, может через switch или как там его?
-        switch (mode) {
-            case "recent": Collections.sort(result, Post.COMPARE_BY_TIME);
-            case "early": Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
-            case "popular": Collections.sort(result, Post.COMPARE_BY_COMMENTS);
-            case "best": Collections.sort(result, Post.COMPARE_BY_VOTES);
-        }
-//        if (mode.equals("recent")) {
-//            Collections.sort(result, Post.COMPARE_BY_TIME);
-//        } else if (mode.equals("early")) {
-//            Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
-//        } else if (mode.equals("popular")) {
-//            Collections.sort(result, Post.COMPARE_BY_COMMENTS);
-//        } else if (mode.equals("best")) {           //@TODO влияют ли дизлайки?
-//            Collections.sort(result, Post.COMPARE_BY_VOTES);
+//        switch (mode) {
+//            case "recent": Collections.sort(result, Post.COMPARE_BY_TIME);
+//            case "early": Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
+//            case "popular": Collections.sort(result, Post.COMPARE_BY_COMMENTS);
+//            case "best": Collections.sort(result, Post.COMPARE_BY_VOTES);
 //        }
+        //@TODO убрать букву T из поля время, перед отправкой на фронт
+        if (mode.equals("recent")) {
+            Collections.sort(result, Post.COMPARE_BY_TIME);
+        } else if (mode.equals("early")) {
+            Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
+        } else if (mode.equals("popular")) {
+            Collections.sort(result, Post.COMPARE_BY_COMMENTS);
+        } else if (mode.equals("best")) {           //@TODO влияют ли дизлайки?
+            Collections.sort(result, Post.COMPARE_BY_VOTES);
+        }
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 

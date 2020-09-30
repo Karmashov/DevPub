@@ -590,3 +590,7 @@ databaseChangeLog:
       file: db/changelog/db.changelog-insertUsers.yaml
   - include:
       file: db/changelog/db.changelog-insertPosts.yaml
+  - include:
+      file: db/changelog/db.changelog-insertPostVotes.yaml
+  - include:
+      file: db/changelog/db.changelog-insertPostComments.yaml
