@@ -16,7 +16,8 @@ public class CommentResponseFactory {
                 comment.getId(),
                 comment.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 comment.getText(),
-                UserResponseFactory.getCommentAuthor(comment.getUser())
+                UserResponseFactory.getCommentAuthor(comment.getUser())/*,
+                subList*/
 //                comment.getParentComment() == null ? 0 : comment.getParentComment().getId(),
 //                comment.getCommentText(),
 //                comment.getId(),

@@ -43,16 +43,6 @@ public class PostServiceImpl implements PostService {
         List<Post> result = postRepository.findAll().stream().filter(Post::getIsActive)
                 .filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED)
                 .filter(p -> p.getTime().isBefore(LocalDateTime.now()))/*.map(p -> PostResponseFactory.postToDto(p))*/.collect(Collectors.toList());
-//        Collections.sort(result, Post.COMPARE_BY_TIME); //@TODO использовать
-//        Collections.sort(songs, Collections.reverseOrder(ModelMusic.COMPARE_BY_COUNT));
-        //@TODO разобраться с mode сортировки, может через switch или как там его?
-//        switch (mode) {
-//            case "recent": Collections.sort(result, Post.COMPARE_BY_TIME);
-//            case "early": Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
-//            case "popular": Collections.sort(result, Post.COMPARE_BY_COMMENTS);
-//            case "best": Collections.sort(result, Post.COMPARE_BY_VOTES);
-//        }
-        //@TODO убрать букву T из поля время, перед отправкой на фронт
         if (mode.equals("recent")) {
             Collections.sort(result, Post.COMPARE_BY_TIME);
         } else if (mode.equals("early")) {

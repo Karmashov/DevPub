@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -36,4 +37,5 @@ public class CommentResponseDto implements Dto {
         private String time;
         private String text;
         private Dto user;
+//        private List<Dto> childComments;
     }

@@ -15,7 +15,8 @@ public class PostResponseDto implements Dto, Response {
     private String time;
     private Dto user;
     private String title;
-    private String announce;
+    //@TODO проблемы с отображением текста (в списке постов announce, в самом посте text)
+    private String text;
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer commentCount;

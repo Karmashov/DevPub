@@ -1,6 +1,7 @@
 package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.post.PostRequestDto;
+import com.skillbox.devpub.dto.vote.VoteRequestDto;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.service.AuthService;
@@ -57,5 +58,10 @@ public class ApiPostController {
     public ResponseEntity<?> getPost(@PathVariable Integer id) {
 //        Response result = postService.getPost(id);
         return ResponseEntity.ok(postService.getPost(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> postLike(@RequestBody VoteRequestDto request) {
+        return ResponseEntity.ok();
     }
 }
