@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserResponseDto implements Dto {
     private Integer id;
     private Boolean isModerator;
-    private LocalDateTime regTime;
+    private String regTime;
     private String name;
     private String email;
     private String password;

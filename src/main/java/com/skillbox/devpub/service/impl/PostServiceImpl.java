@@ -145,6 +145,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public Response getPost(Integer id) {
         Post post = postRepository.findPostById(id);
+        post.setViewCount(post.getViewCount() + 1);
+        postRepository.save(post);
 //        System.out.println(PostResponseFactory.getSinglePost(post));
         if (post.getIsActive() &&
                 post.getModerationStatus() == ModerationStatus.ACCEPTED &&

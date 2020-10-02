@@ -10,6 +10,7 @@ import com.skillbox.devpub.model.Tag;
 import org.apache.catalina.connector.ResponseFacade;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ public class PostResponseFactory {
 //        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new PostResponseDto(
                 post.getId(),
-                post.getTime(),
+                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
                 post.getText(),

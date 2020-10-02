@@ -4,6 +4,7 @@ import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.user.UserResponseFactory;
 import com.skillbox.devpub.model.PostComment;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class CommentResponseFactory {
     public static CommentResponseDto getCommentDto(PostComment comment, List<Dto> subList/*, Person person*/) {
         return new CommentResponseDto(
                 comment.getId(),
-                comment.getTime(),
+                comment.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 comment.getText(),
                 UserResponseFactory.getCommentAuthor(comment.getUser())
 //                comment.getParentComment() == null ? 0 : comment.getParentComment().getId(),

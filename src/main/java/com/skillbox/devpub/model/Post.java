@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -82,14 +83,19 @@ public class Post {
     @JsonIgnore
     //@TODO разобраться с тем, что 0-0 не на своем месте
     public static final Comparator<? super Post> COMPARE_BY_VOTES = (Comparator<Post>) (p1, p2) -> {
-        List<PostVote> votes1 = p1.getVotes();
-        List<PostVote> votes2 = p2.getVotes();
+//        List<PostVote> votes1 = p1.getVotes();
+//        List<PostVote> votes2 = p2.getVotes();
 
-        int v1 = 0;
-        int v2 = 0;
-        for (PostVote vote : votes1) v1 = v1 + vote.getValue();
-        for (PostVote vote : votes2) v2 = v2 + vote.getValue();
+        int v1 = p1.getVotes().stream().filter(v -> v.getValue() > 0)
+                .map(PostVote::getValue).collect(Collectors.toList()).size();
+        int v2 = p2.getVotes().stream().filter(v -> v.getValue() > 0)
+                .map(PostVote::getValue).collect(Collectors.toList()).size();
 
+//        int v1 = 0;
+//        int v2 = 0;
+//        for (PostVote vote : votes1) v1 = v1 + vote.getValue();
+//        for (PostVote vote : votes2) v2 = v2 + vote.getValue();
+//
 //        int v1 = p1.getVotes().stream().filter(v -> v.getValue() > 0)
 //                .map(PostVote::getValue).collect(Collectors.toList()).size() -
 //                p1.getVotes().stream().filter(v -> v.getValue() < 0)
@@ -98,6 +104,9 @@ public class Post {
 //                .map(PostVote::getValue).collect(Collectors.toList()).size() -
 //                p2.getVotes().stream().filter(v -> v.getValue() < 0)
 //                .map(PostVote::getValue).collect(Collectors.toList()).size();
+
+//        int v1 = p1.getVotes().size();
+//        int v2 = p2.getVotes().size();
         if (v1 == v2) return 0;
         else if (v1 > v2) return -1;
         else return 1;

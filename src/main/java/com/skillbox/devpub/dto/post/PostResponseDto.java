@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostResponseDto implements Dto, Response {
     private Integer id;
-    private LocalDateTime time;
+    private String time;
     private Dto user;
     private String title;
     private String announce;

@@ -33,7 +33,7 @@ public class CommentResponseDto implements Dto {
 //    private boolean isMyLike;
 
         private Integer id;
-        private LocalDateTime time;
+        private String time;
         private String text;
         private Dto user;
     }
