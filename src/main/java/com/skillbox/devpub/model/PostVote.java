@@ -24,6 +24,5 @@ public class PostVote {
     private LocalDateTime time;
 
     @Column(columnDefinition = "tinyint")
-    //@TODO решить вопрос с предопределенностью лайков/дизлайков
     private Integer value;
 }

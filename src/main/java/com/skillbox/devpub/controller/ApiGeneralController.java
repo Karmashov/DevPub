@@ -1,23 +1,62 @@
 package com.skillbox.devpub.controller;
 
-import com.skillbox.devpub.service.InitService;
+import com.skillbox.devpub.dto.comment.CommentRequestDto;
+import com.skillbox.devpub.dto.post.PostModerationRequestDto;
+import com.skillbox.devpub.service.*;
 import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.security.Principal;
 
 @RestController
+@RequestMapping(value = "/api")
 public class ApiGeneralController {
-    @Autowired
-    private final InitService initService;
 
-    public ApiGeneralController(InitServiceImpl initService) {
+    private final InitService initService;
+    private final PostService postService;
+    private final CommentService commentService;
+    private final TagService tagService;
+    private final FileService fileService;
+
+    @Autowired
+    public ApiGeneralController(InitServiceImpl initService, PostService postService, CommentService commentService, TagService tagService, FileService fileService) {
         this.initService = initService;
+        this.postService = postService;
+        this.commentService = commentService;
+        this.tagService = tagService;
+        this.fileService = fileService;
     }
 
-    @GetMapping("/api/init")
+    @GetMapping("/init")
     public ResponseEntity<?> init() {
         return ResponseEntity.ok(initService.init());
+    }
+
+    @PostMapping("/moderation")
+    @PreAuthorize("hasAnyAuthority('user:moderate')")
+    public void postModeration(@RequestBody PostModerationRequestDto request, Principal principal) {
+        postService.postModeration(request, principal);
+//        return ResponseEntity.ok();
+    }
+
+    @PostMapping("/comment")
+    @PreAuthorize("hasAnyAuthority('user:write')")
+    public ResponseEntity<?> postComment(@RequestBody CommentRequestDto request, Principal principal) {
+        return ResponseEntity.ok(commentService.postComment(request, principal));
+    }
+
+    @GetMapping("/tag")
+    public ResponseEntity<?> getTagsWeight(@RequestParam(required = false) String query) {
+        return ResponseEntity.ok(tagService.getTagsWeight(query));
+    }
+
+    @PostMapping("/image")
+    @PreAuthorize("hasAnyAuthority('user:write')")
+    public ResponseEntity<?> saveFile(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(fileService.saveFile(file));
     }
 }

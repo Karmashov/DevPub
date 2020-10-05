@@ -11,7 +11,9 @@ import com.skillbox.devpub.repository.UserRepository;
 import com.skillbox.devpub.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,10 +27,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -36,7 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        User result = userRepository.findByEmail(email);
+        User result = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + email + " not found"));
 
         if (result == null) {
             log.warn("IN findByEmail - no user found by email: {}", email);
@@ -75,11 +78,12 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setEmail(requestDto.getEmail());
-        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder(12).encode(requestDto.getPassword()));
         user.setName(requestDto.getName());
         user.setIsModerator(false);
         user.setRegTime(LocalDateTime.now());
         user.setRoles(getBasePermission());
+        //@TODO убрать пермишены лишние, добавить ArrayListы
 //        user.setPhoto("/static/default-1.png");
         //@TODO код?
 //        user.setCode();

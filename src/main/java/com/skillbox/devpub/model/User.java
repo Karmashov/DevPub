@@ -41,6 +41,10 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> roles;
 
+    public com.skillbox.devpub.model.enumerated.Role getRole() {
+        return isModerator ? com.skillbox.devpub.model.enumerated.Role.MODERATOR : com.skillbox.devpub.model.enumerated.Role.USER;
+    }
+
     @OneToMany(mappedBy = "moderator")
     private List<Post> moderatedPosts;
 

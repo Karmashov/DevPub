@@ -38,7 +38,7 @@ public class AuthUserResponseDto implements Dto/* extends UserResponseDto*/ {
             String photo,
             String email,
             Boolean moderation,
-//            Integer moderationCount,
+            Integer moderationCount,
             Boolean settings
     ) {
         this.id = id;
@@ -46,7 +46,7 @@ public class AuthUserResponseDto implements Dto/* extends UserResponseDto*/ {
         this.photo = photo;
         this.email = email;
         this.moderation = moderation;
-        this.moderationCount = 0;
+        this.moderationCount = moderationCount;
         this.settings = settings;
     }
 }

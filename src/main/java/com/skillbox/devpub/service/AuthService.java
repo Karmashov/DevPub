@@ -6,16 +6,17 @@ import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 public interface AuthService {
 
-    Response login(AuthRequestDto request, HttpServletRequest httpServletRequest/*, String referer*/);
+    Response login(AuthRequestDto request/*, HttpServletRequest httpServletRequest*//*, String referer*/);
 
-    Response authCheck(HttpServletRequest httpServletRequest);
+    Response authCheck(Principal principal/* HttpServletRequest httpServletRequest*/);
 
-    void logout(HttpServletRequest httpServletRequest);
+//    void logout(HttpServletRequest httpServletRequest);
 
     Response register(RegistrationRequestDto requestDto);
 
-    User getAuthUser(HttpServletRequest servletRequest);
+    User getAuthUser(Principal principal);
 }

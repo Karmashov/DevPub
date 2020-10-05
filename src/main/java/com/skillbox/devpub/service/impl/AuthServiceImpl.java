@@ -5,20 +5,30 @@ import com.skillbox.devpub.dto.authentication.AuthResponseFactory;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.Response;
+import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.User;
-import com.skillbox.devpub.security.jwt.JwtTokenProvider;
+import com.skillbox.devpub.model.enumerated.ModerationStatus;
+import com.skillbox.devpub.repository.PostRepository;
+import com.skillbox.devpub.repository.UserRepository;
+//import com.skillbox.devpub.security.jwt.JwtTokenProvider;
 import com.skillbox.devpub.service.AuthService;
 import com.skillbox.devpub.service.UserService;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -26,51 +36,93 @@ public class AuthServiceImpl implements AuthService {
     private Map<String, Integer> loggedIn = new HashMap<>();
 
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager/*, JwtTokenProvider jwtTokenProvider*/,
+                           UserService userService,
+                           UserRepository userRepository,
+                           PostRepository postRepository) {
         this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
+//        this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.postRepository = postRepository;
     }
 
     @Override
-    public Response login(AuthRequestDto request, HttpServletRequest httpServletRequest/*, String referer*/) {
+    public Response login(AuthRequestDto request/*, HttpServletRequest httpServletRequest*//*, String referer*/) {
         try {
-            String userEmail = request.getEmail();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, request.getPassword()));
-            User user = userService.findByEmail(userEmail);
+            Authentication auth = authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+            User result = userRepository
+                    .findByEmail(user.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("User " + user.getUsername() + " not found"));
+//            int moderationCount = getModerationCount(result);
 
-            if (user == null) {
-                throw new UsernameNotFoundException("User with email: " + userEmail + " not found");
-//                return AuthenticationResponseFactory.getErrorResponse();
-            }
-
-            String token = jwtTokenProvider.createToken(userEmail);
-
-            loggedIn.put(httpServletRequest.getSession().getId(), user.getId());
-
-//            Map<Object, Object> response = new HashMap<>();
-//            response.put("username", userEmail);
-//            response.put("token", token);
-
-            return AuthResponseFactory.getAuthResponse(true, user/*, token*/);
-
+            return AuthResponseFactory.getAuthResponse(true, result, getModerationCount(result));
         } catch (AuthenticationException exception) {
             return new BaseResponse(false);
-//            throw new BadCredentialsException("Invalid username or password");
         }
+
+//        try {
+//            String userEmail = request.getEmail();
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, request.getPassword()));
+//            User user = userService.findByEmail(userEmail);
+//
+//            if (user == null) {
+//                throw new UsernameNotFoundException("User with email: " + userEmail + " not found");
+////                return AuthenticationResponseFactory.getErrorResponse();
+//            }
+//
+//            String token = jwtTokenProvider.createToken(userEmail);
+//
+//            loggedIn.put(httpServletRequest.getSession().getId(), user.getId());
+//
+////            Map<Object, Object> response = new HashMap<>();
+////            response.put("username", userEmail);
+////            response.put("token", token);
+//
+//            return AuthResponseFactory.getAuthResponse(true, user/*, token*/);
+//
+//        } catch (AuthenticationException exception) {
+//            return new BaseResponse(false);
+////            throw new BadCredentialsException("Invalid username or password");
+//        }
+    }
+
+    private int getModerationCount(User result) {
+        int moderationCount = 0;
+        if (result.getIsModerator()) {
+            moderationCount = (int) postRepository.findAll().stream().filter(Post::getIsActive)
+                    .filter(p -> p.getModerationStatus() == ModerationStatus.NEW)
+                    .filter(p -> p.getTime().isBefore(LocalDateTime.now())).count();
+        }
+        return moderationCount;
     }
 
     @Override
-    public Response authCheck(HttpServletRequest httpServletRequest) {
-        User user = getAuthUser(httpServletRequest);
-        if (user != null) {
-            return AuthResponseFactory.getAuthResponse(true, user);
+    public Response authCheck(Principal principal/*HttpServletRequest httpServletRequest*/) {
+        if (principal == null) {
+            return new BaseResponse(false);
         }
-        return new BaseResponse(false);
+        User result = userRepository
+                .findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
+//        int moderationCount = getModerationCount(result);
+        return AuthResponseFactory.getAuthResponse(true, result, getModerationCount(result));
+
+//        User user = getAuthUser(httpServletRequest);
+//        if (user != null) {
+//            return AuthResponseFactory.getAuthResponse(true, user);
+//        }
+//        return new BaseResponse(false);
 //        String sessionId = httpServletRequest.getSession().getId();
 //        if (loggedIn.containsKey(sessionId))
 //        {
@@ -82,13 +134,13 @@ public class AuthServiceImpl implements AuthService {
 //        return new ErrorResponse(false);
     }
 
-    @Override
-    public void logout(HttpServletRequest httpServletRequest) {
-        String sessionId = httpServletRequest.getSession().getId();
-        if (loggedIn.containsKey(sessionId)) {
-            loggedIn.remove(sessionId);
-        }
-    }
+//    @Override
+//    public void logout(HttpServletRequest httpServletRequest) {
+//        String sessionId = httpServletRequest.getSession().getId();
+//        if (loggedIn.containsKey(sessionId)) {
+//            loggedIn.remove(sessionId);
+//        }
+//    }
 
     @Override
     public Response register(RegistrationRequestDto requestDto) {
@@ -99,14 +151,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User getAuthUser(HttpServletRequest servletRequest) {
-        String sessionId = servletRequest.getSession().getId();
-        if (loggedIn.containsKey(sessionId))
-        {
-            User user = userService.findById(loggedIn.get(sessionId));
-
+    public User getAuthUser(Principal principal/*HttpServletRequest servletRequest*/) {
+        if (principal != null) {
+            User user = userService.findByEmail(principal.getName());
             return user;
         }
+//        String sessionId = servletRequest.getSession().getId();
+//        if (loggedIn.containsKey(sessionId))
+//        {
+//            User user = userService.findById(loggedIn.get(sessionId));
+//
+//            return user;
+//        }
 
         return null;
     }

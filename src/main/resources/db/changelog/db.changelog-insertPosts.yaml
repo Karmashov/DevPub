@@ -13,9 +13,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "82"
               - column:
@@ -39,9 +36,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "17"
@@ -67,9 +61,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "12"
               - column:
@@ -93,9 +84,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "50"
@@ -202,9 +190,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "100"
               - column:
@@ -229,9 +214,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "20"
               - column:
@@ -255,9 +237,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "4"
@@ -310,9 +289,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "54"
               - column:
@@ -337,9 +313,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "89"
               - column:
@@ -363,9 +336,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "100"
@@ -471,9 +441,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "18"
@@ -661,9 +628,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "16"
               - column:
@@ -742,9 +706,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "31"
               - column:
@@ -768,9 +729,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "51"
@@ -823,9 +781,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "68"
               - column:
@@ -849,9 +804,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "11"
@@ -877,9 +829,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "61"
               - column:
@@ -903,9 +852,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "75"
@@ -1012,9 +958,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "35"
               - column:
@@ -1039,9 +982,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "56"
               - column:
@@ -1065,9 +1005,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "75"
@@ -1147,9 +1084,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "50"
               - column:
@@ -1173,9 +1107,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "18"
@@ -1227,9 +1158,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "2"
@@ -1335,9 +1263,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "88"
@@ -1525,9 +1450,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "89"
               - column:
@@ -1578,9 +1500,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "66"
@@ -1659,9 +1578,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "86"
@@ -1795,9 +1711,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "65"
               - column:
@@ -1848,9 +1761,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "96"
@@ -1930,9 +1840,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "85"
               - column:
@@ -1956,9 +1863,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "88"
@@ -2010,9 +1914,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "4"
@@ -2092,9 +1993,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "30"
               - column:
@@ -2146,9 +2044,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "77"
               - column:
@@ -2172,9 +2067,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "41"
@@ -2227,9 +2119,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "85"
               - column:
@@ -2253,9 +2142,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "29"
@@ -2335,9 +2221,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "37"
               - column:
@@ -2389,9 +2272,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "37"
               - column:
@@ -2442,9 +2322,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "12"
@@ -2524,9 +2401,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "91"
               - column:
@@ -2550,9 +2424,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "73"
@@ -2605,9 +2476,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "70"
               - column:
@@ -2632,9 +2500,6 @@ databaseChangeLog:
                   name: moderation_status
                   value: "NEW"
               - column:
-                  name: moderator_id
-                  value: "1"
-              - column:
                   name: user_id
                   value: "90"
               - column:
@@ -2658,9 +2523,6 @@ databaseChangeLog:
               - column:
                   name: moderation_status
                   value: "NEW"
-              - column:
-                  name: moderator_id
-                  value: "1"
               - column:
                   name: user_id
                   value: "34"

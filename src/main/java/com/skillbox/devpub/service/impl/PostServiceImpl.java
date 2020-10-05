@@ -1,14 +1,13 @@
 package com.skillbox.devpub.service.impl;
 
+import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.post.PostRequestDto;
-import com.skillbox.devpub.dto.post.PostResponseDto;
 import com.skillbox.devpub.dto.post.PostResponseFactory;
+import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.BaseResponseList;
-import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Post;
-import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
@@ -19,6 +18,8 @@ import com.skillbox.devpub.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -37,38 +38,44 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-    //@TODO доделать получение постов
     @Override
-    public BaseResponseList getPosts(Integer offset, Integer limit, String mode) {
-        List<Post> result = postRepository.findAll().stream().filter(Post::getIsActive)
-                .filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED)
-                .filter(p -> p.getTime().isBefore(LocalDateTime.now()))/*.map(p -> PostResponseFactory.postToDto(p))*/.collect(Collectors.toList());
-        if (mode.equals("recent")) {
-            Collections.sort(result, Post.COMPARE_BY_TIME);
-        } else if (mode.equals("early")) {
-            Collections.sort(result, Collections.reverseOrder(Post.COMPARE_BY_TIME));
-        } else if (mode.equals("popular")) {
-            Collections.sort(result, Post.COMPARE_BY_COMMENTS);
-        } else if (mode.equals("best")) {           //@TODO влияют ли дизлайки?
-            Collections.sort(result, Post.COMPARE_BY_VOTES);
+    public Response getPosts(Integer offset, Integer limit, String mode) {
+//        List<Post> result = postRepository.findAll().stream().filter(Post::getIsActive)
+//                .filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED)
+//                .filter(p -> p.getTime().isBefore(LocalDateTime.now()))/*.map(p -> PostResponseFactory.postToDto(p))*/.collect(Collectors.toList());
+        List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
+                true,
+                ModerationStatus.ACCEPTED,
+                LocalDateTime.now()
+        );
+        switch (mode) {
+            case "recent":
+                result.sort(Post.COMPARE_BY_TIME);
+                break;
+            case "early":
+                result.sort(Collections.reverseOrder(Post.COMPARE_BY_TIME));
+                break;
+            case "popular":
+                result.sort(Post.COMPARE_BY_COMMENTS);
+                break;
+            case "best":            //@TODO влияют ли дизлайки?
+                result.sort(Post.COMPARE_BY_VOTES);
+                break;
         }
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
-    public Response addPost(PostRequestDto requestDto, User user) {
-        HashMap<String, String> errors = new HashMap<>();
-        checkTitle(requestDto.getTitle(), errors);
-        checkText(requestDto.getText(), errors);
-
-        if (!errors.isEmpty()) {
-            return ResponseFactory.getErrorListResponse(errors);
+    public Response addPost(PostRequestDto requestDto, Principal principal) {
+        Response errors = checkErrors(requestDto, principal);
+        if (errors != null) {
+            return errors;
         }
 
         Post post = new Post();
         post.setIsActive(requestDto.getActive());
         post.setModerationStatus(ModerationStatus.NEW);
-        post.setUser(user);
+        post.setUser(userService.findByEmail(principal.getName()));
         post.setTime(parseDate(requestDto.getTime()));
         post.setTitle(requestDto.getTitle());
         post.setText(requestDto.getText());
@@ -87,14 +94,12 @@ public class PostServiceImpl implements PostService {
         return ResponseFactory.responseOk();
     }
 
+    //@TODO на фронте при открытии поста, все пустое
     @Override
-    public Response editPost(PostRequestDto requestDto, Integer postId, User user) {
-        HashMap<String, String> errors = new HashMap<>();
-        checkTitle(requestDto.getTitle(), errors);
-        checkText(requestDto.getText(), errors);
-
-        if (!errors.isEmpty()) {
-            return ResponseFactory.getErrorListResponse(errors);
+    public Response editPost(PostRequestDto requestDto, Integer postId, Principal principal) {
+        Response errors = checkErrors(requestDto, principal);
+        if (errors != null) {
+            return errors;
         }
 
         Post post = postRepository.findPostById(postId);
@@ -109,7 +114,7 @@ public class PostServiceImpl implements PostService {
         }
 
         //@TODO Изменение модератором
-        if (!user.getIsModerator()) {
+        if (!userService.findByEmail(principal.getName()).getIsModerator()) {
             post.setModerationStatus(ModerationStatus.NEW);
         }
 
@@ -142,6 +147,116 @@ public class PostServiceImpl implements PostService {
                 post.getModerationStatus() == ModerationStatus.ACCEPTED &&
                 post.getTime().isBefore(LocalDateTime.now())) {
             return PostResponseFactory.getSinglePost(post);
+        }
+        return null;
+    }
+
+    //@TODO включать или не включать отложенные посты?
+    @Override
+    public Response getModerationList(Integer offset, Integer limit, String status, Principal principal) {
+        ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
+        List<Post> result;
+        if (moderationStatus.equals(ModerationStatus.NEW)) {
+            result = postRepository.findAllByIsActiveAndModerationStatus(
+                    true,
+                    moderationStatus
+            );
+        } else {
+            result = postRepository
+                    .findAllByIsActiveAndModerationStatusAndModerator(
+                            true,
+                            moderationStatus,
+                            userService.findByEmail(principal.getName()));
+        }
+//        System.out.println(moderationStatus);
+//        switch (status) {
+//            case "new":
+//                result.stream().filter(p -> p.getModerationStatus() == ModerationStatus.NEW).collect(Collectors.toList());
+//                break;
+//            case "declined":
+//                result.stream().filter(p -> p.getModerationStatus() == ModerationStatus.DECLINED);
+//                break;
+//            case "accepted":
+//                result.stream().filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED);
+//                break;
+//        }
+        return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
+    }
+
+    @Override
+    public void postModeration(PostModerationRequestDto request, Principal principal) {
+        Post post = postRepository.findPostById(request.getPost());
+        if (request.getDecision().equals("accept")) {
+            post.setModerationStatus(ModerationStatus.ACCEPTED);
+        } else if (request.getDecision().equals("decline")) {
+            post.setModerationStatus(ModerationStatus.DECLINED);
+        }
+        post.setModerator(userService.findByEmail(principal.getName()));
+        postRepository.save(post);
+    }
+
+    @Override
+    public Response getMyPosts(Integer offset, Integer limit, String status, Principal principal) {
+//        ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
+        User user = userService.findByEmail(principal.getName());
+        List<Post> result = new ArrayList<>();
+        switch (status) {
+            case "inactive":
+                result = postRepository.findAllByUserAndIsActive(user, false);
+                break;
+            case "pending":
+                result = postRepository.findAllByUserAndIsActiveAndModerationStatus(user, true, ModerationStatus.NEW);
+                break;
+            case "declined":
+                result = postRepository.findAllByUserAndIsActiveAndModerationStatus(user, true, ModerationStatus.DECLINED);
+                break;
+            case "published":
+                result = postRepository.findAllByUserAndIsActiveAndModerationStatus(user, true, ModerationStatus.ACCEPTED);
+                break;
+        }
+//        System.out.println(result);
+        return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
+    }
+
+    @Override
+    public Response searchPosts(Integer offset, Integer limit, String query) {
+        List<Post> result = postRepository.findAllByIsActiveAndModerationStatus(true, ModerationStatus.ACCEPTED)
+                .stream().filter(f -> f.getText().contains(query)).collect(Collectors.toList());
+        return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
+    }
+
+    @Override
+    public Response getPostsByDate(Integer offset, Integer limit, String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate queryDate = LocalDate.parse(date, formatter);
+        List<Post> result = postRepository.findAllByIsActiveAndModerationStatus(true, ModerationStatus.ACCEPTED)
+                .stream()
+                .filter(f -> f.getTime().toLocalDate().equals(queryDate))
+                .collect(Collectors.toList());
+        return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
+    }
+
+    @Override
+    public Response getPostsByTag(Integer offset, Integer limit, String tag) {
+        List<Post> result = postRepository
+                .findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(true,
+                                                                ModerationStatus.ACCEPTED,
+                                                                tagRepository.findFirstTagByNameIgnoreCase(tag),
+                                                                LocalDateTime.now());
+        return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
+    }
+
+    private Response checkErrors(PostRequestDto requestDto, Principal principal) {
+        if (principal == null) {
+            return new BaseResponse(false);
+        }
+
+        HashMap<String, String> errors = new HashMap<>();
+        checkTitle(requestDto.getTitle(), errors);
+        checkText(requestDto.getText(), errors);
+
+        if (!errors.isEmpty()) {
+            return ResponseFactory.getErrorListResponse(errors);
         }
         return null;
     }

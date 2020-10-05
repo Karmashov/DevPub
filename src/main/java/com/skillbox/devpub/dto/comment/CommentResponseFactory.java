@@ -32,6 +32,13 @@ public class CommentResponseFactory {
         );
     }
 
+    public static CommentResponseDto getSingleCommentDto(PostComment comment) {
+        return new CommentResponseDto(
+                comment.getId(),
+                null, null, null
+        );
+    }
+
     public static List<Dto> getCommentList(List<PostComment> commentList, PostComment parentComment/*, User user*/)
     {
         List<Dto> list = new ArrayList<>();

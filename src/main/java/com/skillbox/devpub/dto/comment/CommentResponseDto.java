@@ -1,6 +1,8 @@
 package com.skillbox.devpub.dto.comment;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.skillbox.devpub.dto.universal.Dto;
+import com.skillbox.devpub.dto.universal.Response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,8 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class CommentResponseDto implements Dto {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CommentResponseDto implements Dto, Response {
 //    @JsonProperty("parent_id")
 //    private int parentId;
 //    @JsonProperty("comment_text")
