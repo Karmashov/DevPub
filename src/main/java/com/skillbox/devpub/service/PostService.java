@@ -35,4 +35,6 @@ public interface PostService {
     Response getPostsByDate(Integer offset, Integer limit, String date);
 
     Response getPostsByTag(Integer offset, Integer limit, String tag);
+
+    Response getCalendar(Integer year);
 }

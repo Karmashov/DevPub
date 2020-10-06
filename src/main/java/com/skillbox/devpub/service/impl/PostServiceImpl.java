@@ -246,6 +246,22 @@ public class PostServiceImpl implements PostService {
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
+    @Override
+    public Response getCalendar(Integer year) {
+        if (year == null) {
+            year = LocalDateTime.now().getYear();
+        }
+        List<Post> search = postRepository
+                .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
+        Integer finalYear1 = year;
+        search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
+
+        System.out.println(search.stream()
+                .filter(f -> f.getTime().getYear() == finalYear1)
+                .collect(Collectors.groupingBy(Post::getTime, Collectors.counting())));
+        return null;
+    }
+
     private Response checkErrors(PostRequestDto requestDto, Principal principal) {
         if (principal == null) {
             return new BaseResponse(false);

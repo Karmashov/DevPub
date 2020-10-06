@@ -13,12 +13,10 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="devpub" target="11" />
-      <module name="DevPub" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="DevPub" options="-parameters" />
       <module name="devpub" options="-parameters" />
     </option>
   </component>

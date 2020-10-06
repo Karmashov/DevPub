@@ -60,10 +60,15 @@ public class ApiGeneralController {
     @PostMapping("/image")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public String saveFile(@RequestParam("image") MultipartFile fileRequest/*@ModelAttribute FileRequestDto fileRequest*/) throws IOException {
-        if (fileRequest.isEmpty()) {
-            System.out.println("ошибка");
-        }
+//        if (fileRequest.isEmpty()) {
+//            System.out.println("ошибка");
+//        }
 //        System.out.println(fileRequest.getOriginalFilename());
         return fileService.saveFile(fileRequest);
+    }
+
+    @GetMapping("/calendar")
+    public ResponseEntity<?> getCalendar(@RequestParam(required = false) Integer year) {
+        return ResponseEntity.ok(postService.getCalendar(year));
     }
 }
