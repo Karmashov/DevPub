@@ -251,14 +251,30 @@ public class PostServiceImpl implements PostService {
         if (year == null) {
             year = LocalDateTime.now().getYear();
         }
+        int finalYear1 = year;
         List<Post> search = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
-        Integer finalYear1 = year;
-        search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
+//        List<Post> years = search.stream().collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
+//        search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
+        search = search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.toList());
+        Map<LocalDate, Integer> result = new TreeMap<>();
+        for (Post post : search) {
+            LocalDate date = post.getTime().toLocalDate();
+            if (result.containsKey(date)) {
+                int count = result.get(date);
+                result.remove(date);
+                result.put(date, ++count);
+                System.out.println(date + " " + count);
+//                result.replace(date,result.get(date), result.get(date) + 1);
+            } else {
+                result.put(date, 1);
+            }
+        }
+//        System.out.println(search.stream()
+//                .filter(f -> f.getTime().getYear() == finalYear1)
+//                .collect(Collectors.groupingBy(Post::getTime, Collectors.counting())));
 
-        System.out.println(search.stream()
-                .filter(f -> f.getTime().getYear() == finalYear1)
-                .collect(Collectors.groupingBy(Post::getTime, Collectors.counting())));
+        System.out.println(result);
         return null;
     }
 
