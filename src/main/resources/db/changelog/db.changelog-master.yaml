@@ -17,12 +17,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: code
-                  type: TINYTEXT
+                  type: LONGTEXT
               - column:
                   constraints:
                     nullable: false
                   name: secret_code
-                  type: TINYTEXT
+                  type: LONGTEXT
               - column:
                   constraints:
                     nullable: false

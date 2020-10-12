@@ -18,6 +18,9 @@ spring:
 upload:
   path: "D:/upload"
 
+captcha:
+  lifetime: 60 #minutes
+
 jwt.token:
   secret: jwtdevpubtoken
   expired: 36000000
