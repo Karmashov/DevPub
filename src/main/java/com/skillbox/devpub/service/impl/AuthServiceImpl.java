@@ -2,6 +2,7 @@ package com.skillbox.devpub.service.impl;
 
 import com.skillbox.devpub.dto.authentication.AuthRequestDto;
 import com.skillbox.devpub.dto.authentication.AuthResponseFactory;
+import com.skillbox.devpub.dto.authentication.CaptchaResponseDto;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.Response;
@@ -166,4 +167,10 @@ public class AuthServiceImpl implements AuthService {
 
         return null;
     }
+//
+//    @Override
+//    public Response getCaptcha() {
+//
+//        return new CaptchaResponseDto("car4y8cryaw84cr89awnrc", "data:image/png;base64, car4y8cryaw84cr89awnrc");
+//    }
 }

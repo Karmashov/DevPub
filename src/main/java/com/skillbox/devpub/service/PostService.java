@@ -37,4 +37,8 @@ public interface PostService {
     Response getPostsByTag(Integer offset, Integer limit, String tag);
 
     Response getCalendar(Integer year);
+
+    Response getMyStatistics(Principal principal);
+
+    Response getAllStatistics(Principal principal);
 }

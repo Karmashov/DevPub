@@ -19,4 +19,6 @@ public interface AuthService {
     Response register(RegistrationRequestDto requestDto);
 
     User getAuthUser(Principal principal);
+//
+//    Response getCaptcha();
 }

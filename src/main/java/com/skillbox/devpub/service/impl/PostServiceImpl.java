@@ -3,10 +3,7 @@ package com.skillbox.devpub.service.impl;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.post.PostResponseFactory;
-import com.skillbox.devpub.dto.universal.BaseResponse;
-import com.skillbox.devpub.dto.universal.BaseResponseList;
-import com.skillbox.devpub.dto.universal.Response;
-import com.skillbox.devpub.dto.universal.ResponseFactory;
+import com.skillbox.devpub.dto.universal.*;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
@@ -220,7 +217,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response searchPosts(Integer offset, Integer limit, String query) {
-        List<Post> result = postRepository.findAllByIsActiveAndModerationStatus(true, ModerationStatus.ACCEPTED)
+        List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now())
                 .stream().filter(f -> f.getText().contains(query)).collect(Collectors.toList());
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
@@ -254,6 +251,11 @@ public class PostServiceImpl implements PostService {
         int finalYear1 = year;
         List<Post> search = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
+        HashSet<Integer> years = new HashSet<>();
+        for (Post post : search) {
+            years.add(post.getTime().toLocalDate().getYear());
+        }
+//        System.out.println(years);
 //        List<Post> years = search.stream().collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
 //        search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
         search = search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.toList());
@@ -264,7 +266,7 @@ public class PostServiceImpl implements PostService {
                 int count = result.get(date);
                 result.remove(date);
                 result.put(date, ++count);
-                System.out.println(date + " " + count);
+//                System.out.println(date + " " + count);
 //                result.replace(date,result.get(date), result.get(date) + 1);
             } else {
                 result.put(date, 1);
@@ -274,8 +276,25 @@ public class PostServiceImpl implements PostService {
 //                .filter(f -> f.getTime().getYear() == finalYear1)
 //                .collect(Collectors.groupingBy(Post::getTime, Collectors.counting())));
 
-        System.out.println(result);
-        return null;
+//        System.out.println(result);
+        return ResponseFactory.getCalendar(years, result);
+    }
+
+    @Override
+    public Response getMyStatistics(Principal principal) {
+        List<Post> result = postRepository
+                .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now())
+                .stream().filter(p -> p.getUser().equals(userService.findByEmail(principal.getName()))).collect(Collectors.toList());
+//        System.out.println(result);
+        return StatisticsResponseFactory.getStatistics(result);
+    }
+
+    @Override
+    public Response getAllStatistics(Principal principal) {
+        //@TODO Проверка глобальных настроек
+        List<Post> result = postRepository
+                .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
+        return StatisticsResponseFactory.getStatistics(result);
     }
 
     private Response checkErrors(PostRequestDto requestDto, Principal principal) {

@@ -4,6 +4,7 @@ import com.skillbox.devpub.dto.comment.CommentRequestDto;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.FileRequestDto;
+import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.service.*;
 import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,21 @@ public class ApiGeneralController {
     private final CommentService commentService;
     private final TagService tagService;
     private final FileService fileService;
+    private final SettingsService settingsService;
 
     @Autowired
-    public ApiGeneralController(InitServiceImpl initService, PostService postService, CommentService commentService, TagService tagService, FileService fileService) {
+    public ApiGeneralController(InitServiceImpl initService,
+                                PostService postService,
+                                CommentService commentService,
+                                TagService tagService,
+                                FileService fileService,
+                                SettingsService settingsService) {
         this.initService = initService;
         this.postService = postService;
         this.commentService = commentService;
         this.tagService = tagService;
         this.fileService = fileService;
+        this.settingsService = settingsService;
     }
 
     @GetMapping("/init")
@@ -70,5 +78,30 @@ public class ApiGeneralController {
     @GetMapping("/calendar")
     public ResponseEntity<?> getCalendar(@RequestParam(required = false) Integer year) {
         return ResponseEntity.ok(postService.getCalendar(year));
+    }
+
+    @GetMapping("/statistics/my")
+    @PreAuthorize("hasAnyAuthority('user:write')")
+    public ResponseEntity<?> getMyStatistics(Principal principal) {
+        return ResponseEntity.ok(postService.getMyStatistics(principal));
+    }
+
+    @GetMapping("/statistics/all")
+    public ResponseEntity<?> getAllStatistics(Principal principal) {
+        return ResponseEntity.ok(postService.getAllStatistics(principal));
+    }
+
+    @GetMapping("/settings")
+//    @PreAuthorize("hasAnyAuthority('user:moderate')")
+    //@TODO нужна ли проверка на модераторство
+    public ResponseEntity<?> getSettings() {
+        return ResponseEntity.ok(settingsService.getSettings());
+    }
+
+    @PutMapping("/settings")
+    @PreAuthorize("hasAnyAuthority('user:moderate')")
+    //@TODO нужна ли проверка на модераторство
+    public void editSettings(@RequestBody SettingsDto request) {
+        settingsService.editSettings(request);
     }
 }

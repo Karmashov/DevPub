@@ -1,8 +1,9 @@
 package com.skillbox.devpub.dto.universal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.skillbox.devpub.dto.post.CalendarResponseDto;
+
+import java.time.LocalDate;
+import java.util.*;
 
 public class ResponseFactory {
 //    public static BaseResponse getBaseResponse(Dto dto){
@@ -46,6 +47,14 @@ public class ResponseFactory {
 //        );
 //    }
 //
+    public static Response getCalendar(HashSet<Integer> years, Map<LocalDate, Integer> result) {
+        return new CalendarResponseDto(years, result);
+    }
+
+    public static Response getSettings(Boolean multiuserMode, Boolean postPremoderation, Boolean publicStatistics) {
+        return new SettingsDto(multiuserMode, postPremoderation, publicStatistics);
+    }
+
     public static BaseResponseList getBaseResponseListWithLimit(List<Dto> list, int offset, int limit){
         List<Dto> data = getElementsInRange(list, offset, limit);
 //        System.out.println(getElementsInRange(list, offset, limit));
