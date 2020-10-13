@@ -10,4 +10,6 @@ import java.util.List;
 public interface CaptchaCodeRepository extends JpaRepository<CaptchaCode, Integer> {
 
     List<CaptchaCode> findAllByTimeIsBefore(LocalDateTime time);
+
+    CaptchaCode findAllBySecretCode(String secret);
 }

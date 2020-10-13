@@ -2,6 +2,8 @@ package com.skillbox.devpub.controller;
 
 import com.mysql.cj.protocol.Protocol;
 import com.skillbox.devpub.dto.authentication.AuthRequestDto;
+import com.skillbox.devpub.dto.authentication.EmailRequestDto;
+import com.skillbox.devpub.dto.authentication.PasswordChangeRequestDto;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
@@ -68,5 +70,19 @@ public class ApiAuthController {
     public ResponseEntity<?> getCaptcha() throws IOException {
 //        System.out.println();
         return ResponseEntity.ok(captchaService.getCaptcha());
+    }
+
+    //@TODO устаревание ссылки???
+    @PostMapping("/restore")
+    public ResponseEntity<?> restorePassword(HttpServletRequest servletRequest, @RequestBody EmailRequestDto request) {
+//        System.out.println(request.getEmail());
+        String link = servletRequest.getScheme() + "://" + servletRequest.getServerName() + ":" + servletRequest.getServerPort() + "/login/change-password/";
+        return ResponseEntity.ok(authService.passwordRecovery(request, link));
+    }
+
+    @PostMapping("/password")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequestDto request) {
+//        System.out.println(request);
+        return ResponseEntity.ok(authService.changePassword(request));
     }
 }

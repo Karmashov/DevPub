@@ -5,6 +5,7 @@ import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.FileRequestDto;
 import com.skillbox.devpub.dto.universal.SettingsDto;
+import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.service.*;
 import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class ApiGeneralController {
     private final TagService tagService;
     private final FileService fileService;
     private final SettingsService settingsService;
+    private final UserService userService;
 
     @Autowired
     public ApiGeneralController(InitServiceImpl initService,
@@ -33,13 +35,15 @@ public class ApiGeneralController {
                                 CommentService commentService,
                                 TagService tagService,
                                 FileService fileService,
-                                SettingsService settingsService) {
+                                SettingsService settingsService,
+                                UserService userService) {
         this.initService = initService;
         this.postService = postService;
         this.commentService = commentService;
         this.tagService = tagService;
         this.fileService = fileService;
         this.settingsService = settingsService;
+        this.userService = userService;
     }
 
     @GetMapping("/init")
@@ -103,5 +107,11 @@ public class ApiGeneralController {
     //@TODO нужна ли проверка на модераторство
     public void editSettings(@RequestBody SettingsDto request) {
         settingsService.editSettings(request);
+    }
+
+    @PostMapping("/profile/my")
+    @PreAuthorize("hasAnyAuthority('user:write')")
+    public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request) {
+        return ResponseEntity.ok(userService.editProfile(request));
     }
 }

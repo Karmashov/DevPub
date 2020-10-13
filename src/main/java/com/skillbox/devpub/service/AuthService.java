@@ -1,6 +1,8 @@
 package com.skillbox.devpub.service;
 
 import com.skillbox.devpub.dto.authentication.AuthRequestDto;
+import com.skillbox.devpub.dto.authentication.EmailRequestDto;
+import com.skillbox.devpub.dto.authentication.PasswordChangeRequestDto;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.User;
@@ -19,6 +21,10 @@ public interface AuthService {
     Response register(RegistrationRequestDto requestDto);
 
     User getAuthUser(Principal principal);
+
+    Response passwordRecovery(EmailRequestDto request, String link);
+
+    Response changePassword(PasswordChangeRequestDto request);
 //
 //    Response getCaptcha();
 }

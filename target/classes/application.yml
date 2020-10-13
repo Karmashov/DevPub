@@ -15,11 +15,20 @@ spring:
     user: root
     password: 1234
 
+  mail:
+    # Логин и пароль пользователя от почты на gmail
+    host: smtp.gmail.com
+    port: 587
+    username: devpubsocial@gmail.com
+    password: DevPubSocial
+
 upload:
   path: "D:/upload"
 
 captcha:
   lifetime: 60 #minutes
+
+project.name: Социальная сеть разработчиков
 
 jwt.token:
   secret: jwtdevpubtoken

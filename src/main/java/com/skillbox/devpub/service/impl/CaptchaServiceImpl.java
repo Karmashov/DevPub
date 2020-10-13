@@ -73,6 +73,18 @@ public class CaptchaServiceImpl implements CaptchaService {
         String secret = UUID.randomUUID().toString().replace("-", "");
 //        System.out.println(s);
         Cage cage = new GCage();
+        String captchaCode = cage.getTokenGenerator().next();
+        BufferedImage bufferedImage = cage.drawImage(captchaCode);
+        bufferedImage = resize(bufferedImage, 100, 35);
+//        File file = new File("D:/upload/captcha.png");
+
+        ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", byteArrayStream);
+        byteArrayStream.flush();
+        byte[] imageInByte = byteArrayStream.toByteArray();
+        byteArrayStream.close();
+        String image = Base64.getEncoder().encodeToString(imageInByte);
+
 //        OutputStream os = new FileOutputStream("captcha.png", false);
 //        try {
 //            cage.draw(cage.getTokenGenerator().next(), os);
@@ -80,19 +92,19 @@ public class CaptchaServiceImpl implements CaptchaService {
 //            os.close();
 //        }
 //        File file = os.write();
-        byte[] bytes = cage.draw(cage.getTokenGenerator().next());
+//        byte[] bytes = cage.draw(cage.getTokenGenerator().next());
+//        String image = Base64.getEncoder().encodeToString(bytes);
 //        byte[] fileContent = FileUtils.readFileToByteArray(os);
-        String image = Base64.getEncoder().encodeToString(bytes);
 
         CaptchaCode captcha = new CaptchaCode();
         captcha.setSecretCode(secret);
-        captcha.setCode(image);
+        captcha.setCode(captchaCode);
         captcha.setTime(LocalDateTime.now());
 
         //@TODO изменен тип данных в БД
         codeRepository.save(captcha);
 
-        checkCaptcha();
+        deleteOldCaptcha();
 
 //        System.out.println("===========");
 //        System.out.println(g2dImage);
@@ -121,7 +133,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         return new CaptchaResponseDto(secret, "data:image/png;base64, " + image);
     }
 
-    private void checkCaptcha() {
+    private void deleteOldCaptcha() {
         LocalDateTime time = LocalDateTime.now();
 //        System.out.println(time);
 ////        time.minusMinutes(captchaLifetime);
@@ -130,5 +142,22 @@ public class CaptchaServiceImpl implements CaptchaService {
         for (CaptchaCode captcha : result) {
             codeRepository.delete(captcha);
         }
+    }
+
+    private BufferedImage resize(BufferedImage image, int width, int height)
+    {
+        BufferedImage tmpImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        double widthStep = (double) image.getWidth() / (double) width;
+        double heightStep = (double) image.getHeight() / (double) height;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++) {
+                int rgb = image.getRGB((int) Math.ceil(x * widthStep), (int) Math.ceil(y * heightStep));
+                tmpImage.setRGB(x, y, rgb);
+            }
+        }
+        return tmpImage;
     }
 }

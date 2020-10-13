@@ -1,11 +1,9 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.authentication.AuthRequestDto;
-import com.skillbox.devpub.dto.authentication.AuthResponseFactory;
-import com.skillbox.devpub.dto.authentication.CaptchaResponseDto;
-import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
+import com.skillbox.devpub.dto.authentication.*;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.Response;
+import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
@@ -13,9 +11,11 @@ import com.skillbox.devpub.repository.PostRepository;
 import com.skillbox.devpub.repository.UserRepository;
 //import com.skillbox.devpub.security.jwt.JwtTokenProvider;
 import com.skillbox.devpub.service.AuthService;
+import com.skillbox.devpub.service.MailService;
 import com.skillbox.devpub.service.UserService;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +29,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,17 +42,20 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final MailService mailService;
 
     @Autowired
     public AuthServiceImpl(AuthenticationManager authenticationManager/*, JwtTokenProvider jwtTokenProvider*/,
                            UserService userService,
                            UserRepository userRepository,
-                           PostRepository postRepository) {
+                           PostRepository postRepository,
+                           MailService mailService) {
         this.authenticationManager = authenticationManager;
 //        this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.mailService = mailService;
     }
 
     @Override
@@ -167,10 +171,30 @@ public class AuthServiceImpl implements AuthService {
 
         return null;
     }
-//
-//    @Override
-//    public Response getCaptcha() {
-//
-//        return new CaptchaResponseDto("car4y8cryaw84cr89awnrc", "data:image/png;base64, car4y8cryaw84cr89awnrc");
-//    }
+
+    @Override
+    public Response passwordRecovery(EmailRequestDto request, String link) {
+        User user;
+
+        try {
+            user = userService.findByEmail(request.getEmail());
+        } catch (Exception ex) {
+            return new BaseResponse(false);
+        }
+        String confirmationCode = UUID.randomUUID().toString().replace("-", "");
+        user.setCode(confirmationCode);
+        userRepository.save(user);
+
+        String fullLink = link + confirmationCode;
+//        System.out.println(confirmationCode);
+//        System.out.println(fullLink);
+        mailService.sendPasswordRecovery(request.getEmail(), user.getName(), fullLink);
+        return new BaseResponse(true);
+    }
+
+    @Override
+    public Response changePassword(PasswordChangeRequestDto request) {
+        Response response = userService.changePassword(request);
+        return response;
+    }
 }
