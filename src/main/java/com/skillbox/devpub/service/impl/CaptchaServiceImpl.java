@@ -144,7 +144,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
     }
 
-    private BufferedImage resize(BufferedImage image, int width, int height)
+    public BufferedImage resize(BufferedImage image, int width, int height)
     {
         BufferedImage tmpImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 

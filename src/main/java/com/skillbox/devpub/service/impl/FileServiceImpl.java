@@ -22,7 +22,6 @@ public class FileServiceImpl implements FileService {
 //        this.uploadPath = uploadPath;
 //    }
 
-    //@TODO доделать файлы
     @Override
     public String saveFile(MultipartFile file /*FileRequestDto request*/) throws IOException {
         String s = UUID.randomUUID().toString();

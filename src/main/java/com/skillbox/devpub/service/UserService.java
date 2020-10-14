@@ -6,6 +6,8 @@ import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.model.User;
 
+import java.security.Principal;
+
 public interface UserService {
 
     Response register(RegistrationRequestDto requestDto);
@@ -16,5 +18,5 @@ public interface UserService {
 
     Response changePassword(PasswordChangeRequestDto request);
 
-    Response editProfile(ProfileEditRequestDto request);
+    Response editProfile(ProfileEditRequestDto request, Principal principal);
 }

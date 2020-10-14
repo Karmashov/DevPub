@@ -12,6 +12,7 @@ import com.skillbox.devpub.model.enumerated.ERole;
 import com.skillbox.devpub.repository.CaptchaCodeRepository;
 import com.skillbox.devpub.repository.RoleRepository;
 import com.skillbox.devpub.repository.UserRepository;
+import com.skillbox.devpub.service.FileService;
 import com.skillbox.devpub.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -20,10 +21,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -38,13 +44,22 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final CaptchaCodeRepository captchaRepository;
+    private final FileService fileService;
+    private final CaptchaServiceImpl captchaService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,RoleRepository roleRepository, PasswordEncoder passwordEncoder, CaptchaCodeRepository captchaRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           RoleRepository roleRepository,
+                           PasswordEncoder passwordEncoder,
+                           CaptchaCodeRepository captchaRepository,
+                           FileService fileService,
+                           CaptchaServiceImpl captchaService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.captchaRepository = captchaRepository;
+        this.fileService = fileService;
+        this.captchaService = captchaService;
     }
 
     @Override
@@ -121,9 +136,68 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response editProfile(ProfileEditRequestDto request) {
-        //@TODO
-        return null;
+    public Response editProfile(ProfileEditRequestDto request, Principal principal) {
+        //@TODO сделать корректное изменение параметров (чтобы не выбивало после смены мейла, чтобы пропускало изменения на свои же и т.д.)
+        HashMap<String, String> errors = new HashMap<>();
+//        System.out.println(request);
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
+        if (request.getPassword() == null && request.getPhoto() == null && request.getRemovePhoto() == null) {
+            checkUserName(request.getName(), errors);
+            checkUserLogin(request.getEmail(), errors);
+            if (!errors.isEmpty()) {
+                return ResponseFactory.getErrorListResponse(errors);
+            }
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+        } else if (request.getPhoto() == null && request.getRemovePhoto() == null) {
+            checkUserName(request.getName(), errors);
+            checkUserLogin(request.getEmail(), errors);
+            checkUserPassword(request.getPassword(), errors);
+            if (!errors.isEmpty()) {
+                return ResponseFactory.getErrorListResponse(errors);
+            }
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
+        } else if (request.getRemovePhoto() == null || request.getRemovePhoto().equals("0")) {
+            checkUserName(request.getName(), errors);
+            checkUserLogin(request.getEmail(), errors);
+//            checkUserPassword(request.getPassword(), errors);
+//            checkPhoto(request.getPhoto(), errors);
+            System.out.println(request.getPhoto());
+            if (!errors.isEmpty()) {
+                return ResponseFactory.getErrorListResponse(errors);
+            }
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+//            user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
+//            BufferedImage bufferedImage = null;
+            try {
+                //@TODO сделать ресайз файла
+//                BufferedImage bufferedImage = ImageIO.read((ImageInputStream) request.getPhoto());
+//                File file = null;
+//                bufferedImage = captchaService.resize(bufferedImage, 35, 35);
+//                ImageIO.write(bufferedImage, "jpg", file);
+                String link = fileService.saveFile(request.getPhoto());
+                System.out.println(link);
+                user.setPhoto(link);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (request.getPassword() == null) {
+            if (request.getRemovePhoto().equals("1")) {
+                user.setPhoto(null);
+            }
+        }
+        userRepository.save(user);
+        return ResponseFactory.responseOk();
+    }
+
+    private void checkPhoto(MultipartFile photo, HashMap<String, String> errors) {
+        if (photo.getSize() > 5) {
+            errors.put("photo", "Фото слишком большое, нужно не более 5 Мб");
+        }
     }
 
     private List<Role> getBasePermission() {

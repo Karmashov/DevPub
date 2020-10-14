@@ -111,7 +111,8 @@ public class ApiGeneralController {
 
     @PostMapping("/profile/my")
     @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request) {
-        return ResponseEntity.ok(userService.editProfile(request));
+    public ResponseEntity<?> editProfile(@ModelAttribute @RequestBody ProfileEditRequestDto request, Principal principal) {
+        System.out.println(request.getPhoto());
+        return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 }
