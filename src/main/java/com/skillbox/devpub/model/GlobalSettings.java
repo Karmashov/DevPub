@@ -13,7 +13,6 @@ public class GlobalSettings {
     private Integer id;
 
     //@TODO code
-//    @Enumerated(value = EnumType.STRING)
     private String code;
 
     //@TODO name

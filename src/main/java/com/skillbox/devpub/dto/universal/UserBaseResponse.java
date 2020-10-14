@@ -1,6 +1,5 @@
 package com.skillbox.devpub.dto.universal;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

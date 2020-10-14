@@ -1,12 +1,10 @@
 package com.skillbox.devpub.dto.universal;
 
 import com.skillbox.devpub.model.Post;
-import com.skillbox.devpub.model.PostVote;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class StatisticsResponseFactory {
 

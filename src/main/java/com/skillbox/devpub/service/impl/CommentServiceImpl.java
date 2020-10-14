@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Response postComment(CommentRequestDto request, Principal principal) {
-        //@TODO обработка не найденных записей поста и/или коммкнтария
+        //@TODO обработка не найденных записей поста и/или комментария
         if (request.getText().length() < 10) {
             HashMap<String, String> errors = new HashMap<>();
             errors.put("text", "Текст комментария не задан или слишком короткий");

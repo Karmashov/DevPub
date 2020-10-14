@@ -4,14 +4,10 @@ import com.skillbox.devpub.dto.universal.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.HashMap;
-
 @Data
 @AllArgsConstructor
 public class TagWeightDto implements Dto {
 
     private String name;
     private Double weight;
-
-//    private HashMap<String, Integer> weight;
 }

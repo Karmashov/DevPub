@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PostVoteRepository extends JpaRepository<PostVote,Integer> {
+public interface PostVoteRepository extends JpaRepository<PostVote, Integer> {
 
     boolean existsPostVoteByPost_Id(Integer id);
 

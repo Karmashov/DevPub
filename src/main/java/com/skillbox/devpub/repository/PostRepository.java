@@ -5,13 +5,11 @@ import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post,Integer> {
+public interface PostRepository extends JpaRepository<Post, Integer> {
 
     Post findPostById(Integer id);
 
@@ -28,6 +26,4 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
     List<Post> findAllByTags(String tag);
 
     List<Post> findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(Boolean isActive, ModerationStatus status, Tag tag, LocalDateTime time);
-
-//    List<Post> searchPosts();
 }

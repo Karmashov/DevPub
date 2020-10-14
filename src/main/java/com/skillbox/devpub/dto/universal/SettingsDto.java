@@ -3,9 +3,6 @@ package com.skillbox.devpub.dto.universal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.HashMap;
 
 @AllArgsConstructor
 @Data

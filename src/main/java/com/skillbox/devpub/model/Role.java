@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
+//@TODO отключить
 @Entity
 @Table(name = "roles")
 @Data

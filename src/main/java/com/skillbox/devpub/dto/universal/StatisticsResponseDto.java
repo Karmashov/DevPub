@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class StatisticsResponseDto implements Response{
+public class StatisticsResponseDto implements Response {
 
     private Integer postsCount;
     private Integer likesCount;

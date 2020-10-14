@@ -2,8 +2,6 @@ package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.comment.CommentRequestDto;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
-import com.skillbox.devpub.dto.universal.BaseResponse;
-import com.skillbox.devpub.dto.universal.FileRequestDto;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.service.*;
@@ -53,14 +51,15 @@ public class ApiGeneralController {
 
     @PostMapping("/moderation")
     @PreAuthorize("hasAnyAuthority('user:moderate')")
-    public void postModeration(@RequestBody PostModerationRequestDto request, Principal principal) {
+    public void postModeration(@RequestBody PostModerationRequestDto request,
+                               Principal principal) {
         postService.postModeration(request, principal);
-//        return ResponseEntity.ok();
     }
 
     @PostMapping("/comment")
     @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> postComment(@RequestBody CommentRequestDto request, Principal principal) {
+    public ResponseEntity<?> postComment(@RequestBody CommentRequestDto request,
+                                         Principal principal) {
         return ResponseEntity.ok(commentService.postComment(request, principal));
     }
 
@@ -71,11 +70,7 @@ public class ApiGeneralController {
 
     @PostMapping("/image")
     @PreAuthorize("hasAnyAuthority('user:write')")
-    public String saveFile(@RequestParam("image") MultipartFile fileRequest/*@ModelAttribute FileRequestDto fileRequest*/) throws IOException {
-//        if (fileRequest.isEmpty()) {
-//            System.out.println("ошибка");
-//        }
-//        System.out.println(fileRequest.getOriginalFilename());
+    public String saveFile(@RequestParam("image") MultipartFile fileRequest) throws IOException {
         return fileService.saveFile(fileRequest);
     }
 
@@ -97,22 +92,21 @@ public class ApiGeneralController {
 
     @GetMapping("/settings")
 //    @PreAuthorize("hasAnyAuthority('user:moderate')")
-    //@TODO нужна ли проверка на модераторство
+    //@TODO нужна ли проверка на модераторство?
     public ResponseEntity<?> getSettings() {
         return ResponseEntity.ok(settingsService.getSettings());
     }
 
     @PutMapping("/settings")
     @PreAuthorize("hasAnyAuthority('user:moderate')")
-    //@TODO нужна ли проверка на модераторство
     public void editSettings(@RequestBody SettingsDto request) {
         settingsService.editSettings(request);
     }
 
     @PostMapping("/profile/my")
     @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfile(@ModelAttribute @RequestBody ProfileEditRequestDto request, Principal principal) {
-        System.out.println(request.getPhoto());
+    public ResponseEntity<?> editProfile(@ModelAttribute @RequestBody ProfileEditRequestDto request,
+                                         Principal principal) {
         return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 }

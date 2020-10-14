@@ -4,8 +4,7 @@ import com.skillbox.devpub.dto.universal.Dto;
 import lombok.Data;
 
 @Data
-//@EqualsAndHashCode(callSuper = true)
-public class AuthUserResponseDto implements Dto/* extends UserResponseDto*/ {
+public class AuthUserResponseDto implements Dto {
 
     private Integer id;
     private String name;
@@ -14,23 +13,6 @@ public class AuthUserResponseDto implements Dto/* extends UserResponseDto*/ {
     private Boolean moderation;
     private Integer moderationCount;
     private Boolean settings;
-//    private String token;
-
-//    public AuthenticationUserResponseDto(
-//            Integer id,
-//            String name,
-//            String photo,
-//            String email,
-//            Boolean isModerator,
-//            LocalDateTime regTime,
-//            String password,
-//            String code,
-//            String token
-//    ) {
-//        super(id, isModerator, regTime, name, email,
-//                password, code, photo, token);
-//        this.token = token;
-//    }
 
     public AuthUserResponseDto(
             Integer id,

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +17,4 @@ public class UserResponseDto implements Dto {
     private String password;
     private String code;
     private String photo;
-//    private String token;
 }

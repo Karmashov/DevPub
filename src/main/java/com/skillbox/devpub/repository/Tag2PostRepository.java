@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface Tag2PostRepository extends JpaRepository<Tag2Post,Integer> {
+public interface Tag2PostRepository extends JpaRepository<Tag2Post, Integer> {
 
     List<Tag2Post> findAllByTagAndPostIsActiveAndPostModerationStatusAndPostTimeBefore(Tag tag, Boolean isActive, ModerationStatus status, LocalDateTime time);
 

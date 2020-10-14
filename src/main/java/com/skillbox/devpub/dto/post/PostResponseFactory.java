@@ -1,7 +1,10 @@
 package com.skillbox.devpub.dto.post;
 
 import com.skillbox.devpub.dto.comment.CommentResponseFactory;
-import com.skillbox.devpub.dto.universal.*;
+import com.skillbox.devpub.dto.universal.BaseResponseList;
+import com.skillbox.devpub.dto.universal.Dto;
+import com.skillbox.devpub.dto.universal.Response;
+import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.user.UserResponseFactory;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostVote;
@@ -15,17 +18,11 @@ import java.util.stream.Collectors;
 public class PostResponseFactory {
 
     public static Response getSinglePost(Post post) {
-//        System.out.println(ResponseFactory.getBaseResponse(postToDto(post)));
-//        return ResponseFactory.getDtoResponse(postToDto(post));
-//        return ResponseFactory.getSinglePostResponse(postToDto(post));
         return postToDto(post);
     }
 
+    //@TODO очистка текста от html тэгов?
     private static PostResponseDto postToListDto(Post post) {
-//        for (PostComment comment : post.getComments()) {
-//            System.out.println(comment);
-//        }
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new PostResponseDto(
                 post.getId(),
                 post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
@@ -33,8 +30,8 @@ public class PostResponseFactory {
                 post.getTitle(),
                 post.getText(),
                 null,
-                post.getVotes().stream().filter(v -> v.getValue() > 0).map(PostVote::getValue).collect(Collectors.toList()).size(),
-                post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).collect(Collectors.toList()).size(),
+                (int) post.getVotes().stream().filter(v -> v.getValue() > 0).map(PostVote::getValue).count(),
+                (int) post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).count(),
                 post.getComments().size(),
                 post.getViewCount(),
                 CommentResponseFactory.getCommentList(post.getComments(), null),
@@ -48,10 +45,6 @@ public class PostResponseFactory {
     }
 
     private static PostResponseDto postToDto(Post post) {
-//        for (PostComment comment : post.getComments()) {
-//            System.out.println(comment);
-//        }
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new PostResponseDto(
                 post.getId(),
                 post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
@@ -59,8 +52,8 @@ public class PostResponseFactory {
                 post.getTitle(),
                 null,
                 post.getText(),
-                post.getVotes().stream().filter(v -> v.getValue() > 0).map(PostVote::getValue).collect(Collectors.toList()).size(),
-                post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).collect(Collectors.toList()).size(),
+                (int) post.getVotes().stream().filter(v -> v.getValue() > 0).map(PostVote::getValue).count(),
+                (int) post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).count(),
                 post.getComments().size(),
                 post.getViewCount(),
                 CommentResponseFactory.getCommentList(post.getComments(), null),
@@ -77,9 +70,6 @@ public class PostResponseFactory {
         List<Dto> postsDto = new ArrayList<>();
         for (Post post : result) {
             postsDto.add(PostResponseFactory.postToListDto(post));
-
-//            if (post.getTime().before(new Date()))
-//                postsDto.add(PostResponseFactory.postToDto(post, person));
         }
 
         return ResponseFactory.getBaseResponseListWithLimit(postsDto, offset, limit);
