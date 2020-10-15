@@ -2,6 +2,7 @@ package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.comment.CommentRequestDto;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
+import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.service.*;
@@ -9,6 +10,7 @@ import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -104,9 +106,18 @@ public class ApiGeneralController {
     }
 
     @PostMapping("/profile/my")
+//    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
+//            consumes = {"multipart/form-data"})
     @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfile(@ModelAttribute @RequestBody ProfileEditRequestDto request,
+    public ResponseEntity<?> editProfile(/*@ModelAttribute*/ @RequestBody ProfileEditRequestDto request,
+//                                         @RequestPart(name = "photo", required = false) MultipartFile file,
+//                                         ModelMap modelMap,
                                          Principal principal) {
-        return ResponseEntity.ok(userService.editProfile(request, principal));
+//        modelMap.addAttribute("name", request);
+//        System.out.println(modelMap);
+        System.out.println(request.getName());
+        System.out.println(request.getPhoto().getSize());
+        return ResponseEntity.ok(ResponseFactory.responseOk());
+//        return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 }

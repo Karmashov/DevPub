@@ -142,60 +142,103 @@ public class UserServiceImpl implements UserService {
 //        System.out.println(request);
         User user = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
-        if (request.getPassword() == null && request.getPhoto() == null && request.getRemovePhoto() == null) {
-            checkUserName(request.getName(), errors);
-            checkUserLogin(request.getEmail(), errors);
-            if (!errors.isEmpty()) {
-                return ResponseFactory.getErrorListResponse(errors);
-            }
-            user.setName(request.getName());
-            user.setEmail(request.getEmail());
-        } else if (request.getPhoto() == null && request.getRemovePhoto() == null) {
-            checkUserName(request.getName(), errors);
-            checkUserLogin(request.getEmail(), errors);
+//        System.out.println(user.getName());
+//        System.out.println(request.getName());
+        if (request.getPassword() != null) {
             checkUserPassword(request.getPassword(), errors);
-            if (!errors.isEmpty()) {
-                return ResponseFactory.getErrorListResponse(errors);
-            }
-            user.setName(request.getName());
-            user.setEmail(request.getEmail());
-            user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
-        } else if (request.getRemovePhoto() == null || request.getRemovePhoto().equals("0")) {
-            checkUserName(request.getName(), errors);
-            checkUserLogin(request.getEmail(), errors);
-//            checkUserPassword(request.getPassword(), errors);
-//            checkPhoto(request.getPhoto(), errors);
-            System.out.println(request.getPhoto());
-            if (!errors.isEmpty()) {
-                return ResponseFactory.getErrorListResponse(errors);
-            }
-            user.setName(request.getName());
-            user.setEmail(request.getEmail());
-//            user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
-//            BufferedImage bufferedImage = null;
-            try {
-                //@TODO сделать ресайз файла
-//                BufferedImage bufferedImage = ImageIO.read((ImageInputStream) request.getPhoto());
-//                File file = null;
-//                bufferedImage = captchaService.resize(bufferedImage, 35, 35);
-//                ImageIO.write(bufferedImage, "jpg", file);
-                String link = fileService.saveFile(request.getPhoto());
-                System.out.println(link);
-                user.setPhoto(link);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (request.getPassword() == null) {
-            if (request.getRemovePhoto().equals("1")) {
-                user.setPhoto(null);
+            if (!errors.containsKey("password")) {
+                user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
             }
         }
+        if (request.getPhoto() != null) {
+            System.out.println(request.getPhoto().getSize());
+            checkPhoto(request.getPhoto(), errors);
+            if (!errors.containsKey("photo")) {
+                //@TODO сделать ресайз файла
+                String link = null;
+                try {
+                    link = fileService.saveFile(request.getPhoto());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                user.setPhoto(link);
+            }
+        }
+        if (!request.getName().equals(user.getName())) {
+            checkUserName(request.getName(), errors);
+            if (!errors.containsKey("name")) {
+                user.setName(request.getName());
+            }
+        }
+        if (!request.getEmail().equals(user.getEmail())) {
+            checkUserLogin(request.getEmail(), errors);
+            if (!errors.containsKey("email")) {
+                user.setEmail(request.getEmail());
+            }
+        }
+        if (request.getRemovePhoto() != null && request.getRemovePhoto().equals("1")) {
+            user.setPhoto(null);
+        }
+        if (!errors.isEmpty()) {
+            return ResponseFactory.getErrorListResponse(errors);
+        }
+
+//        if (request.getPassword() == null && request.getPhoto() == null && request.getRemovePhoto() == null) {
+//            checkUserName(request.getName(), errors);
+//            checkUserLogin(request.getEmail(), errors);
+//            if (!errors.isEmpty()) {
+//                return ResponseFactory.getErrorListResponse(errors);
+//            }
+//            user.setName(request.getName());
+//            user.setEmail(request.getEmail());
+//        }
+//        if (request.getPhoto() == null && request.getRemovePhoto() == null) {
+//            checkUserName(request.getName(), errors);
+//            checkUserLogin(request.getEmail(), errors);
+//            checkUserPassword(request.getPassword(), errors);
+//            if (!errors.isEmpty()) {
+//                return ResponseFactory.getErrorListResponse(errors);
+//            }
+//            user.setName(request.getName());
+//            user.setEmail(request.getEmail());
+//            user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
+//        }
+//        if (request.getRemovePhoto() == null || request.getRemovePhoto().equals("0")) {
+//            checkUserName(request.getName(), errors);
+//            checkUserLogin(request.getEmail(), errors);
+////            checkUserPassword(request.getPassword(), errors);
+////            checkPhoto(request.getPhoto(), errors);
+//            System.out.println(request.getPhoto());
+//            if (!errors.isEmpty()) {
+//                return ResponseFactory.getErrorListResponse(errors);
+//            }
+//            user.setName(request.getName());
+//            user.setEmail(request.getEmail());
+////            user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
+////            BufferedImage bufferedImage = null;
+//            try {
+////                BufferedImage bufferedImage = ImageIO.read((ImageInputStream) request.getPhoto());
+////                File file = null;
+////                bufferedImage = captchaService.resize(bufferedImage, 35, 35);
+////                ImageIO.write(bufferedImage, "jpg", file);
+//                String link = fileService.saveFile(request.getPhoto());
+//                System.out.println(link);
+//                user.setPhoto(link);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if (request.getPassword() == null) {
+//            if (request.getRemovePhoto().equals("1")) {
+//                user.setPhoto(null);
+//            }
+//        }
         userRepository.save(user);
         return ResponseFactory.responseOk();
     }
 
     private void checkPhoto(MultipartFile photo, HashMap<String, String> errors) {
-        if (photo.getSize() > 5) {
+        if (photo.getSize() > 1048576) {
             errors.put("photo", "Фото слишком большое, нужно не более 5 Мб");
         }
     }
