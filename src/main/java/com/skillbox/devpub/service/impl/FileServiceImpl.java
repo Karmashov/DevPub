@@ -3,10 +3,16 @@ package com.skillbox.devpub.service.impl;
 import com.skillbox.devpub.dto.universal.FileRequestDto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.service.FileService;
+import com.sun.mail.iap.ByteArray;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +29,8 @@ public class FileServiceImpl implements FileService {
 //    }
 
     @Override
-    public String saveFile(MultipartFile file /*FileRequestDto request*/) throws IOException {
+    public String saveFile(/*MultipartFile file*/ BufferedImage file, String format) throws IOException {
+//        System.out.println(file.getWidth());
         String s = UUID.randomUUID().toString();
 //        int random = (int) Math.random() * 134;
         String[] hash = s.split("-");
@@ -33,14 +40,36 @@ public class FileServiceImpl implements FileService {
         }
 
 //        String fileName = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
-        String fileFormat = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-        String newFilename = fullUploadPath + "/" + hash[3] + "." + fileFormat;
+//        String fileFormat = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+//        String newFilename = fullUploadPath + "/" + hash[3] + "." + fileFormat;
+        String newFilename = fullUploadPath + "/" + hash[3] + "." + format;
+//        File fullFile = new File(fullUploadPath, hash[3] + "." + "jpg");
+//        System.out.println(newFilename);
         File fullFile = new File(newFilename);
-        file.transferTo(fullFile);
+        ImageIO.write(file, format, fullFile);
+//        try {
+//
+////        fullFile.createNewFile();
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//        }
+//        file.transferTo(fullFile);
 
         String filePath = fullFile.toString().substring(2);
 
         return filePath;
 //        return fullFile.toString();
+    }
+
+    @Override
+    public BufferedImage resize(BufferedImage bufferedImage, int width, int height) {
+        Image tmp = bufferedImage.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
+        BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
+        return newImage;
     }
 }

@@ -2,7 +2,6 @@ package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.comment.CommentRequestDto;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
-import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.service.*;
@@ -10,10 +9,11 @@ import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -73,7 +73,9 @@ public class ApiGeneralController {
     @PostMapping("/image")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public String saveFile(@RequestParam("image") MultipartFile fileRequest) throws IOException {
-        return fileService.saveFile(fileRequest);
+        BufferedImage bufferedImage = ImageIO.read(fileRequest.getInputStream());
+        String fileFormat = fileRequest.getOriginalFilename().substring(fileRequest.getOriginalFilename().lastIndexOf(".") + 1);
+        return fileService.saveFile(bufferedImage, fileFormat);
     }
 
     @GetMapping("/calendar")
@@ -105,19 +107,24 @@ public class ApiGeneralController {
         settingsService.editSettings(request);
     }
 
-    @PostMapping("/profile/my")
-//    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
-//            consumes = {"multipart/form-data"})
+    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
+            consumes = {"multipart/form-data"})
     @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfile(/*@ModelAttribute*/ @RequestBody ProfileEditRequestDto request,
-//                                         @RequestPart(name = "photo", required = false) MultipartFile file,
-//                                         ModelMap modelMap,
+    public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
                                          Principal principal) {
-//        modelMap.addAttribute("name", request);
-//        System.out.println(modelMap);
-        System.out.println(request.getName());
-        System.out.println(request.getPhoto().getSize());
-        return ResponseEntity.ok(ResponseFactory.responseOk());
-//        return ResponseEntity.ok(userService.editProfile(request, principal));
+//        System.out.println(request.getName());
+//        System.out.println(request.getPhoto().getSize());
+//        return ResponseEntity.ok(ResponseFactory.responseOk());
+        return ResponseEntity.ok(userService.editProfile(request, principal));
+    }
+
+    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
+            consumes = {"application/json"})
+    @PreAuthorize("hasAnyAuthority('user:write')")
+    public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
+                                         Principal principal) {
+//        System.out.println(request.getName());
+//        return ResponseEntity.ok(ResponseFactory.responseOk());
+        return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 }

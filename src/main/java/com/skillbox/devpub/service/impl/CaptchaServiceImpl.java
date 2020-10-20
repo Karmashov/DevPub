@@ -7,6 +7,7 @@ import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.CaptchaCode;
 import com.skillbox.devpub.repository.CaptchaCodeRepository;
 import com.skillbox.devpub.service.CaptchaService;
+import com.skillbox.devpub.service.FileService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,9 +33,11 @@ public class CaptchaServiceImpl implements CaptchaService {
     private Integer captchaLifetime;
 
     private final CaptchaCodeRepository codeRepository;
+    private final FileService fileService;
 
-    public CaptchaServiceImpl(CaptchaCodeRepository codeRepository) {
+    public CaptchaServiceImpl(CaptchaCodeRepository codeRepository, FileService fileService) {
         this.codeRepository = codeRepository;
+        this.fileService = fileService;
     }
 
     @Override
@@ -75,7 +78,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         Cage cage = new GCage();
         String captchaCode = cage.getTokenGenerator().next();
         BufferedImage bufferedImage = cage.drawImage(captchaCode);
-        bufferedImage = resize(bufferedImage, 100, 35);
+        bufferedImage = fileService.resize(bufferedImage, 100, 35);
 //        File file = new File("D:/upload/captcha.png");
 
         ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
@@ -144,20 +147,22 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
     }
 
-    public BufferedImage resize(BufferedImage image, int width, int height)
-    {
-        BufferedImage tmpImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        double widthStep = (double) image.getWidth() / (double) width;
-        double heightStep = (double) image.getHeight() / (double) height;
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++) {
-                int rgb = image.getRGB((int) Math.ceil(x * widthStep), (int) Math.ceil(y * heightStep));
-                tmpImage.setRGB(x, y, rgb);
-            }
-        }
-        return tmpImage;
-    }
+//    public BufferedImage resize(BufferedImage image, int width, int height)
+//    {
+////        BufferedImage tmpImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+////
+////        double widthStep = (double) image.getWidth() / (double) width;
+////        double heightStep = (double) image.getHeight() / (double) height;
+////
+////        for (int x = 0; x < width; x++)
+////        {
+////            for (int y = 0; y < height; y++) {
+////                int rgb = image.getRGB((int) Math.ceil(x * widthStep), (int) Math.ceil(y * heightStep));
+////                tmpImage.setRGB(x, y, rgb);
+////            }
+////        }
+////        return tmpImage;
+//
+//
+//    }
 }

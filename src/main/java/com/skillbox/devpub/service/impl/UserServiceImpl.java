@@ -25,10 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -151,13 +153,24 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (request.getPhoto() != null) {
-            System.out.println(request.getPhoto().getSize());
+//            System.out.println(request.getPhoto().getSize());
             checkPhoto(request.getPhoto(), errors);
+//            Image img = (Image) request.getPhoto();
             if (!errors.containsKey("photo")) {
-                //@TODO сделать ресайз файла
+//                if (img instanceof BufferedImage)
+//                {
+////                    System.out.println(img);
+//                    System.out.println("yes");
+////                    return (BufferedImage) request.getPhoto();
+//                }
                 String link = null;
                 try {
-                    link = fileService.saveFile(request.getPhoto());
+                    BufferedImage bufferedImage = ImageIO.read(request.getPhoto().getInputStream());
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bufferedImage = fileService.resize(bufferedImage, 36, 36);
+//                    baos.flush();
+                    String fileFormat = request.getPhoto().getOriginalFilename().substring(request.getPhoto().getOriginalFilename().lastIndexOf(".") + 1);
+                    link = fileService.saveFile(bufferedImage, fileFormat);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
