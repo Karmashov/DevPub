@@ -12,8 +12,4 @@ public class UserResponseFactory {
     public static CommentAuthorResponseDto getCommentAuthor(User user) {
         return new CommentAuthorResponseDto(user.getId(), user.getName(), user.getPhoto());
     }
-
-    private static PostAuthorDto getPostAuthorDto(User user) {
-        return new PostAuthorDto(user.getId(), user.getName());
-    }
 }

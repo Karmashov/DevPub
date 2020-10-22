@@ -14,7 +14,7 @@ public interface UserService {
 
     User findByEmail(String email);
 
-    User findById(Integer id);
+//    User findById(Integer id);
 
     Response changePassword(PasswordChangeRequestDto request);
 

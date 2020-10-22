@@ -78,18 +78,18 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    @Override
-    public User findById(Integer id) {
-        User result = userRepository.findById(id).orElse(null);
-
-        if (result == null) {
-            log.warn("IN findById - no user found by ID: {}", id);
-            return null;
-        }
-
-        log.info("IN findById - user: {} found by ID: {}", result, id);
-        return result;
-    }
+//    @Override
+//    public User findById(Integer id) {
+//        User result = userRepository.findById(id).orElse(null);
+//
+//        if (result == null) {
+//            log.warn("IN findById - no user found by ID: {}", id);
+//            return null;
+//        }
+//
+//        log.info("IN findById - user: {} found by ID: {}", result, id);
+//        return result;
+//    }
 
     @Override
     public Response register(RegistrationRequestDto requestDto) {

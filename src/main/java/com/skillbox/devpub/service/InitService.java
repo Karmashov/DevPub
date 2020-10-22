@@ -1,8 +1,8 @@
 package com.skillbox.devpub.service;
 
-import com.skillbox.devpub.model.Init;
+import com.skillbox.devpub.dto.universal.Response;
 
 public interface InitService {
 
-    Init init();
+    Response init();
 }

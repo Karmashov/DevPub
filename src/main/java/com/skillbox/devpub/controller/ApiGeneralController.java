@@ -111,10 +111,7 @@ public class ApiGeneralController {
             consumes = {"multipart/form-data"})
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
-                                         Principal principal) {
-//        System.out.println(request.getName());
-//        System.out.println(request.getPhoto().getSize());
-//        return ResponseEntity.ok(ResponseFactory.responseOk());
+                                                  Principal principal) {
         return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 
@@ -123,8 +120,6 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
                                          Principal principal) {
-//        System.out.println(request.getName());
-//        return ResponseEntity.ok(ResponseFactory.responseOk());
         return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 }

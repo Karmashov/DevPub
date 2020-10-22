@@ -30,7 +30,6 @@ public class MailServiceImpl implements MailService {
             message.setSubject(subject);
 
             mailSender.send(message);
-//            log.info("Email sent to {}", to);
         } catch (MailException exception) {
             exception.printStackTrace();
         }
@@ -41,6 +40,5 @@ public class MailServiceImpl implements MailService {
         template.setText("Добрый день, %s!\nПерейдите по ссылке для восстановления пароля:\n%s");
         String text = String.format(template.getText(), name, link);
         sendSimpleMessage(to, text, "Восстановление пароля " + projectName);
-//        log.info("Email with activation link is sent to {}", to);
     }
 }

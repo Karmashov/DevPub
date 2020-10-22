@@ -30,6 +30,10 @@ captcha:
 
 project.name: Социальная сеть разработчиков
 
-jwt.token:
-  secret: jwtdevpubtoken
-  expired: 36000000
+init:
+  title: DevPub
+  subtitle: Рассказы разработчиков
+  phone: +7 926 787-77-73
+  email: a.v.karmashov@gmail.com
+  copyright: Андрей Кармашов
+  copyrightFrom: 2020

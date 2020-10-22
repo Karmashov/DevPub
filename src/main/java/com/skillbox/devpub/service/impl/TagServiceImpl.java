@@ -1,23 +1,19 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.tag.TagResponseDto;
 import com.skillbox.devpub.dto.tag.TagResponseFactory;
 import com.skillbox.devpub.dto.tag.TagWeightDto;
 import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.universal.Response;
-import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
 import com.skillbox.devpub.repository.PostRepository;
 import com.skillbox.devpub.repository.Tag2PostRepository;
 import com.skillbox.devpub.repository.TagRepository;
-import com.skillbox.devpub.service.PostService;
 import com.skillbox.devpub.service.TagService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -58,6 +54,5 @@ public class TagServiceImpl implements TagService {
         }
 
         return TagResponseFactory.tagWeight(result);
-//        return new TagResponseDto(result);
     }
 }

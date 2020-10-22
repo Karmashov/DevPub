@@ -24,15 +24,9 @@ public class FileServiceImpl implements FileService {
     @Value("${upload.path}")
     private String uploadPath;
 
-//    public FileServiceImpl(String uploadPath) {
-//        this.uploadPath = uploadPath;
-//    }
-
     @Override
     public String saveFile(/*MultipartFile file*/ BufferedImage file, String format) throws IOException {
-//        System.out.println(file.getWidth());
         String s = UUID.randomUUID().toString();
-//        int random = (int) Math.random() * 134;
         String[] hash = s.split("-");
         File fullUploadPath = new File(uploadPath + "/" + hash[0] + "/" + hash[1] + "/" + hash[2]);
         if (!fullUploadPath.exists()) {
@@ -42,11 +36,13 @@ public class FileServiceImpl implements FileService {
 //        String fileName = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
 //        String fileFormat = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 //        String newFilename = fullUploadPath + "/" + hash[3] + "." + fileFormat;
-        String newFilename = fullUploadPath + "/" + hash[3] + "." + format;
 //        File fullFile = new File(fullUploadPath, hash[3] + "." + "jpg");
 //        System.out.println(newFilename);
+
+        String newFilename = fullUploadPath + "/" + hash[3] + "." + format;
         File fullFile = new File(newFilename);
         ImageIO.write(file, format, fullFile);
+
 //        try {
 //
 ////        fullFile.createNewFile();
@@ -55,10 +51,7 @@ public class FileServiceImpl implements FileService {
 //        }
 //        file.transferTo(fullFile);
 
-        String filePath = fullFile.toString().substring(2);
-
-        return filePath;
-//        return fullFile.toString();
+        return fullFile.toString().substring(2);
     }
 
     @Override

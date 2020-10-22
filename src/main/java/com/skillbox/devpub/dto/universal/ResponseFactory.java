@@ -38,10 +38,10 @@ public class ResponseFactory {
     private static List<Dto> getElementsInRange(List<Dto> list, int offset, int limit) {
         int lastElementIndex = offset + limit;
         int lastPostIndex = list.size();
-        if (lastPostIndex >= offset) {//если есть элементы входящие в нужный диапазон
-            if (lastElementIndex <= lastPostIndex) {//если все элементы с нужными индексами есть в листе
+        if (lastPostIndex >= offset) {
+            if (lastElementIndex <= lastPostIndex) {
                 return list.subList(offset, lastElementIndex);
-            } else {//если не хватает элементов, то в посты записываем остаток, считая от offset
+            } else {
                 return list.subList(offset, lastPostIndex);
             }
         } else {

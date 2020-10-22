@@ -8,9 +8,7 @@ import com.skillbox.devpub.repository.GlobalSettingsRepository;
 import com.skillbox.devpub.service.SettingsService;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SettingServiceImpl implements SettingsService {
@@ -24,10 +22,6 @@ public class SettingServiceImpl implements SettingsService {
     @Override
     public Response getSettings() {
         List<GlobalSettings> settings = settingsRepository.findAll();
-//        Map<String, String> result = new HashMap<>();
-//        for (GlobalSettings settings1 : settings) {
-//            result.put(settings1.getCode(), settings1.getValue());
-//        }
         return ResponseFactory.getSettings(
                 settings.get(0).getValue().equals("YES"),
                 settings.get(1).getValue().equals("YES"),
@@ -38,7 +32,6 @@ public class SettingServiceImpl implements SettingsService {
     @Override
     //@TODO разобраться с сеттингами
     public void editSettings(SettingsDto request) {
-//        System.out.println(request);
         if (request.getMultiuserMode() != null) {
             GlobalSettings multiuserMode = settingsRepository.findByCode("MULTIUSER_MODE");
             multiuserMode.setValue(request.getMultiuserMode() ? "YES" : "NO");
