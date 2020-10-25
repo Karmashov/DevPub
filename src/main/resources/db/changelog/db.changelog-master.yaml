@@ -498,55 +498,55 @@ databaseChangeLog:
       id: 1592850299089-27
       author: avkar
       changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                  name: id
-                  type: INT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: name
-                  type: VARCHAR(25)
+#        - createTable:
+#            columns:
 #              - column:
-#                  name:
-#                  type:
-            tableName: roles
-        - createTable:
-            columns:
-              - column:
-                  name: user_id
-                  type: INT
-              - column:
-                  name: role_id
-                  type: INT
-            tableName: user_roles
-        - addForeignKeyConstraint:
-            baseColumnNames: user_id
-            baseTableName: user_roles
-            constraintName: fk_user_roles_user
-#            deferrable: false
-#            initiallyDeferred: false
-            onDelete: CASCADE
-            onUpdate: RESTRICT
-            referencedColumnNames: id
-            referencedTableName: users
-#            validate: true
-        - addForeignKeyConstraint:
-            baseColumnNames: role_id
-            baseTableName: user_roles
-            constraintName: fk_user_roles_roles
-#            deferrable: false
-#            initiallyDeferred: false
-            onDelete: CASCADE
-            onUpdate: RESTRICT
-            referencedColumnNames: id
-            referencedTableName: roles
-#            validate: true
+#                  autoIncrement: true
+#                  constraints:
+#                    nullable: false
+#                    primaryKey: true
+#                  name: id
+#                  type: INT
+#              - column:
+#                  constraints:
+#                    nullable: false
+#                  name: name
+#                  type: VARCHAR(25)
+##              - column:
+##                  name:
+##                  type:
+#            tableName: roles
+#        - createTable:
+#            columns:
+#              - column:
+#                  name: user_id
+#                  type: INT
+#              - column:
+#                  name: role_id
+#                  type: INT
+#            tableName: user_roles
+#        - addForeignKeyConstraint:
+#            baseColumnNames: user_id
+#            baseTableName: user_roles
+#            constraintName: fk_user_roles_user
+##            deferrable: false
+##            initiallyDeferred: false
+#            onDelete: CASCADE
+#            onUpdate: RESTRICT
+#            referencedColumnNames: id
+#            referencedTableName: users
+##            validate: true
+#        - addForeignKeyConstraint:
+#            baseColumnNames: role_id
+#            baseTableName: user_roles
+#            constraintName: fk_user_roles_roles
+##            deferrable: false
+##            initiallyDeferred: false
+#            onDelete: CASCADE
+#            onUpdate: RESTRICT
+#            referencedColumnNames: id
+#            referencedTableName: roles
+##            validate: true
         - insert:
             tableName: users
             columns:
@@ -568,24 +568,24 @@ databaseChangeLog:
               - column:
                   name: password
                   value: "$2a$04$iuI4MWAFq9A4Xk6HZNHVkemHgKLBp/5VkJID3bw/zEmKxmeFhWV6O"
-        - insert:
-            tableName: roles
-            columns:
-              - column:
-                  name: id
-                  value: "1"
-              - column:
-                  name: name
-                  value: "ROLE_USER"
-        - insert:
-            tableName: user_roles
-            columns:
-              - column:
-                  name: user_id
-                  value: "1"
-              - column:
-                  name: role_id
-                  value: "1"
+#        - insert:
+#            tableName: roles
+#            columns:
+#              - column:
+#                  name: id
+#                  value: "1"
+#              - column:
+#                  name: name
+#                  value: "ROLE_USER"
+#        - insert:
+#            tableName: user_roles
+#            columns:
+#              - column:
+#                  name: user_id
+#                  value: "1"
+#              - column:
+#                  name: role_id
+#                  value: "1"
         - insert:
             tableName: global_settings
             columns:

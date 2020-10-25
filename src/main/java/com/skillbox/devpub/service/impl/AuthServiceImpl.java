@@ -24,8 +24,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-//import com.skillbox.devpub.security.jwt.JwtTokenProvider;
-
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -66,16 +64,6 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private int getModerationCount(User result) {
-        int moderationCount = 0;
-        if (result.getIsModerator()) {
-            moderationCount = (int) postRepository.findAll().stream().filter(Post::getIsActive)
-                    .filter(p -> p.getModerationStatus() == ModerationStatus.NEW)
-                    .filter(p -> p.getTime().isBefore(LocalDateTime.now())).count();
-        }
-        return moderationCount;
-    }
-
     @Override
     public Response authCheck(Principal principal) {
         if (principal == null) {
@@ -86,12 +74,12 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
         return AuthResponseFactory.getAuthResponse(true, result, getModerationCount(result));
     }
-
-    @Override
-    public Response register(RegistrationRequestDto requestDto) {
-        Response registration = userService.register(requestDto);
-        return registration;
-    }
+//
+//    @Override
+//    public Response register(RegistrationRequestDto requestDto) {
+//        Response registration = userService.register(requestDto);
+//        return registration;
+//    }
 
     @Override
     public Response passwordRecovery(EmailRequestDto request, String link) {
@@ -114,5 +102,15 @@ public class AuthServiceImpl implements AuthService {
     public Response changePassword(PasswordChangeRequestDto request) {
         Response response = userService.changePassword(request);
         return response;
+    }
+
+    private int getModerationCount(User result) {
+        int moderationCount = 0;
+        if (result.getIsModerator()) {
+            moderationCount = (int) postRepository.findAll().stream().filter(Post::getIsActive)
+                    .filter(p -> p.getModerationStatus() == ModerationStatus.NEW)
+                    .filter(p -> p.getTime().isBefore(LocalDateTime.now())).count();
+        }
+        return moderationCount;
     }
 }

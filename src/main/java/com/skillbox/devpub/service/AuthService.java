@@ -14,7 +14,7 @@ public interface AuthService {
 
     Response authCheck(Principal principal);
 
-    Response register(RegistrationRequestDto requestDto);
+//    Response register(RegistrationRequestDto requestDto);
 
     Response passwordRecovery(EmailRequestDto request, String link);
 

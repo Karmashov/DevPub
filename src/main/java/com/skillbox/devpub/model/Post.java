@@ -79,7 +79,6 @@ public class Post {
     };
 
     @JsonIgnore
-    //@TODO разобраться с тем, что 0-0 не на своем месте
     public static final Comparator<? super Post> COMPARE_BY_VOTES = (Comparator<Post>) (p1, p2) -> {
         int v1 = (int) p1.getVotes().stream().filter(v -> v.getValue() > 0)
                 .map(PostVote::getValue).count();

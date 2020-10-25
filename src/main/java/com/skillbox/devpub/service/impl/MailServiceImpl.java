@@ -20,7 +20,6 @@ public class MailServiceImpl implements MailService {
         this.template = template;
     }
 
-    //@TODO сделать приветственное письмо
     @Override
     public void sendSimpleMessage(String to, String text, String subject) {
         try {
@@ -40,5 +39,12 @@ public class MailServiceImpl implements MailService {
         template.setText("Добрый день, %s!\nПерейдите по ссылке для восстановления пароля:\n%s");
         String text = String.format(template.getText(), name, link);
         sendSimpleMessage(to, text, "Восстановление пароля " + projectName);
+    }
+
+    @Override
+    public void sendWelcomeMessage(String to, String name) {
+        template.setText("Добрый день, %s!\nДобро пожаловать на портал " + projectName);
+        String text = String.format(template.getText(), name);
+        sendSimpleMessage(to, text, "Регистраиция " + projectName);
     }
 }

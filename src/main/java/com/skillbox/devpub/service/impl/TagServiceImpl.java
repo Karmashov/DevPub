@@ -30,7 +30,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Response getTagsWeight(String query) {
-        //@TODO рефакторить???? Формула рассчета????
+        //@TODO Формула рассчета????
         List<Tag> search;
         if (query != null) {
             search = tagRepository.findAllByNameContains(query);
@@ -42,14 +42,16 @@ public class TagServiceImpl implements TagService {
         int tagUseMax = 0;
         for (Tag tag : search) {
             int tagUseCount = tag2PostRepository
-                    .findAllByTagAndPostIsActiveAndPostModerationStatusAndPostTimeBefore(tag, true, ModerationStatus.ACCEPTED, LocalDateTime.now()).size();
+                    .findAllByTagAndPostIsActiveAndPostModerationStatusAndPostTimeBefore(
+                            tag, true, ModerationStatus.ACCEPTED, LocalDateTime.now()).size();
             if (tagUseMax < tagUseCount) {
                 tagUseMax = tagUseCount;
             }
         }
         for (Tag tag : search) {
             int tagUseCount = tag2PostRepository
-                    .findAllByTagAndPostIsActiveAndPostModerationStatusAndPostTimeBefore(tag, true, ModerationStatus.ACCEPTED, LocalDateTime.now()).size();
+                    .findAllByTagAndPostIsActiveAndPostModerationStatusAndPostTimeBefore(
+                            tag, true, ModerationStatus.ACCEPTED, LocalDateTime.now()).size();
             result.add(new TagWeightDto(tag.getName(), (double) tagUseCount / tagUseMax));
         }
 

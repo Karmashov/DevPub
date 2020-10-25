@@ -5,9 +5,12 @@ import com.skillbox.devpub.dto.authentication.EmailRequestDto;
 import com.skillbox.devpub.dto.authentication.PasswordChangeRequestDto;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
+import com.skillbox.devpub.repository.GlobalSettingsRepository;
 import com.skillbox.devpub.service.AuthService;
 import com.skillbox.devpub.service.CaptchaService;
+import com.skillbox.devpub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +25,18 @@ public class ApiAuthController {
 
     private final AuthService authService;
     private final CaptchaService captchaService;
+    private final UserService userService;
+    private final GlobalSettingsRepository settingsRepository;
 
     @Autowired
     public ApiAuthController(AuthService authService,
-                             CaptchaService captchaService) {
+                             CaptchaService captchaService,
+                             UserService userService,
+                             GlobalSettingsRepository settingsRepository) {
         this.authService = authService;
         this.captchaService = captchaService;
+        this.userService = userService;
+        this.settingsRepository = settingsRepository;
     }
 
     @PostMapping("/login")
@@ -48,7 +57,11 @@ public class ApiAuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequestDto requestDto) {
-        return ResponseEntity.ok(authService.register(requestDto));
+        //@TODO закрытие регистрации???
+//        if (settingsRepository.findByCode("MULTIUSER_MODE").getValue().equals("NO")) {
+//            return new ResponseEntity(HttpStatus.NOT_FOUND);
+//        }
+        return ResponseEntity.ok(userService.register(requestDto));
     }
 
     @GetMapping("/captcha")

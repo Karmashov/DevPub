@@ -12,12 +12,9 @@ public class GlobalSettings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //@TODO code
     private String code;
 
-    //@TODO name
     private String name;
 
-    //@TODO value
     private String value;
 }

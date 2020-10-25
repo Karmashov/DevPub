@@ -1,6 +1,8 @@
 package com.skillbox.devpub.dto.universal;
 
 import com.skillbox.devpub.dto.post.CalendarResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.*;

@@ -1,6 +1,7 @@
 package com.skillbox.devpub.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.skillbox.devpub.model.enumerated.Role;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
@@ -33,16 +34,8 @@ public class User {
     @Type(type = "text")
     private String photo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
-    @ToString.Exclude
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> roles;
-
-    public com.skillbox.devpub.model.enumerated.Role getRole() {
-        return isModerator ? com.skillbox.devpub.model.enumerated.Role.MODERATOR : com.skillbox.devpub.model.enumerated.Role.USER;
+    public Role getRole() {
+        return isModerator ? Role.MODERATOR : Role.USER;
     }
 
     @OneToMany(mappedBy = "moderator")

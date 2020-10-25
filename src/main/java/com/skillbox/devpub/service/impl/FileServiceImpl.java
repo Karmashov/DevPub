@@ -1,21 +1,14 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.universal.FileRequestDto;
-import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.service.FileService;
-import com.sun.mail.iap.ByteArray;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Service

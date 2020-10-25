@@ -3,7 +3,10 @@ package com.skillbox.devpub.service.impl;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.post.PostRequestDto;
 import com.skillbox.devpub.dto.post.PostResponseFactory;
-import com.skillbox.devpub.dto.universal.*;
+import com.skillbox.devpub.dto.universal.BaseResponse;
+import com.skillbox.devpub.dto.universal.Response;
+import com.skillbox.devpub.dto.universal.ResponseFactory;
+import com.skillbox.devpub.dto.universal.StatisticsResponseFactory;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
@@ -37,9 +40,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPosts(Integer offset, Integer limit, String mode) {
-//        List<Post> result = postRepository.findAll().stream().filter(Post::getIsActive)
-//                .filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED)
-//                .filter(p -> p.getTime().isBefore(LocalDateTime.now()))/*.map(p -> PostResponseFactory.postToDto(p))*/.collect(Collectors.toList());
         List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
                 true,
                 ModerationStatus.ACCEPTED,
@@ -55,7 +55,7 @@ public class PostServiceImpl implements PostService {
             case "popular":
                 result.sort(Post.COMPARE_BY_COMMENTS);
                 break;
-            case "best":            //@TODO влияют ли дизлайки?
+            case "best":
                 result.sort(Post.COMPARE_BY_VOTES);
                 break;
         }
@@ -110,7 +110,6 @@ public class PostServiceImpl implements PostService {
             post.setTags(setPostTag(tags, requestDto));
         }
 
-        //@TODO Изменение модератором
         if (!userService.findByEmail(principal.getName()).getIsModerator()) {
             post.setModerationStatus(ModerationStatus.NEW);
         }
@@ -139,7 +138,6 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findPostById(id);
         post.setViewCount(post.getViewCount() + 1);
         postRepository.save(post);
-//        System.out.println(PostResponseFactory.getSinglePost(post));
         if (post.getIsActive() &&
                 post.getModerationStatus() == ModerationStatus.ACCEPTED &&
                 post.getTime().isBefore(LocalDateTime.now())) {
@@ -154,29 +152,19 @@ public class PostServiceImpl implements PostService {
         ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
         List<Post> result;
         if (moderationStatus.equals(ModerationStatus.NEW)) {
-            result = postRepository.findAllByIsActiveAndModerationStatus(
+            result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
                     true,
-                    moderationStatus
+                    moderationStatus,
+                    LocalDateTime.now()
             );
         } else {
             result = postRepository
-                    .findAllByIsActiveAndModerationStatusAndModerator(
+                    .findAllByIsActiveAndModerationStatusAndModeratorAndTimeBefore(
                             true,
                             moderationStatus,
-                            userService.findByEmail(principal.getName()));
+                            userService.findByEmail(principal.getName()),
+                            LocalDateTime.now());
         }
-//        System.out.println(moderationStatus);
-//        switch (status) {
-//            case "new":
-//                result.stream().filter(p -> p.getModerationStatus() == ModerationStatus.NEW).collect(Collectors.toList());
-//                break;
-//            case "declined":
-//                result.stream().filter(p -> p.getModerationStatus() == ModerationStatus.DECLINED);
-//                break;
-//            case "accepted":
-//                result.stream().filter(p -> p.getModerationStatus() == ModerationStatus.ACCEPTED);
-//                break;
-//        }
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
@@ -194,7 +182,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getMyPosts(Integer offset, Integer limit, String status, Principal principal) {
-//        ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
         User user = userService.findByEmail(principal.getName());
         List<Post> result = new ArrayList<>();
         switch (status) {
@@ -211,7 +198,6 @@ public class PostServiceImpl implements PostService {
                 result = postRepository.findAllByUserAndIsActiveAndModerationStatus(user, true, ModerationStatus.ACCEPTED);
                 break;
         }
-//        System.out.println(result);
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
@@ -236,10 +222,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public Response getPostsByTag(Integer offset, Integer limit, String tag) {
         List<Post> result = postRepository
-                .findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(true,
-                                                                ModerationStatus.ACCEPTED,
-                                                                tagRepository.findFirstTagByNameIgnoreCase(tag),
-                                                                LocalDateTime.now());
+                .findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(
+                        true,
+                        ModerationStatus.ACCEPTED,
+                        tagRepository.findFirstTagByNameIgnoreCase(tag),
+                        LocalDateTime.now());
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
@@ -255,9 +242,6 @@ public class PostServiceImpl implements PostService {
         for (Post post : search) {
             years.add(post.getTime().toLocalDate().getYear());
         }
-//        System.out.println(years);
-//        List<Post> years = search.stream().collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
-//        search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.groupingBy(Post::getTime, Collectors.toList()));
         search = search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.toList());
         Map<LocalDate, Integer> result = new TreeMap<>();
         for (Post post : search) {
@@ -266,17 +250,10 @@ public class PostServiceImpl implements PostService {
                 int count = result.get(date);
                 result.remove(date);
                 result.put(date, ++count);
-//                System.out.println(date + " " + count);
-//                result.replace(date,result.get(date), result.get(date) + 1);
             } else {
                 result.put(date, 1);
             }
         }
-//        System.out.println(search.stream()
-//                .filter(f -> f.getTime().getYear() == finalYear1)
-//                .collect(Collectors.groupingBy(Post::getTime, Collectors.counting())));
-
-//        System.out.println(result);
         return ResponseFactory.getCalendar(years, result);
     }
 

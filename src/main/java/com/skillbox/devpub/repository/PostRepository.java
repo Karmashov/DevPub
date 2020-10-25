@@ -17,7 +17,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findAllByIsActiveAndModerationStatus(Boolean isActive, ModerationStatus status);
 
-    List<Post> findAllByIsActiveAndModerationStatusAndModerator(Boolean isActive, ModerationStatus status, User moderator);
+    List<Post> findAllByIsActiveAndModerationStatusAndModeratorAndTimeBefore(Boolean isActive, ModerationStatus status, User moderator, LocalDateTime time);
 
     List<Post> findAllByUserAndIsActive(User user, Boolean isActive);
 
