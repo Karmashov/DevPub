@@ -95,8 +95,6 @@ public class ApiGeneralController {
     }
 
     @GetMapping("/settings")
-//    @PreAuthorize("hasAnyAuthority('user:moderate')")
-    //@TODO нужна ли проверка на модераторство?
     public ResponseEntity<?> getSettings() {
         return ResponseEntity.ok(settingsService.getSettings());
     }

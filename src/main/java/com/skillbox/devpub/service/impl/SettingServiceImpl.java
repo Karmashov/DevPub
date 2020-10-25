@@ -30,7 +30,7 @@ public class SettingServiceImpl implements SettingsService {
     }
 
     @Override
-    //@TODO разобраться с сеттингами. Зачем в приложении хранить Yes/No если в БД и на Фронте используется true/false
+    //@TODO разобраться с сеттингами. Зачем в БД хранить Yes/No если на Фронте используется true/false
     public void editSettings(SettingsDto request) {
         if (request.getMultiuserMode() != null) {
             GlobalSettings multiuserMode = settingsRepository.findByCode("MULTIUSER_MODE");
