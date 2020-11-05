@@ -19,8 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -315,11 +317,12 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    private LocalDateTime parseDate(String requestDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(requestDate, formatter);
+    private LocalDateTime parseDate(long requestDate) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(requestDate),
+                TimeZone.getDefault().toZoneId());
         LocalDateTime now = LocalDateTime.now();
-        if (requestDate.isEmpty() || localDateTime.isBefore(now)) {
+        if (requestDate == 0 || localDateTime.isBefore(now)) {
             return now;
         }
         return localDateTime;

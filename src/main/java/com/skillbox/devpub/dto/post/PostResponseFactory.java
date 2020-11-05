@@ -10,6 +10,8 @@ import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
 
+import java.sql.Timestamp;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,9 @@ public class PostResponseFactory {
     private static PostResponseDto postToListDto(Post post) {
         return new PostResponseDto(
                 post.getId(),
-                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+//                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+//                Timestamp.valueOf(post.getTime()).getTime(),
+                post.getTime().toEpochSecond(ZoneOffset.UTC),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
                 post.getText(),
@@ -47,7 +51,10 @@ public class PostResponseFactory {
     private static PostResponseDto postToDto(Post post) {
         return new PostResponseDto(
                 post.getId(),
-                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+//                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+//                Timestamp.valueOf(post.getTime()).getTime(),
+                post.getTime().toEpochSecond(ZoneOffset.UTC),
+//                post.getTime().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli()),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
                 null,

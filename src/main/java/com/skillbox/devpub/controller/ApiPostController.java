@@ -34,6 +34,7 @@ public class ApiPostController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> addPost(@RequestBody PostRequestDto requestDto,
                                      Principal principal) {
+//        System.out.println(requestDto.getText());
         return ResponseEntity.ok(postService.addPost(requestDto, principal));
     }
 

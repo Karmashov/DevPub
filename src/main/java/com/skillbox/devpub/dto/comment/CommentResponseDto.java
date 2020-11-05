@@ -12,7 +12,7 @@ import lombok.Data;
 public class CommentResponseDto implements Dto, Response {
 
     private Integer id;
-    private String time;
+    private Long timestamp;
     private String text;
     private Dto user;
 //        private List<Dto> childComments;

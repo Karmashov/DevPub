@@ -1,6 +1,7 @@
 package com.skillbox.devpub.dto.post;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.universal.Response;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostResponseDto implements Dto, Response {
     private Integer id;
-    private String time;
+    @JsonProperty("timestamp")
+    private Long time;
     private Dto user;
     private String title;
     private String announce;
