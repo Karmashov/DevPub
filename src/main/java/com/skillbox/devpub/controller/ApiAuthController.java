@@ -57,10 +57,9 @@ public class ApiAuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequestDto requestDto) {
-        //@TODO закрытие регистрации???
-//        if (settingsRepository.findByCode("MULTIUSER_MODE").getValue().equals("NO")) {
-//            return new ResponseEntity(HttpStatus.NOT_FOUND);
-//        }
+        if (settingsRepository.findByCode("MULTIUSER_MODE").getValue().equals("NO")) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok(userService.register(requestDto));
     }
 

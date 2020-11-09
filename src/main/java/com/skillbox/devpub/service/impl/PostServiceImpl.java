@@ -287,7 +287,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAllStatistics(Principal principal) {
-        //@TODO Проверка глобальных настроек
         List<Post> result = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
         return StatisticsResponseFactory.getStatistics(result);

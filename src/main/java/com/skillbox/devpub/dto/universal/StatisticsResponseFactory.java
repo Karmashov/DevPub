@@ -3,6 +3,7 @@ package com.skillbox.devpub.dto.universal;
 import com.skillbox.devpub.model.Post;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class StatisticsResponseFactory {
                 likes,
                 dislikes,
                 views,
-                firstPost.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                firstPost.toEpochSecond(ZoneOffset.UTC)
         );
     }
 }

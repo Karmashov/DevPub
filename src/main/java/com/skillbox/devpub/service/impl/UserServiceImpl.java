@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,16 +39,19 @@ public class UserServiceImpl implements UserService {
     private final CaptchaCodeRepository captchaRepository;
     private final FileService fileService;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            CaptchaCodeRepository captchaRepository,
                            FileService fileService,
-                           MailService mailService) {
+                           MailService mailService,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.captchaRepository = captchaRepository;
         this.fileService = fileService;
         this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -78,11 +82,10 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setEmail(requestDto.getEmail());
-        user.setPassword(new BCryptPasswordEncoder(12).encode(requestDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         user.setName(requestDto.getName());
         user.setIsModerator(false);
         user.setRegTime(LocalDateTime.now());
-        //@TODO нужно ли добавлять ArrayListы? (для постов, лайков и т.д.)
 
         User registeredUser = userRepository.save(user);
 
@@ -102,7 +105,7 @@ public class UserServiceImpl implements UserService {
             return ResponseFactory.getErrorListResponse(errors);
         }
         User user = userRepository.findByCode(request.getCode());
-        user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
         return ResponseFactory.responseOk();
@@ -117,7 +120,7 @@ public class UserServiceImpl implements UserService {
         if (request.getPassword() != null) {
             checkUserPassword(request.getPassword(), errors);
             if (!errors.containsKey("password")) {
-                user.setPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()));
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
             }
         }
         if (request.getPhoto() != null) {

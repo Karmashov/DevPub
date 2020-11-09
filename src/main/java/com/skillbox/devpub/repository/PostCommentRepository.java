@@ -1,9 +1,12 @@
 package com.skillbox.devpub.repository;
 
+import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface PostCommentRepository extends JpaRepository<PostComment, Integer> {
 
-    PostComment findPostCommentById(Integer id);
+    Optional<PostComment> findPostCommentById(Integer id);
 }

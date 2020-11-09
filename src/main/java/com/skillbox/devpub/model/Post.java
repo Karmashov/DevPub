@@ -76,6 +76,7 @@ public class Post {
         if (p1.getComments().size() == p2.getComments().size()) return 0;
         else if (p1.getComments().size() > p2.getComments().size()) return -1;
         else return 1;
+        //SELECT dev_pub.posts.id,count(dev_pub.posts.id) as Total FROM dev_pub.posts JOIN dev_pub.post_comments WHERE dev_pub.posts.id = dev_pub.post_comments.post_id GROUP BY dev_pub.posts.id ORDER BY Total DESC;
     };
 
     @JsonIgnore

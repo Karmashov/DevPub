@@ -5,6 +5,7 @@ import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
+import com.skillbox.devpub.repository.GlobalSettingsRepository;
 import com.skillbox.devpub.service.*;
 import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class ApiGeneralController {
     private final FileService fileService;
     private final SettingsService settingsService;
     private final UserService userService;
+    private final GlobalSettingsRepository settingsRepository;
 
     @Autowired
     public ApiGeneralController(InitServiceImpl initService,
@@ -40,7 +42,8 @@ public class ApiGeneralController {
                                 TagService tagService,
                                 FileService fileService,
                                 SettingsService settingsService,
-                                UserService userService) {
+                                UserService userService,
+                                GlobalSettingsRepository settingsRepository) {
         this.initService = initService;
         this.postService = postService;
         this.commentService = commentService;
@@ -48,6 +51,7 @@ public class ApiGeneralController {
         this.fileService = fileService;
         this.settingsService = settingsService;
         this.userService = userService;
+        this.settingsRepository = settingsRepository;
     }
 
     @GetMapping("/init")
@@ -95,6 +99,11 @@ public class ApiGeneralController {
 
     @GetMapping("/statistics/all")
     public ResponseEntity<?> getAllStatistics(Principal principal) {
+        if (settingsRepository.findByCode("STATISTICS_IS_PUBLIC").getValue().equals("NO") &&
+                (principal == null ||
+                        !userService.findByEmail(principal.getName()).getIsModerator())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return ResponseEntity.ok(postService.getAllStatistics(principal));
     }
 

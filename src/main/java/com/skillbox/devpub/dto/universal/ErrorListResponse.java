@@ -11,12 +11,12 @@ import java.util.HashMap;
 public class ErrorListResponse implements Response {
     private Boolean result;
     private HashMap<String, String> errors;
-    private HttpStatus status;
+//    private HttpStatus status;
 
 
     public ErrorListResponse(HashMap<String, String> errors) {
         this.result = false;
         this.errors = errors;
-        status = HttpStatus.BAD_REQUEST;
+//        status = HttpStatus.BAD_REQUEST;
     }
 }

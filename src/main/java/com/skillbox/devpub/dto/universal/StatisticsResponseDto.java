@@ -11,5 +11,5 @@ public class StatisticsResponseDto implements Response {
     private Integer likesCount;
     private Integer dislikesCount;
     private Integer viewsCount;
-    private String firstPublication;
+    private Long firstPublication;
 }
