@@ -7,6 +7,7 @@ import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.StatisticsResponseFactory;
+import com.skillbox.devpub.exception.EntityNotFoundException;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
@@ -137,15 +138,27 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPost(Integer id) {
-        Post post = postRepository.findPostById(id);
+//        Post post = postRepository.findPostById(id);
+        Post post = postRepository.findByIdAndIsActiveAndModerationStatusAndTimeBefore(
+                id,
+                true,
+                ModerationStatus.ACCEPTED,
+                LocalDateTime.now())
+                .orElseThrow(EntityNotFoundException::create);
+//        if (post.isPresent()) {
+//            Post result = post.get();
         post.setViewCount(post.getViewCount() + 1);
         postRepository.save(post);
-        if (post.getIsActive() &&
-                post.getModerationStatus() == ModerationStatus.ACCEPTED &&
-                post.getTime().isBefore(LocalDateTime.now())) {
-            return PostResponseFactory.getSinglePost(post);
-        }
-        return null;
+        return PostResponseFactory.getSinglePost(post);
+//        } else {
+//            throw new EntityNotFoundException();
+//        }
+//        post.setViewCount(post.getViewCount() + 1);
+//        if (post.getIsActive() &&
+//                post.getModerationStatus() == ModerationStatus.ACCEPTED &&
+//                post.getTime().isBefore(LocalDateTime.now())) {
+//        }
+//        return null;
     }
 
     //@TODO включать или не включать отложенные посты?
@@ -223,12 +236,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPostsByTag(Integer offset, Integer limit, String tag) {
-        List<Post> result = postRepository
-                .findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(
-                        true,
-                        ModerationStatus.ACCEPTED,
-                        tagRepository.findFirstTagByNameIgnoreCase(tag),
-                        LocalDateTime.now());
+        List<Post> result = new ArrayList<>();
+        Tag query = tagRepository.findFirstTagByNameIgnoreCase(tag);
+        if (query != null) {
+            result = postRepository
+                    .findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(
+                            true,
+                            ModerationStatus.ACCEPTED,
+                            query,
+                            LocalDateTime.now());
+        }
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 

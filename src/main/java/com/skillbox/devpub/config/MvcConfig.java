@@ -14,14 +14,14 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:///" + uploadPath + "/");
+        registry.addResourceHandler("upload/**")
+                .addResourceLocations("file:" + uploadPath + "/");
     }
 
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(100000);
+        multipartResolver.setMaxUploadSize(5242880);
         return multipartResolver;
     }
 }

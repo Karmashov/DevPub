@@ -2,20 +2,24 @@ package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.comment.CommentRequestDto;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
+import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.service.*;
 import com.skillbox.devpub.service.impl.InitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping(value = "/api")

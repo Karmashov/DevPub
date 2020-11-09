@@ -8,10 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
     Post findPostById(Integer id);
+
+    Optional<Post> findByIdAndIsActiveAndModerationStatusAndTimeBefore(Integer id, Boolean isActive, ModerationStatus status, LocalDateTime time);
 
     List<Post> findAllByIsActiveAndModerationStatusAndTimeBefore(Boolean isActive, ModerationStatus status, LocalDateTime time);
 

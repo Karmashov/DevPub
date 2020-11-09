@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 
     private void checkPhoto(MultipartFile photo, HashMap<String, String> errors) {
         //@TODO проерка размера фото
-        if (photo.getSize() > 1048576) {
+        if (photo.getSize() > 5242880) {
             errors.put("photo", "Фото слишком большое, нужно не более 5 Мб");
         }
     }

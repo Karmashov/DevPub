@@ -43,8 +43,7 @@ public class FileServiceImpl implements FileService {
 //            exception.printStackTrace();
 //        }
 //        file.transferTo(fullFile);
-
-        return fullFile.toString().substring(2);
+        return fullFile.toString().replaceAll("\\\\", "/");
     }
 
     @Override

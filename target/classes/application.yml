@@ -23,7 +23,7 @@ spring:
     password: DevPubSocial
 
 upload:
-  path: "D:/upload"
+  path: "upload"
 
 captcha:
   lifetime: 60 #minutes
