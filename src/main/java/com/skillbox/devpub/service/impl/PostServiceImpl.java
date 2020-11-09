@@ -43,23 +43,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPosts(Integer offset, Integer limit, String mode) {
-        List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
-                true,
-                ModerationStatus.ACCEPTED,
-                LocalDateTime.now()
-        );
+        List<Post> result = new ArrayList<>();
         switch (mode) {
             case "recent":
-                result.sort(Post.COMPARE_BY_TIME);
+                result = postRepository.sortByDateFromLast(LocalDateTime.now());
+//                result.sort(Post.COMPARE_BY_TIME);
                 break;
             case "early":
-                result.sort(Collections.reverseOrder(Post.COMPARE_BY_TIME));
+                result = postRepository.sortByDateFromFirst(LocalDateTime.now());
+//                result.sort(Collections.reverseOrder(Post.COMPARE_BY_TIME));
                 break;
             case "popular":
-                result.sort(Post.COMPARE_BY_COMMENTS);
+                result = postRepository.sortByComments(LocalDateTime.now());
+//                result.sort(Post.COMPARE_BY_COMMENTS);
                 break;
             case "best":
-                result.sort(Post.COMPARE_BY_VOTES);
+                result = postRepository.sortByVotes(LocalDateTime.now());
+//                result.sort(Post.COMPARE_BY_VOTES);
                 break;
         }
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);

@@ -64,20 +64,23 @@ public class Post {
         return id + " " + title + " " + text;
     }
 
-    @JsonIgnore
-    public static final Comparator<? super Post> COMPARE_BY_TIME = (Comparator<Post>) (p1, p2) -> {
-        if (p1.getTime() == p2.getTime()) return 0;
-        else if (p1.getTime().isAfter(p2.getTime())) return -1;
-        else return 1;
-    };
-
-    @JsonIgnore
-    public static final Comparator<? super Post> COMPARE_BY_COMMENTS = (Comparator<Post>) (p1, p2) -> {
-        if (p1.getComments().size() == p2.getComments().size()) return 0;
-        else if (p1.getComments().size() > p2.getComments().size()) return -1;
-        else return 1;
-        //SELECT dev_pub.posts.id,count(dev_pub.posts.id) as Total FROM dev_pub.posts JOIN dev_pub.post_comments WHERE dev_pub.posts.id = dev_pub.post_comments.post_id GROUP BY dev_pub.posts.id ORDER BY Total DESC;
-    };
+//    @JsonIgnore
+//    public static final Comparator<? super Post> COMPARE_BY_TIME = (Comparator<Post>) (p1, p2) -> {
+//        if (p1.getTime() == p2.getTime()) return 0;
+//        else if (p1.getTime().isAfter(p2.getTime())) return -1;
+//        else return 1;
+//    };
+//
+//    @JsonIgnore
+//    public static final Comparator<? super Post> COMPARE_BY_COMMENTS = (Comparator<Post>) (p1, p2) -> {
+//        if (p1.getComments().size() == p2.getComments().size()) return 0;
+//        else if (p1.getComments().size() > p2.getComments().size()) return -1;
+//        else return 1;
+//        //SELECT dev_pub.posts.*, COUNT(dev_pub.post_comments.id) AS total
+//        //FROM dev_pub.posts LEFT JOIN dev_pub.post_comments ON dev_pub.posts.id = dev_pub.post_comments.post_id
+//        //WHERE dev_pub.posts.is_active = '1' AND dev_pub.posts.moderation_status = 'ACCEPTED' AND dev_pub.posts.time < '2020-01-01'
+//        //GROUP BY dev_pub.posts.id ORDER BY total DESC;
+//    };
 
     @JsonIgnore
     public static final Comparator<? super Post> COMPARE_BY_VOTES = (Comparator<Post>) (p1, p2) -> {

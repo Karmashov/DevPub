@@ -5,8 +5,10 @@ import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.User;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +31,38 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findAllByTags(String tag);
 
     List<Post> findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(Boolean isActive, ModerationStatus status, Tag tag, LocalDateTime time);
+
+//    @Query(value = "select p from Post p join p.tags t where p.author.status<>'DELETED' and " +
+//            "(p.postText like %?1% or p.title like %?1%) and " +
+//            "(p.time between ?2 and ?3) and " +
+//            "(p.author.firstName like %?4% or p.author.lastName like %?4%) and " +
+//            "p.isBlocked = false and t.tag in ?5 group by p order by p.time desc")
+//    List<Post> searchPostsWithTags(String text, Date dateFrom, Date dateTo, String author, List<String> tags);
+
+    //SELECT dev_pub.posts.*, COUNT(dev_pub.post_comments.id) AS total
+    //FROM dev_pub.posts LEFT JOIN dev_pub.post_comments ON dev_pub.posts.id = dev_pub.post_comments.post_id
+    //WHERE dev_pub.posts.is_active = '1' AND dev_pub.posts.moderation_status = 'ACCEPTED' AND dev_pub.posts.time < '2020-01-01'
+    //GROUP BY dev_pub.posts.id ORDER BY total DESC;
+    @Query(value = "SELECT p, COUNT(c.id) AS total FROM Post p " +
+            "LEFT JOIN p.comments c ON p.id = c.post.id " +
+            "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 " +
+            "GROUP BY p.id ORDER BY total DESC")
+    List<Post> sortByComments(LocalDateTime time);
+
+    @Query(value = "SELECT p FROM Post p " +
+            "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 " +
+            "ORDER BY p.time DESC")
+    List<Post> sortByDateFromLast(LocalDateTime time);
+
+    @Query(value = "SELECT p FROM Post p " +
+            "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 " +
+            "ORDER BY p.time")
+    List<Post> sortByDateFromFirst(LocalDateTime time);
+
+    //@TODO Разобраться с сортировкой по лайкам/дизлайкам
+    @Query(value = "SELECT p, COUNT(v.value) AS total FROM Post p " +
+            "LEFT JOIN p.votes v ON p.id = v.post.id " +
+            "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 AND v.value > 0" +
+            "GROUP BY p.id ORDER BY total DESC")
+    List<Post> sortByVotes(LocalDateTime time);
 }
