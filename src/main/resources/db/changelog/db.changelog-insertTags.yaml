@@ -1,0 +1,623 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.5.1
+      author: karmashov
+      changes:
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "java"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "spring"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "mysql"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "php"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "javascript"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "hadoop"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "python"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "redis"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "html"
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: "hibernate"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "5"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "5"
+              - column:
+                  name: tag_id
+                  value: "5"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "5"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "6"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "15"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "15"
+              - column:
+                  name: tag_id
+                  value: "3"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "17"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "17"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "17"
+              - column:
+                  name: tag_id
+                  value: "3"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "22"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "22"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "23"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "27"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "27"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "27"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "30"
+              - column:
+                  name: tag_id
+                  value: "10"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "30"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "35"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "37"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "37"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "45"
+              - column:
+                  name: tag_id
+                  value: "3"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "47"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "47"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "51"
+              - column:
+                  name: tag_id
+                  value: "2"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "51"
+              - column:
+                  name: tag_id
+                  value: "10"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "52"
+              - column:
+                  name: tag_id
+                  value: "10"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "52"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "52"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "55"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "56"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "63"
+              - column:
+                  name: tag_id
+                  value: "5"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "63"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "63"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "64"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "64"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "65"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "65"
+              - column:
+                  name: tag_id
+                  value: "5"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "66"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "66"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "66"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "71"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "71"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "76"
+              - column:
+                  name: tag_id
+                  value: "7"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "76"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "76"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "79"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "79"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "82"
+              - column:
+                  name: tag_id
+                  value: "10"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "80"
+              - column:
+                  name: tag_id
+                  value: "9"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "85"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "85"
+              - column:
+                  name: tag_id
+                  value: "10"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "85"
+              - column:
+                  name: tag_id
+                  value: "5"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "86"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "88"
+              - column:
+                  name: tag_id
+                  value: "5"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "88"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "90"
+              - column:
+                  name: tag_id
+                  value: "8"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "90"
+              - column:
+                  name: tag_id
+                  value: "1"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "92"
+              - column:
+                  name: tag_id
+                  value: "1"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "92"
+              - column:
+                  name: tag_id
+                  value: "6"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "93"
+              - column:
+                  name: tag_id
+                  value: "1"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "93"
+              - column:
+                  name: tag_id
+                  value: "4"
+        - insert:
+            tableName: tag2posts
+            columns:
+              - column:
+                  name: post_id
+                  value: "96"
+              - column:
+                  name: tag_id
+                  value: "10"

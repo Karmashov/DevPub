@@ -35,16 +35,25 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     }
 
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<Object> handleMaxSizeException(MaxUploadSizeExceededException ex) {
-        HashMap<String, String> error = new HashMap<>();
-        error.put("photo", "Фото слишком большое, нужно не более 5 Мб");
-        FileExceptionHandler handler = new FileExceptionHandler(error, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(MaxUploadSizeException.class)
+    public ResponseEntity<Object> handleMaxSizeException(MaxUploadSizeException ex) {
+//        HashMap<String, String> error = new HashMap<>();
+//        error.put("photo", "Фото слишком большое, нужно не более 5 Мб");
+        FileExceptionHandler handler = new FileExceptionHandler(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(handler, HttpStatus.BAD_REQUEST);
 //        return new ResponseEntity<>(handler, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(ResponseFactory.getErrorListResponse(error), HttpStatus.BAD_REQUEST);
 //        return handleExceptionInternal(ex, handler, new HttpHeaders(), HttpStatus.BAD_REQUEST, null);
     }
 
+    @ExceptionHandler(IllegalFormatException.class)
+    public ResponseEntity<Object> handleIllegalFormatException(IllegalFormatException ex) {
+//        HashMap<String, String> error = new HashMap<>();
+//        error.put("photo", "Фото слишком большое, нужно не более 5 Мб");
+        FileExceptionHandler handler = new FileExceptionHandler(ex.getMessage(), HttpStatus.BAD_REQUEST);
+//        return new ResponseEntity<>(handler, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(handler, HttpStatus.BAD_REQUEST);
+//        return handleExceptionInternal(ex, handler, new HttpHeaders(), HttpStatus.BAD_REQUEST, null);
+    }
 //    @ExceptionHandler(MaxUploadSizeExceededException.class)
 //    public ModelAndView handleMaxSizeException(
 //            MaxUploadSizeExceededException exc,

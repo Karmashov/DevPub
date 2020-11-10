@@ -630,3 +630,5 @@ databaseChangeLog:
       file: db/changelog/db.changelog-insertPostVotes.yaml
   - include:
       file: db/changelog/db.changelog-insertPostComments.yaml
+  - include:
+      file: db/changelog/db.changelog-insertTags.yaml

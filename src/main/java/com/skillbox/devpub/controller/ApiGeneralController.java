@@ -5,6 +5,8 @@ import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
+import com.skillbox.devpub.exception.IllegalFormatException;
+import com.skillbox.devpub.exception.MaxUploadSizeException;
 import com.skillbox.devpub.repository.GlobalSettingsRepository;
 import com.skillbox.devpub.service.*;
 import com.skillbox.devpub.service.impl.InitServiceImpl;
@@ -21,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -82,7 +85,7 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public String saveFile(@RequestParam("image") MultipartFile fileRequest) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(fileRequest.getInputStream());
-        String fileFormat = fileRequest.getOriginalFilename().substring(fileRequest.getOriginalFilename().lastIndexOf(".") + 1);
+        String fileFormat = checkPhoto(fileRequest);
         return fileService.saveFile(bufferedImage, fileFormat);
     }
 
@@ -119,18 +122,31 @@ public class ApiGeneralController {
     }
 
     @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
-            consumes = {"multipart/form-data"})
-    @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
-                                                  Principal principal) {
-        return ResponseEntity.ok(userService.editProfile(request, principal));
-    }
-
-    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
             consumes = {"application/json"})
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
                                          Principal principal) {
+        System.out.println("или тут");
         return ResponseEntity.ok(userService.editProfile(request, principal));
+    }
+
+    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
+            consumes = {"multipart/form-data"})
+    @PreAuthorize("hasAnyAuthority('user:write')")
+    public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
+                                                  Principal principal) {
+        System.out.println("тут");
+        checkPhoto(request.getPhoto());
+        return ResponseEntity.ok(userService.editProfile(request, principal));
+    }
+
+    private String checkPhoto(MultipartFile photo) {
+        String fileFormat = Objects.requireNonNull(photo.getOriginalFilename()).substring(photo.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
+        if (photo.getSize() > 5242880) {
+            throw new MaxUploadSizeException("Фото слишком большое, загрузите фото не более 5 Мб");
+        } else if (!(fileFormat.equals("jpg") || fileFormat.equals("png"))) {
+            throw new IllegalFormatException("Неверный формат изображения. Загрузите .jpg или .png");
+        }
+        return fileFormat;
     }
 }
