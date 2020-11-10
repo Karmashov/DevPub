@@ -47,8 +47,8 @@ public class ApiPostController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getPost(@PathVariable Integer id) {
-        return ResponseEntity.ok(postService.getPost(id));
+    public ResponseEntity<?> getPost(@PathVariable Integer id, Principal principal) {
+        return ResponseEntity.ok(postService.getPost(id, principal));
     }
 
     @PostMapping(value = "/like")

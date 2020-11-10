@@ -102,7 +102,7 @@ public class PostServiceImpl implements PostService {
             return errors;
         }
 
-        Post post = postRepository.findPostById(postId);
+        Post post = postRepository.findById(postId).orElseThrow(EntityNotFoundException::create);
         post.setTime(parseDate(requestDto.getTime()));
         post.setIsActive(requestDto.getActive());
         post.setTitle(requestDto.getTitle());
@@ -137,28 +137,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response getPost(Integer id) {
-//        Post post = postRepository.findPostById(id);
-        Post post = postRepository.findByIdAndIsActiveAndModerationStatusAndTimeBefore(
-                id,
-                true,
-                ModerationStatus.ACCEPTED,
-                LocalDateTime.now())
-                .orElseThrow(EntityNotFoundException::create);
-//        if (post.isPresent()) {
-//            Post result = post.get();
+    public Response getPost(Integer id, Principal principal) {
+        Post post = postRepository.findById(id).orElseThrow(EntityNotFoundException::create);
+        User user;
+        if (principal != null) {
+            user = userService.findByEmail(principal.getName());
+            if (user.getIsModerator() || post.getUser().equals(user)) {
+                return PostResponseFactory.getSinglePost(post);
+            }
+        }
+        if (!post.getIsActive() || !post.getModerationStatus().equals(ModerationStatus.ACCEPTED) || !post.getTime().isBefore(LocalDateTime.now())) {
+            throw new EntityNotFoundException("Документ не найден");
+        }
         post.setViewCount(post.getViewCount() + 1);
         postRepository.save(post);
         return PostResponseFactory.getSinglePost(post);
-//        } else {
-//            throw new EntityNotFoundException();
-//        }
-//        post.setViewCount(post.getViewCount() + 1);
-//        if (post.getIsActive() &&
-//                post.getModerationStatus() == ModerationStatus.ACCEPTED &&
-//                post.getTime().isBefore(LocalDateTime.now())) {
-//        }
-//        return null;
     }
 
     //@TODO включать или не включать отложенные посты?
@@ -185,7 +178,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void postModeration(PostModerationRequestDto request, Principal principal) {
-        Post post = postRepository.findPostById(request.getPost());
+        Post post = postRepository.findById(request.getPost()).orElseThrow(EntityNotFoundException::create);
         if (request.getDecision().equals("accept")) {
             post.setModerationStatus(ModerationStatus.ACCEPTED);
         } else if (request.getDecision().equals("decline")) {

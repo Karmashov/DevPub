@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    Post findPostById(Integer id);
+//    Post findPostById(Integer id);
 
     Optional<Post> findByIdAndIsActiveAndModerationStatusAndTimeBefore(Integer id, Boolean isActive, ModerationStatus status, LocalDateTime time);
 
@@ -31,13 +31,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findAllByTags(String tag);
 
     List<Post> findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(Boolean isActive, ModerationStatus status, Tag tag, LocalDateTime time);
-
-//    @Query(value = "select p from Post p join p.tags t where p.author.status<>'DELETED' and " +
-//            "(p.postText like %?1% or p.title like %?1%) and " +
-//            "(p.time between ?2 and ?3) and " +
-//            "(p.author.firstName like %?4% or p.author.lastName like %?4%) and " +
-//            "p.isBlocked = false and t.tag in ?5 group by p order by p.time desc")
-//    List<Post> searchPostsWithTags(String text, Date dateFrom, Date dateTo, String author, List<String> tags);
 
     //SELECT dev_pub.posts.*, COUNT(dev_pub.post_comments.id) AS total
     //FROM dev_pub.posts LEFT JOIN dev_pub.post_comments ON dev_pub.posts.id = dev_pub.post_comments.post_id

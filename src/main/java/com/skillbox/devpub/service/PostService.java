@@ -22,7 +22,7 @@ public interface PostService {
 
     Post findById(Integer id);
 
-    Response getPost(Integer id);
+    Response getPost(Integer id, Principal principal);
 
     Response getModerationList(Integer offset, Integer limit, String status, Principal principal);
 

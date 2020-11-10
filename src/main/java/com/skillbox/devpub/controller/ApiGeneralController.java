@@ -126,7 +126,6 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
                                          Principal principal) {
-        System.out.println("или тут");
         return ResponseEntity.ok(userService.editProfile(request, principal));
     }
 
@@ -135,7 +134,6 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
                                                   Principal principal) {
-        System.out.println("тут");
         checkPhoto(request.getPhoto());
         return ResponseEntity.ok(userService.editProfile(request, principal));
     }
