@@ -112,25 +112,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response editProfile(ProfileEditRequestDto request, Principal principal) {
-        //@TODO некорректно измененяются параметры (выбивает после смены мейла)
+    public Response editProfile(String request, MultipartFile photo, String email, String name, String password, String removePhoto, Principal principal) {
         HashMap<String, String> errors = new HashMap<>();
+//        String requestMail = request.substring(request.lastIndexOf("email\":\""), request.lastIndexOf("\""));
+//        System.out.println(requestMail);
         User user = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
-        if (request.getPassword() != null) {
-            checkUserPassword(request.getPassword(), errors);
+        if (password != null) {
+            checkUserPassword(password, errors);
             if (!errors.containsKey("password")) {
-                user.setPassword(passwordEncoder.encode(request.getPassword()));
+                user.setPassword(passwordEncoder.encode(password));
             }
         }
-        if (request.getPhoto() != null) {
-            checkPhoto(request.getPhoto(), errors);
+        if (photo != null) {
+            checkPhoto(photo, errors);
             if (!errors.containsKey("photo")) {
                 String link = null;
                 try {
-                    BufferedImage bufferedImage = ImageIO.read(request.getPhoto().getInputStream());
+                    BufferedImage bufferedImage = ImageIO.read(photo.getInputStream());
                     bufferedImage = fileService.resize(bufferedImage, 36, 36);
-                    String fileFormat = request.getPhoto().getOriginalFilename().substring(request.getPhoto().getOriginalFilename().lastIndexOf(".") + 1);
+                    String fileFormat = photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf(".") + 1);
                     link = fileService.saveFile(bufferedImage, fileFormat);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -138,20 +139,22 @@ public class UserServiceImpl implements UserService {
                 user.setPhoto(link);
             }
         }
-        if (!request.getName().equals(user.getName())) {
-            checkUserName(request.getName(), errors);
+//        System.out.println(name);
+        if (name != null) {
+            checkUserName(name, errors);
             if (!errors.containsKey("name")) {
-                user.setName(request.getName());
+                user.setName(name);
             }
         }
-        if (!request.getEmail().equals(user.getEmail())) {
-            checkUserLogin(request.getEmail(), errors);
+        if (email != null) {
+            checkUserLogin(email, errors);
             if (!errors.containsKey("email")) {
-                user.setEmail(request.getEmail());
+                user.setEmail(email);
             }
         }
-        if (request.getRemovePhoto() != null && request.getRemovePhoto().equals("1")) {
+        if (removePhoto != null /*&& removePhoto.equals("1")*/) {
             user.setPhoto(null);
+//            System.out.println(user);
         }
         if (!errors.isEmpty()) {
             return ResponseFactory.getErrorListResponse(errors);
@@ -159,6 +162,55 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return ResponseFactory.responseOk();
     }
+
+    //    @Override
+//    public Response editProfile(ProfileEditRequestDto request, Principal principal) {
+//        //@TODO некорректно измененяются параметры (выбивает после смены мейла)
+//        HashMap<String, String> errors = new HashMap<>();
+//        User user = userRepository.findByEmail(principal.getName())
+//                .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
+//        if (request.getPassword() != null) {
+//            checkUserPassword(request.getPassword(), errors);
+//            if (!errors.containsKey("password")) {
+//                user.setPassword(passwordEncoder.encode(request.getPassword()));
+//            }
+//        }
+//        if (request.getPhoto() != null) {
+//            checkPhoto(request.getPhoto(), errors);
+//            if (!errors.containsKey("photo")) {
+//                String link = null;
+//                try {
+//                    BufferedImage bufferedImage = ImageIO.read(request.getPhoto().getInputStream());
+//                    bufferedImage = fileService.resize(bufferedImage, 36, 36);
+//                    String fileFormat = request.getPhoto().getOriginalFilename().substring(request.getPhoto().getOriginalFilename().lastIndexOf(".") + 1);
+//                    link = fileService.saveFile(bufferedImage, fileFormat);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                user.setPhoto(link);
+//            }
+//        }
+//        if (!request.getName().equals(user.getName())) {
+//            checkUserName(request.getName(), errors);
+//            if (!errors.containsKey("name")) {
+//                user.setName(request.getName());
+//            }
+//        }
+//        if (!request.getEmail().equals(user.getEmail())) {
+//            checkUserLogin(request.getEmail(), errors);
+//            if (!errors.containsKey("email")) {
+//                user.setEmail(request.getEmail());
+//            }
+//        }
+//        if (request.getRemovePhoto() != null && request.getRemovePhoto().equals("1")) {
+//            user.setPhoto(null);
+//        }
+//        if (!errors.isEmpty()) {
+//            return ResponseFactory.getErrorListResponse(errors);
+//        }
+//        userRepository.save(user);
+//        return ResponseFactory.responseOk();
+//    }
 
     private void checkPhoto(MultipartFile photo, HashMap<String, String> errors) {
         //@TODO проерка размера фото

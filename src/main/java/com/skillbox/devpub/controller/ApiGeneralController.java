@@ -121,21 +121,36 @@ public class ApiGeneralController {
         settingsService.editSettings(request);
     }
 
-    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
-            consumes = {"application/json"})
-    @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
-                                         Principal principal) {
-        return ResponseEntity.ok(userService.editProfile(request, principal));
-    }
+//    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
+//            consumes = {"application/json"})
+//    @PreAuthorize("hasAnyAuthority('user:write')")
+//    public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
+//                                         Principal principal) {
+//        return ResponseEntity.ok(userService.editProfile(request, principal));
+//    }
+//
+//    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
+//            consumes = {"multipart/form-data"})
+//    @PreAuthorize("hasAnyAuthority('user:write')")
+//    public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
+//                                                  Principal principal) {
+//        checkPhoto(request.getPhoto());
+//        return ResponseEntity.ok(userService.editProfile(request, principal));
+//    }
 
-    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
-            consumes = {"multipart/form-data"})
-    @PreAuthorize("hasAnyAuthority('user:write')")
-    public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
+    @PostMapping(value = "/profile/my", consumes = {"multipart/form-data", "application/json"})
+    public ResponseEntity<?> editProfileWithPhoto(@RequestBody(required = false) String requestBody,
+//                                                  @RequestBody(required = false) ProfileEditRequestDto request,
+                                                  @RequestPart(value = "photo", required = false) MultipartFile photo,
+                                                  @RequestPart(value = "email", required = false) String email,
+                                                  @RequestPart(value = "name", required = false) String name,
+                                                  @RequestPart(value = "password", required = false) String password,
+                                                  @RequestPart(value = "removePhoto", required = false) String removePhoto,
                                                   Principal principal) {
-        checkPhoto(request.getPhoto());
-        return ResponseEntity.ok(userService.editProfile(request, principal));
+        if (photo != null) checkPhoto(photo);
+        System.out.println(requestBody);
+        System.out.println(removePhoto);
+        return ResponseEntity.ok(userService.editProfile(requestBody, photo, email, name, password, removePhoto, principal));
     }
 
     private String checkPhoto(MultipartFile photo) {
