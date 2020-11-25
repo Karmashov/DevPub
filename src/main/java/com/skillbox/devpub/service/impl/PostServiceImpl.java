@@ -58,7 +58,9 @@ public class PostServiceImpl implements PostService {
 //                result.sort(Post.COMPARE_BY_COMMENTS);
                 break;
             case "best":
+                //@TODO не все посты попадают в список
                 result = postRepository.sortByVotes(LocalDateTime.now());
+                System.out.println(result.size());
 //                result.sort(Post.COMPARE_BY_VOTES);
                 break;
         }

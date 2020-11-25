@@ -11,7 +11,7 @@ public class ProfileEditRequestDto {
     private String email;
     private String password;
 //    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private MultipartFile photo;
+//    private MultipartFile photo;
     private String removePhoto;
 }
 

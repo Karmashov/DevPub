@@ -138,9 +138,10 @@ public class ApiGeneralController {
 //        return ResponseEntity.ok(userService.editProfile(request, principal));
 //    }
 
-    @PostMapping(value = "/profile/my", consumes = {"multipart/form-data", "application/json"})
+    @PostMapping(value = "/profile/my", consumes = {"multipart/form-data", "application/json"}, produces="application/json")
+    @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfileWithPhoto(@RequestBody(required = false) String requestBody,
-//                                                  @RequestBody(required = false) ProfileEditRequestDto request,
+                                                  @ModelAttribute ProfileEditRequestDto request,
                                                   @RequestPart(value = "photo", required = false) MultipartFile photo,
                                                   @RequestPart(value = "email", required = false) String email,
                                                   @RequestPart(value = "name", required = false) String name,
@@ -148,9 +149,11 @@ public class ApiGeneralController {
                                                   @RequestPart(value = "removePhoto", required = false) String removePhoto,
                                                   Principal principal) {
         if (photo != null) checkPhoto(photo);
-        System.out.println(requestBody);
-        System.out.println(removePhoto);
-        return ResponseEntity.ok(userService.editProfile(requestBody, photo, email, name, password, removePhoto, principal));
+//        System.out.println("requestBody - " + requestBody);
+//        System.out.println("photo - " + photo);
+//        System.out.println("name - " + name);
+//        System.out.println(request);
+        return ResponseEntity.ok(userService.editProfile(requestBody, request, photo, email, name, password, removePhoto, principal));
     }
 
     private String checkPhoto(MultipartFile photo) {

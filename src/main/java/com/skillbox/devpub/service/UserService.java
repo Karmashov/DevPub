@@ -21,5 +21,5 @@ public interface UserService {
 
 //    Response editProfile(ProfileEditRequestDto request, Principal principal);
 
-    Response editProfile(String request, MultipartFile photo, String email, String name, String password, String removePhoto, Principal principal);
+    Response editProfile(String request, ProfileEditRequestDto requestDto, MultipartFile photo, String email, String name, String password, String removePhoto, Principal principal);
 }

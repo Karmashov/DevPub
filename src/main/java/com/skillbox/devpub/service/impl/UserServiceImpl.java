@@ -1,5 +1,6 @@
 package com.skillbox.devpub.service.impl;
 
+import com.google.gson.Gson;
 import com.skillbox.devpub.dto.authentication.PasswordChangeRequestDto;
 import com.skillbox.devpub.dto.authentication.RegistrationRequestDto;
 import com.skillbox.devpub.dto.universal.Response;
@@ -112,16 +113,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response editProfile(String request, MultipartFile photo, String email, String name, String password, String removePhoto, Principal principal) {
+    public Response editProfile(String request, ProfileEditRequestDto requestDto, MultipartFile photo, String email, String name, String password, String removePhoto, Principal principal) {
         HashMap<String, String> errors = new HashMap<>();
-//        String requestMail = request.substring(request.lastIndexOf("email\":\""), request.lastIndexOf("\""));
-//        System.out.println(requestMail);
+        ProfileEditRequestDto dto;
+        if (request != null) {
+            Gson gson = new Gson();
+            dto = gson.fromJson(request, ProfileEditRequestDto.class);
+        } else {
+            dto = requestDto;
+        }
         User user = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
-        if (password != null) {
-            checkUserPassword(password, errors);
+        if (dto.getPassword() != null) {
+            checkUserPassword(dto.getPassword(), errors);
             if (!errors.containsKey("password")) {
-                user.setPassword(passwordEncoder.encode(password));
+                user.setPassword(passwordEncoder.encode(dto.getPassword()));
             }
         }
         if (photo != null) {
@@ -140,19 +146,19 @@ public class UserServiceImpl implements UserService {
             }
         }
 //        System.out.println(name);
-        if (name != null) {
-            checkUserName(name, errors);
+        if (!dto.getName().equals(user.getName())) {
+            checkUserName(dto.getName(), errors);
             if (!errors.containsKey("name")) {
-                user.setName(name);
+                user.setName(dto.getName());
             }
         }
-        if (email != null) {
-            checkUserLogin(email, errors);
+        if (!dto.getEmail().equals(user.getEmail())) {
+            checkUserLogin(dto.getEmail(), errors);
             if (!errors.containsKey("email")) {
-                user.setEmail(email);
+                user.setEmail(dto.getEmail());
             }
         }
-        if (removePhoto != null /*&& removePhoto.equals("1")*/) {
+        if (dto.getRemovePhoto() != null && dto.getRemovePhoto().equals("1")) {
             user.setPhoto(null);
 //            System.out.println(user);
         }

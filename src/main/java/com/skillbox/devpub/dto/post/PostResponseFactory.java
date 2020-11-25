@@ -9,6 +9,8 @@ import com.skillbox.devpub.dto.user.UserResponseFactory;
 import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
@@ -32,7 +34,8 @@ public class PostResponseFactory {
                 post.getTime().toEpochSecond(ZoneOffset.UTC),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
-                post.getText(),
+                //@TODO проверить очистку
+                Jsoup.parse(post.getText()).nextElementSibling().text().trim(),
                 null,
                 (int) post.getVotes().stream().filter(v -> v.getValue() > 0).map(PostVote::getValue).count(),
                 (int) post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).count(),
