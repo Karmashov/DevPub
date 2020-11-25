@@ -53,9 +53,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> sortByDateFromFirst(LocalDateTime time);
 
     //Черный Пиар - тоже Пиар=)
-    @Query(value = "SELECT p, COUNT(v.value) AS total FROM Post p " +
+    @Query(value = "SELECT p, COALESCE(SUM(v.value), 0) AS total FROM Post p " +
             "LEFT JOIN p.votes v ON p.id = v.post.id " +
-            "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 AND v.value > 0" +
+            "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 " +
             "GROUP BY p.id ORDER BY total DESC")
     List<Post> sortByVotes(LocalDateTime time);
 }

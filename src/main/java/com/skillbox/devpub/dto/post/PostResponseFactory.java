@@ -34,8 +34,7 @@ public class PostResponseFactory {
                 post.getTime().toEpochSecond(ZoneOffset.UTC),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
-                //@TODO проверить очистку
-                Jsoup.parse(post.getText()).nextElementSibling().text().trim(),
+                Jsoup.parse(post.getText()).text().trim(),
                 null,
                 (int) post.getVotes().stream().filter(v -> v.getValue() > 0).map(PostVote::getValue).count(),
                 (int) post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).count(),

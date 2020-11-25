@@ -58,9 +58,7 @@ public class PostServiceImpl implements PostService {
 //                result.sort(Post.COMPARE_BY_COMMENTS);
                 break;
             case "best":
-                //@TODO не все посты попадают в список
                 result = postRepository.sortByVotes(LocalDateTime.now());
-                System.out.println(result.size());
 //                result.sort(Post.COMPARE_BY_VOTES);
                 break;
         }
@@ -96,7 +94,6 @@ public class PostServiceImpl implements PostService {
         return ResponseFactory.responseOk();
     }
 
-    //@TODO на фронте при открытии поста, все пустое
     @Override
     public Response editPost(PostRequestDto requestDto, Integer postId, Principal principal) {
         Response errors = checkErrors(requestDto, principal);
