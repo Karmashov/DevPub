@@ -5,11 +5,9 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class SecurityUser implements UserDetails {
@@ -54,6 +52,7 @@ public class SecurityUser implements UserDetails {
     }
 
     public static UserDetails fromUser(User user) {
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

@@ -7,6 +7,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class MailServiceImpl implements MailService {
 
@@ -22,6 +24,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendSimpleMessage(String to, String text, String subject) {
+
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
@@ -29,6 +32,7 @@ public class MailServiceImpl implements MailService {
             message.setSubject(subject);
 
             mailSender.send(message);
+
         } catch (MailException exception) {
             exception.printStackTrace();
         }
@@ -36,15 +40,19 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendPasswordRecovery(String to, String name, String link) {
+
         template.setText("Добрый день, %s!\nПерейдите по ссылке для восстановления пароля:\n%s");
-        String text = String.format(template.getText(), name, link);
+        String text = String.format(Objects.requireNonNull(template.getText()), name, link);
+
         sendSimpleMessage(to, text, "Восстановление пароля " + projectName);
     }
 
     @Override
     public void sendWelcomeMessage(String to, String name) {
+
         template.setText("Добрый день, %s!\nДобро пожаловать на портал " + projectName);
-        String text = String.format(template.getText(), name);
+        String text = String.format(Objects.requireNonNull(template.getText()), name);
+
         sendSimpleMessage(to, text, "Регистраиция " + projectName);
     }
 }

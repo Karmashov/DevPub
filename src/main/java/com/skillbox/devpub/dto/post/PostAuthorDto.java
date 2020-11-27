@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PostAuthorDto implements Dto {
+
     private Integer id;
     private String name;
 }

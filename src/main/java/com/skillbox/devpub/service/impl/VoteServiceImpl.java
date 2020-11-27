@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class VoteServiceImpl implements VoteService {
+
     private final UserService userService;
     private final PostRepository postRepository;
     private final PostVoteRepository voteRepository;
@@ -29,10 +30,13 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Response postLike(VoteRequestDto request, Principal principal) {
+
         if (principal == null) {
             return new BaseResponse(false);
         }
+
         List<PostVote> voteList = voteRepository.findAllByPost_Id(request.getPost());
+
         for (PostVote vote : voteList) {
             if (vote.getUser().getEmail().equals(principal.getName())) {
                 if (vote.getValue() == -1) {
@@ -43,21 +47,26 @@ public class VoteServiceImpl implements VoteService {
                 return new BaseResponse(false);
             }
         }
+
         PostVote vote = new PostVote();
         vote.setTime(LocalDateTime.now());
         vote.setValue(1);
         vote.setPost(postRepository.findById(request.getPost()).orElseThrow(EntityNotFoundException::create));
         vote.setUser(userService.findByEmail(principal.getName()));
         voteRepository.save(vote);
+
         return new BaseResponse(true);
     }
 
     @Override
     public Response postDislike(VoteRequestDto request, Principal principal) {
+
         if (principal == null) {
             return new BaseResponse(false);
         }
+
         List<PostVote> voteList = voteRepository.findAllByPost_Id(request.getPost());
+
         for (PostVote vote : voteList) {
             if (vote.getUser().getEmail().equals(principal.getName())) {
                 if (vote.getValue() == 1) {
@@ -68,12 +77,14 @@ public class VoteServiceImpl implements VoteService {
                 return new BaseResponse(false);
             }
         }
+
         PostVote vote = new PostVote();
         vote.setTime(LocalDateTime.now());
         vote.setValue(-1);
         vote.setPost(postRepository.findById(request.getPost()).orElseThrow(EntityNotFoundException::create));
         vote.setUser(userService.findByEmail(principal.getName()));
         voteRepository.save(vote);
+
         return new BaseResponse(true);
     }
 }

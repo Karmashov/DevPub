@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "tag2posts")
 public class Tag2Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

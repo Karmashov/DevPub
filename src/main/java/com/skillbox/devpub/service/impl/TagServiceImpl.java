@@ -6,7 +6,6 @@ import com.skillbox.devpub.dto.universal.Dto;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.Tag;
 import com.skillbox.devpub.model.enumerated.ModerationStatus;
-import com.skillbox.devpub.repository.PostRepository;
 import com.skillbox.devpub.repository.Tag2PostRepository;
 import com.skillbox.devpub.repository.TagRepository;
 import com.skillbox.devpub.service.TagService;
@@ -18,27 +17,22 @@ import java.util.List;
 
 @Service
 public class TagServiceImpl implements TagService {
-    private final PostRepository postRepository;
+    
     private final TagRepository tagRepository;
     private final Tag2PostRepository tag2PostRepository;
 
-    public TagServiceImpl(PostRepository postRepository, TagRepository tagRepository, Tag2PostRepository tag2PostRepository) {
-        this.postRepository = postRepository;
+    public TagServiceImpl(TagRepository tagRepository, Tag2PostRepository tag2PostRepository) {
         this.tagRepository = tagRepository;
         this.tag2PostRepository = tag2PostRepository;
     }
 
     @Override
     public Response getTagsWeight(String query) {
-        //@TODO Формула рассчета????
-        List<Tag> search;
-        if (query != null) {
-            search = tagRepository.findAllByNameContains(query);
-        } else {
-            search = tagRepository.findAll();
-        }
+
+        List<Tag> search = (query != null) ? tagRepository.findAllByNameContains(query) : tagRepository.findAll();
 
         List<Dto> result = new ArrayList<>();
+
         int tagUseMax = 0;
         for (Tag tag : search) {
             int tagUseCount = tag2PostRepository
@@ -48,6 +42,7 @@ public class TagServiceImpl implements TagService {
                 tagUseMax = tagUseCount;
             }
         }
+
         for (Tag tag : search) {
             int tagUseCount = tag2PostRepository
                     .findAllByTagAndPostIsActiveAndPostModerationStatusAndPostTimeBefore(

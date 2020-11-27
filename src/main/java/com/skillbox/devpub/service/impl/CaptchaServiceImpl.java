@@ -35,7 +35,9 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public Response getCaptcha() throws IOException {
+
         String secret = UUID.randomUUID().toString().replace("-", "");
+
         Cage cage = new GCage();
         String captchaCode = cage.getTokenGenerator().next();
         BufferedImage bufferedImage = cage.drawImage(captchaCode);
@@ -44,6 +46,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", byteArrayStream);
         byteArrayStream.flush();
+
         byte[] imageInByte = byteArrayStream.toByteArray();
         byteArrayStream.close();
         String image = Base64.getEncoder().encodeToString(imageInByte);
@@ -62,6 +65,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     private void deleteOldCaptcha() {
+
         LocalDateTime time = LocalDateTime.now();
         List<CaptchaCode> result = codeRepository.findAllByTimeIsBefore(time.minusMinutes(captchaLifetime));
         for (CaptchaCode captcha : result) {

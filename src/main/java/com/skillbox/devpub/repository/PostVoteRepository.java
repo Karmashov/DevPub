@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface PostVoteRepository extends JpaRepository<PostVote, Integer> {
 
-    boolean existsPostVoteByPost_Id(Integer id);
-
     List<PostVote> findAllByPost_Id(Integer id);
 }

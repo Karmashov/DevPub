@@ -20,5 +20,4 @@ public class CommentResponseDto implements Dto, Response {
     private LocalDateTime timestamp;
     private String text;
     private Dto user;
-//        private List<Dto> childComments;
 }

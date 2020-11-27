@@ -23,6 +23,7 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(mailHost);
@@ -42,6 +43,7 @@ public class MailConfig {
 
     @Bean
     public SimpleMailMessage templateSimpleMessage() {
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText("Добрый день, %s!\n%s");
 

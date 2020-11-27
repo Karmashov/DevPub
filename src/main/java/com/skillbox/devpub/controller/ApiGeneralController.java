@@ -2,7 +2,6 @@ package com.skillbox.devpub.controller;
 
 import com.skillbox.devpub.dto.comment.CommentRequestDto;
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
-import com.skillbox.devpub.dto.universal.ResponseFactory;
 import com.skillbox.devpub.dto.universal.SettingsDto;
 import com.skillbox.devpub.dto.user.ProfileEditRequestDto;
 import com.skillbox.devpub.exception.IllegalFormatException;
@@ -15,14 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.Objects;
 
 @RestController
@@ -66,6 +63,7 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:moderate')")
     public void postModeration(@RequestBody PostModerationRequestDto request,
                                Principal principal) {
+
         postService.postModeration(request, principal);
     }
 
@@ -73,30 +71,37 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> postComment(@RequestBody CommentRequestDto request,
                                          Principal principal) {
+
         return ResponseEntity.ok(commentService.postComment(request, principal));
     }
 
     @GetMapping("/tag")
     public ResponseEntity<?> getTagsWeight(@RequestParam(required = false) String query) {
+
         return ResponseEntity.ok(tagService.getTagsWeight(query));
     }
 
     @PostMapping("/image")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public String saveFile(@RequestParam("image") MultipartFile fileRequest) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(fileRequest.getInputStream());
+
         String fileFormat = checkPhoto(fileRequest);
+
+        BufferedImage bufferedImage = ImageIO.read(fileRequest.getInputStream());
+
         return fileService.saveFile(bufferedImage, fileFormat);
     }
 
     @GetMapping("/calendar")
     public ResponseEntity<?> getCalendar(@RequestParam(required = false) Integer year) {
+
         return ResponseEntity.ok(postService.getCalendar(year));
     }
 
     @GetMapping("/statistics/my")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> getMyStatistics(Principal principal) {
+
         return ResponseEntity.ok(postService.getMyStatistics(principal));
     }
 
@@ -104,10 +109,12 @@ public class ApiGeneralController {
     public ResponseEntity<?> getAllStatistics(Principal principal) {
         if (settingsRepository.findByCode("STATISTICS_IS_PUBLIC").getValue().equals("NO") &&
                 (principal == null ||
-                        !userService.findByEmail(principal.getName()).getIsModerator())) {
+                !userService.findByEmail(principal.getName()).getIsModerator())) {
+
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        return ResponseEntity.ok(postService.getAllStatistics(principal));
+
+        return ResponseEntity.ok(postService.getAllStatistics());
     }
 
     @GetMapping("/settings")
@@ -148,21 +155,27 @@ public class ApiGeneralController {
                                                   @RequestPart(value = "password", required = false) String password,
                                                   @RequestPart(value = "removePhoto", required = false) String removePhoto,
                                                   Principal principal) {
-        if (photo != null) checkPhoto(photo);
-//        System.out.println("requestBody - " + requestBody);
-//        System.out.println("photo - " + photo);
-//        System.out.println("name - " + name);
-//        System.out.println(request);
+
+        if (photo != null) {
+            checkPhoto(photo);
+        }
+
         return ResponseEntity.ok(userService.editProfile(requestBody, request, photo, email, name, password, removePhoto, principal));
     }
 
     private String checkPhoto(MultipartFile photo) {
-        String fileFormat = Objects.requireNonNull(photo.getOriginalFilename()).substring(photo.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
+
+        String fileFormat = Objects.requireNonNull(
+                photo.getOriginalFilename())
+                .substring(photo.getOriginalFilename()
+                            .lastIndexOf(".") + 1).toLowerCase();
+
         if (photo.getSize() > 5242880) {
             throw new MaxUploadSizeException("Фото слишком большое, загрузите фото не более 5 Мб");
         } else if (!(fileFormat.equals("jpg") || fileFormat.equals("png"))) {
             throw new IllegalFormatException("Неверный формат изображения. Загрузите .jpg или .png");
         }
+
         return fileFormat;
     }
 }

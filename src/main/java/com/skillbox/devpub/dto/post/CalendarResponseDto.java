@@ -11,6 +11,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class CalendarResponseDto implements Response {
+
     private Set<Integer> years;
     private Map<LocalDate, Integer> posts;
 }

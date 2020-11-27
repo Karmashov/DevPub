@@ -30,11 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**"/*, "/api/auth/restore"*/).permitAll()
-//                .antMatchers("/api/post").hasAuthority(Permission.USER.getPermission())
+                .antMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -45,14 +45,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-
     }
 
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider() {
+
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+
         return daoAuthenticationProvider;
     }
 
@@ -64,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
+
         return super.authenticationManagerBean();
     }
 }

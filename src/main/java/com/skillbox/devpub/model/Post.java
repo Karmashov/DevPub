@@ -7,16 +7,14 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
 @Table(name = "posts")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -61,35 +59,7 @@ public class Post {
 
     @Override
     public String toString() {
+
         return id + " " + title + " " + text;
     }
-
-//    @JsonIgnore
-//    public static final Comparator<? super Post> COMPARE_BY_TIME = (Comparator<Post>) (p1, p2) -> {
-//        if (p1.getTime() == p2.getTime()) return 0;
-//        else if (p1.getTime().isAfter(p2.getTime())) return -1;
-//        else return 1;
-//    };
-//
-//    @JsonIgnore
-//    public static final Comparator<? super Post> COMPARE_BY_COMMENTS = (Comparator<Post>) (p1, p2) -> {
-//        if (p1.getComments().size() == p2.getComments().size()) return 0;
-//        else if (p1.getComments().size() > p2.getComments().size()) return -1;
-//        else return 1;
-//        //SELECT dev_pub.posts.*, COUNT(dev_pub.post_comments.id) AS total
-//        //FROM dev_pub.posts LEFT JOIN dev_pub.post_comments ON dev_pub.posts.id = dev_pub.post_comments.post_id
-//        //WHERE dev_pub.posts.is_active = '1' AND dev_pub.posts.moderation_status = 'ACCEPTED' AND dev_pub.posts.time < '2020-01-01'
-//        //GROUP BY dev_pub.posts.id ORDER BY total DESC;
-//    };
-//
-//    @JsonIgnore
-//    public static final Comparator<? super Post> COMPARE_BY_VOTES = (Comparator<Post>) (p1, p2) -> {
-//        int v1 = (int) p1.getVotes().stream().filter(v -> v.getValue() > 0)
-//                .map(PostVote::getValue).count();
-//        int v2 = (int) p2.getVotes().stream().filter(v -> v.getValue() > 0)
-//                .map(PostVote::getValue).count();
-//        if (v1 == v2) return 0;
-//        else if (v1 > v2) return -1;
-//        else return 1;
-//    };
 }

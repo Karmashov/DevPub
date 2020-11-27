@@ -1,9 +1,7 @@
 package com.skillbox.devpub.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skillbox.devpub.model.enumerated.Role;
 import lombok.Data;
-import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -14,6 +12,7 @@ import java.util.List;
 @Data
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -52,6 +51,7 @@ public class User {
 
     @Override
     public String toString() {
+
         return id + " " + name;
     }
 }

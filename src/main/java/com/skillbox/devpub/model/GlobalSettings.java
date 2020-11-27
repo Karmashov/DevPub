@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "global_settings")
 public class GlobalSettings {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

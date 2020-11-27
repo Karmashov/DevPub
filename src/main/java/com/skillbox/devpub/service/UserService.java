@@ -15,11 +15,7 @@ public interface UserService {
 
     User findByEmail(String email);
 
-//    User findById(Integer id);
-
     Response changePassword(PasswordChangeRequestDto request);
-
-//    Response editProfile(ProfileEditRequestDto request, Principal principal);
 
     Response editProfile(String request, ProfileEditRequestDto requestDto, MultipartFile photo, String email, String name, String password, String removePhoto, Principal principal);
 }

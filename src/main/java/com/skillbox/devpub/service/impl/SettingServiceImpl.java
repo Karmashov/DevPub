@@ -21,7 +21,9 @@ public class SettingServiceImpl implements SettingsService {
 
     @Override
     public Response getSettings() {
+
         List<GlobalSettings> settings = settingsRepository.findAll();
+
         return ResponseFactory.getSettings(
                 settings.get(0).getValue().equals("YES"),
                 settings.get(1).getValue().equals("YES"),
@@ -32,6 +34,7 @@ public class SettingServiceImpl implements SettingsService {
     @Override
     //@TODO разобраться с сеттингами. Зачем в БД хранить Yes/No если на Фронте используется true/false
     public void editSettings(SettingsDto request) {
+
         if (request.getMultiuserMode() != null) {
             GlobalSettings multiuserMode = settingsRepository.findByCode("MULTIUSER_MODE");
             multiuserMode.setValue(request.getMultiuserMode() ? "YES" : "NO");

@@ -10,11 +10,7 @@ import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostVote;
 import com.skillbox.devpub.model.Tag;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
-import java.sql.Timestamp;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +22,9 @@ public class PostResponseFactory {
     }
 
     private static PostResponseDto postToListDto(Post post) {
+
         return new PostResponseDto(
                 post.getId(),
-//                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-//                Timestamp.valueOf(post.getTime()).getTime(),
                 post.getTime(),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
@@ -39,7 +34,7 @@ public class PostResponseFactory {
                 (int) post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).count(),
                 post.getComments().size(),
                 post.getViewCount(),
-                CommentResponseFactory.getCommentList(post.getComments(), null),
+                CommentResponseFactory.getCommentList(post.getComments()),
                 post.getTags() != null
                         ? post.getTags()
                         .stream()
@@ -50,12 +45,10 @@ public class PostResponseFactory {
     }
 
     private static PostResponseDto postToDto(Post post) {
+
         return new PostResponseDto(
                 post.getId(),
-//                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-//                Timestamp.valueOf(post.getTime()).getTime(),
                 post.getTime(),
-//                post.getTime().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli()),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
                 null,
@@ -64,7 +57,7 @@ public class PostResponseFactory {
                 (int) post.getVotes().stream().filter(v -> v.getValue() < 0).map(PostVote::getValue).count(),
                 post.getComments().size(),
                 post.getViewCount(),
-                CommentResponseFactory.getCommentList(post.getComments(), null),
+                CommentResponseFactory.getCommentList(post.getComments()),
                 post.getTags() != null
                         ? post.getTags()
                         .stream()
@@ -75,7 +68,9 @@ public class PostResponseFactory {
     }
 
     public static BaseResponseList getPostsListWithLimit(List<Post> result, Integer offset, Integer limit) {
+
         List<Dto> postsDto = new ArrayList<>();
+
         for (Post post : result) {
             postsDto.add(PostResponseFactory.postToListDto(post));
         }

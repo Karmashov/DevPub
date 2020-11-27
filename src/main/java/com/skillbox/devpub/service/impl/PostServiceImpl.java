@@ -23,7 +23,6 @@ import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +30,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class PostServiceImpl implements PostService {
+
     private final UserService userService;
     private final TagRepository tagRepository;
     private final PostRepository postRepository;
@@ -43,30 +43,30 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPosts(Integer offset, Integer limit, String mode) {
+
         List<Post> result = new ArrayList<>();
+
         switch (mode) {
             case "recent":
                 result = postRepository.sortByDateFromLast(LocalDateTime.now());
-//                result.sort(Post.COMPARE_BY_TIME);
                 break;
             case "early":
                 result = postRepository.sortByDateFromFirst(LocalDateTime.now());
-//                result.sort(Collections.reverseOrder(Post.COMPARE_BY_TIME));
                 break;
             case "popular":
                 result = postRepository.sortByComments(LocalDateTime.now());
-//                result.sort(Post.COMPARE_BY_COMMENTS);
                 break;
             case "best":
                 result = postRepository.sortByVotes(LocalDateTime.now());
-//                result.sort(Post.COMPARE_BY_VOTES);
                 break;
         }
+
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
     public Response addPost(PostRequestDto requestDto, Principal principal) {
+
         Response errors = checkErrors(requestDto, principal);
         if (errors != null) {
             return errors;
@@ -87,15 +87,17 @@ public class PostServiceImpl implements PostService {
         if (requestDto.getTags().size() != 0) {
             post.setTags(setPostTag(tags, requestDto));
         }
+
         postRepository.save(post);
 
-        log.info("IN addPost post: {} added with tags: {} successfully", post.getId(), tags);
+//        log.info("IN addPost post: {} added with tags: {} successfully", post.getId(), tags);
 
         return ResponseFactory.responseOk();
     }
 
     @Override
     public Response editPost(PostRequestDto requestDto, Integer postId, Principal principal) {
+
         Response errors = checkErrors(requestDto, principal);
         if (errors != null) {
             return errors;
@@ -118,26 +120,16 @@ public class PostServiceImpl implements PostService {
 
         postRepository.save(post);
 
-        log.info("IN editPost post: {} edited with tags: {} successfully", post.getId(), tags);
+//        log.info("IN editPost post: {} edited with tags: {} successfully", post.getId(), tags);
 
         return ResponseFactory.responseOk();
     }
 
     @Override
-    public Post findById(Integer id) {
-        Post post = postRepository.findById(id).orElse(null);
-        if (post == null) {
-            log.warn("IN findById - no post found by ID: {}", id);
-            return null;
-        }
-        log.info("IN findById - post: {} found by ID: {}", post, id);
-
-        return post;
-    }
-
-    @Override
     public Response getPost(Integer id, Principal principal) {
+
         Post post = postRepository.findById(id).orElseThrow(EntityNotFoundException::create);
+
         User user;
         if (principal != null) {
             user = userService.findByEmail(principal.getName());
@@ -145,18 +137,22 @@ public class PostServiceImpl implements PostService {
                 return PostResponseFactory.getSinglePost(post);
             }
         }
+
         if (!post.getIsActive() || !post.getModerationStatus().equals(ModerationStatus.ACCEPTED) || !post.getTime().isBefore(LocalDateTime.now())) {
             throw new EntityNotFoundException("Документ не найден");
         }
+
         post.setViewCount(post.getViewCount() + 1);
         postRepository.save(post);
+
         return PostResponseFactory.getSinglePost(post);
     }
 
-    //@TODO включать или не включать отложенные посты?
     @Override
     public Response getModerationList(Integer offset, Integer limit, String status, Principal principal) {
+
         ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
+
         List<Post> result;
         if (moderationStatus.equals(ModerationStatus.NEW)) {
             result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBeforeOrderByTimeDesc(
@@ -172,24 +168,27 @@ public class PostServiceImpl implements PostService {
                             userService.findByEmail(principal.getName()),
                             LocalDateTime.now());
         }
+
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
     public void postModeration(PostModerationRequestDto request, Principal principal) {
+
         Post post = postRepository.findById(request.getPost()).orElseThrow(EntityNotFoundException::create);
-        if (request.getDecision().equals("accept")) {
-            post.setModerationStatus(ModerationStatus.ACCEPTED);
-        } else if (request.getDecision().equals("decline")) {
-            post.setModerationStatus(ModerationStatus.DECLINED);
-        }
+
+        post.setModerationStatus(request.getDecision().equals("accept") ?
+                ModerationStatus.ACCEPTED : ModerationStatus.DECLINED);
+
         post.setModerator(userService.findByEmail(principal.getName()));
         postRepository.save(post);
     }
 
     @Override
     public Response getMyPosts(Integer offset, Integer limit, String status, Principal principal) {
+
         User user = userService.findByEmail(principal.getName());
+
         List<Post> result = new ArrayList<>();
         switch (status) {
             case "inactive":
@@ -205,30 +204,41 @@ public class PostServiceImpl implements PostService {
                 result = postRepository.findAllByUserAndIsActiveAndModerationStatus(user, true, ModerationStatus.ACCEPTED);
                 break;
         }
+
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
     public Response searchPosts(Integer offset, Integer limit, String query) {
-        List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now())
+
+        List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
+                true,
+                ModerationStatus.ACCEPTED,
+                LocalDateTime.now())
                 .stream().filter(f -> f.getText().contains(query)).collect(Collectors.toList());
+
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
     public Response getPostsByDate(Integer offset, Integer limit, String date) {
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate queryDate = LocalDate.parse(date, formatter);
+
         List<Post> result = postRepository.findAllByIsActiveAndModerationStatus(true, ModerationStatus.ACCEPTED)
                 .stream()
                 .filter(f -> f.getTime().toLocalDate().equals(queryDate))
                 .collect(Collectors.toList());
+
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
     public Response getPostsByTag(Integer offset, Integer limit, String tag) {
+
         List<Post> result = new ArrayList<>();
+
         Tag query = tagRepository.findFirstTagByNameIgnoreCase(tag);
         if (query != null) {
             result = postRepository
@@ -238,22 +248,30 @@ public class PostServiceImpl implements PostService {
                             query,
                             LocalDateTime.now());
         }
+
         return PostResponseFactory.getPostsListWithLimit(result, offset, limit);
     }
 
     @Override
     public Response getCalendar(Integer year) {
-        if (year == null) {
-            year = LocalDateTime.now().getYear();
+
+        int finalYear = LocalDateTime.now().getYear();
+
+        if (year != null) {
+            finalYear = year;
         }
-        int finalYear1 = year;
+
         List<Post> search = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
+
         HashSet<Integer> years = new HashSet<>();
         for (Post post : search) {
             years.add(post.getTime().toLocalDate().getYear());
         }
+
+        int finalYear1 = finalYear;
         search = search.stream().filter(f -> f.getTime().getYear() == finalYear1).collect(Collectors.toList());
+
         Map<LocalDate, Integer> result = new TreeMap<>();
         for (Post post : search) {
             LocalDate date = post.getTime().toLocalDate();
@@ -265,26 +283,31 @@ public class PostServiceImpl implements PostService {
                 result.put(date, 1);
             }
         }
+
         return ResponseFactory.getCalendar(years, result);
     }
 
     @Override
     public Response getMyStatistics(Principal principal) {
+
         List<Post> result = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now())
                 .stream().filter(p -> p.getUser().equals(userService.findByEmail(principal.getName()))).collect(Collectors.toList());
-//        System.out.println(result);
+
         return StatisticsResponseFactory.getStatistics(result);
     }
 
     @Override
-    public Response getAllStatistics(Principal principal) {
+    public Response getAllStatistics() {
+
         List<Post> result = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
+
         return StatisticsResponseFactory.getStatistics(result);
     }
 
     private Response checkErrors(PostRequestDto requestDto, Principal principal) {
+
         if (principal == null) {
             return new BaseResponse(false);
         }
@@ -296,10 +319,12 @@ public class PostServiceImpl implements PostService {
         if (!errors.isEmpty()) {
             return ResponseFactory.getErrorListResponse(errors);
         }
+
         return null;
     }
 
     private Set<Tag> setPostTag(Set<Tag> tags, PostRequestDto requestDto) {
+
         requestDto.getTags().forEach(tag -> {
             Tag postTag;
             if (tagRepository.existsTagByNameIgnoreCase(tag)) {
@@ -310,29 +335,34 @@ public class PostServiceImpl implements PostService {
             }
             tags.add(postTag);
         });
+
         return tags;
     }
 
     private void checkTitle(String title, HashMap<String, String> errors) {
+
         if (title.length() < 3) {
             errors.put("title", "Заголовок не установлен");
         }
     }
 
     private void checkText(String text, HashMap<String, String> errors) {
+
         if (text.length() < 50) {
             errors.put("text", "Текст публикации слишком короткий");
         }
     }
 
     private LocalDateTime parseDate(long requestDate) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(requestDate),
                 TimeZone.getDefault().toZoneId());
         LocalDateTime now = LocalDateTime.now();
+
         if (requestDate == 0 || localDateTime.isBefore(now)) {
             return now;
         }
+
         return localDateTime;
     }
 }

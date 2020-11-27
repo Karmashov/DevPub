@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class PostRequestDto {
+
     @JsonProperty("timestamp")
     private Long time;
     private Boolean active;

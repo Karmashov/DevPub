@@ -14,8 +14,6 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-//    Post findPostById(Integer id);
-
     Optional<Post> findByIdAndIsActiveAndModerationStatusAndTimeBefore(Integer id, Boolean isActive, ModerationStatus status, LocalDateTime time);
 
     List<Post> findAllByIsActiveAndModerationStatusAndTimeBefore(Boolean isActive, ModerationStatus status, LocalDateTime time);
@@ -30,14 +28,8 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findAllByUserAndIsActiveAndModerationStatus(User user, Boolean isActive, ModerationStatus status);
 
-    List<Post> findAllByTags(String tag);
-
     List<Post> findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(Boolean isActive, ModerationStatus status, Tag tag, LocalDateTime time);
 
-    //SELECT dev_pub.posts.*, COUNT(dev_pub.post_comments.id) AS total
-    //FROM dev_pub.posts LEFT JOIN dev_pub.post_comments ON dev_pub.posts.id = dev_pub.post_comments.post_id
-    //WHERE dev_pub.posts.is_active = '1' AND dev_pub.posts.moderation_status = 'ACCEPTED' AND dev_pub.posts.time < '2020-01-01'
-    //GROUP BY dev_pub.posts.id ORDER BY total DESC;
     @Query(value = "SELECT p, COUNT(c.id) AS total FROM Post p " +
             "LEFT JOIN p.comments c ON p.id = c.post.id " +
             "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 " +
@@ -54,7 +46,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "ORDER BY p.time")
     List<Post> sortByDateFromFirst(LocalDateTime time);
 
-    //Черный Пиар - тоже Пиар=)
     @Query(value = "SELECT p, COALESCE(SUM(v.value), 0) AS total FROM Post p " +
             "LEFT JOIN p.votes v ON p.id = v.post.id " +
             "WHERE p.isActive = true AND p.moderationStatus = 'ACCEPTED' AND p.time < ?1 " +

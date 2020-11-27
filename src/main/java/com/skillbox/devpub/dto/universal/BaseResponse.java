@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class BaseResponse implements Response {
+
     private Boolean result;
 
     public BaseResponse(Boolean result) {

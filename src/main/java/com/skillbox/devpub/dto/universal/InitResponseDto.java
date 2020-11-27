@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class InitResponseDto implements Response {
+
     private String title;
     private String subtitle;
     private String phone;

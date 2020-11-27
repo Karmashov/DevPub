@@ -1,6 +1,9 @@
 package com.skillbox.devpub.service.impl;
 
-import com.skillbox.devpub.dto.authentication.*;
+import com.skillbox.devpub.dto.authentication.AuthRequestDto;
+import com.skillbox.devpub.dto.authentication.AuthResponseFactory;
+import com.skillbox.devpub.dto.authentication.EmailRequestDto;
+import com.skillbox.devpub.dto.authentication.PasswordChangeRequestDto;
 import com.skillbox.devpub.dto.universal.BaseResponse;
 import com.skillbox.devpub.dto.universal.Response;
 import com.skillbox.devpub.model.Post;
@@ -48,69 +51,80 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response login(AuthRequestDto request) {
+
         try {
             Authentication auth = authenticationManager
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(auth);
             org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+
             User result = userRepository
                     .findByEmail(user.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User " + user.getUsername() + " not found"));
 
             return AuthResponseFactory.getAuthResponse(true, result, getModerationCount(result));
         } catch (AuthenticationException exception) {
+
             return new BaseResponse(false);
         }
     }
 
     @Override
     public Response authCheck(Principal principal) {
+
         if (principal == null) {
+
             return new BaseResponse(false);
         }
+
         User result = userRepository
                 .findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
+
         return AuthResponseFactory.getAuthResponse(true, result, getModerationCount(result));
     }
-//
-//    @Override
-//    public Response register(RegistrationRequestDto requestDto) {
-//        Response registration = userService.register(requestDto);
-//        return registration;
-//    }
 
     @Override
     public Response passwordRecovery(EmailRequestDto request, String link) {
+
         User user;
+
         try {
             user = userService.findByEmail(request.getEmail());
         } catch (Exception ex) {
+
             return new BaseResponse(false);
         }
+
         String confirmationCode = UUID.randomUUID().toString().replace("-", "");
         user.setCode(confirmationCode);
+
         userRepository.save(user);
 
         String fullLink = link + confirmationCode;
+
         mailService.sendPasswordRecovery(request.getEmail(), user.getName(), fullLink);
+
         return new BaseResponse(true);
     }
 
     @Override
     public Response changePassword(PasswordChangeRequestDto request) {
-        Response response = userService.changePassword(request);
-        return response;
+
+        return userService.changePassword(request);
     }
 
     private int getModerationCount(User result) {
+
         int moderationCount = 0;
+
         if (result.getIsModerator()) {
             moderationCount = (int) postRepository.findAll().stream().filter(Post::getIsActive)
                     .filter(p -> p.getModerationStatus() == ModerationStatus.NEW)
                     .filter(p -> p.getTime().isBefore(LocalDateTime.now())).count();
         }
+
         return moderationCount;
     }
 }

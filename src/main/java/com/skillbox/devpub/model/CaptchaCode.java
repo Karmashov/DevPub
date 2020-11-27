@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "captcha_codes")
 public class CaptchaCode {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

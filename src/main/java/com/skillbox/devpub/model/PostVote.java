@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "post_votes")
 public class PostVote {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

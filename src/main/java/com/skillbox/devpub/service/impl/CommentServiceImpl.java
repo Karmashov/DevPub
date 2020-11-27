@@ -29,7 +29,6 @@ public class CommentServiceImpl implements CommentService {
     private final PostService postService;
     private final PostRepository postRepository;
 
-
     @Autowired
     public CommentServiceImpl(PostCommentRepository postCommentRepository, UserService userService, PostService postService, PostRepository postRepository) {
         this.postCommentRepository = postCommentRepository;
@@ -40,23 +39,29 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Response postComment(CommentRequestDto request, Principal principal) {
+
         Post post = postRepository.findByIdAndIsActiveAndModerationStatusAndTimeBefore(
                 request.getPost(),
                 true,
                 ModerationStatus.ACCEPTED,
                 LocalDateTime.now())
                 .orElseThrow(EntityNotFoundException::create);
+
         PostComment parentComment = null;
+
         if (request.getParentComment() != null) {
             parentComment = postCommentRepository.findPostCommentById(
                     request.getParentComment())
                     .orElseThrow(EntityNotFoundException::create);
         }
+
         if (request.getText().length() < 10) {
             HashMap<String, String> errors = new HashMap<>();
             errors.put("text", "Текст комментария не задан или слишком короткий");
+
             return ResponseFactory.getErrorListResponse(errors);
         }
+
         PostComment comment = new PostComment();
         comment.setParentComment(parentComment);
         comment.setPost(post);

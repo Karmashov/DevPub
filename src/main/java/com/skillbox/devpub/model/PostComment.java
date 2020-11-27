@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Table(name = "post_comments")
 public class PostComment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

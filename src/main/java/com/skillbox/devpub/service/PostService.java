@@ -2,15 +2,9 @@ package com.skillbox.devpub.service;
 
 import com.skillbox.devpub.dto.post.PostModerationRequestDto;
 import com.skillbox.devpub.dto.post.PostRequestDto;
-import com.skillbox.devpub.dto.post.PostResponseDto;
-import com.skillbox.devpub.dto.universal.BaseResponse;
-import com.skillbox.devpub.dto.universal.BaseResponseList;
 import com.skillbox.devpub.dto.universal.Response;
-import com.skillbox.devpub.model.Post;
-import com.skillbox.devpub.model.User;
 
 import java.security.Principal;
-import java.util.List;
 
 public interface PostService {
 
@@ -19,8 +13,6 @@ public interface PostService {
     Response addPost(PostRequestDto requestDto, Principal principal);
 
     Response editPost(PostRequestDto requestDto, Integer postId, Principal principal);
-
-    Post findById(Integer id);
 
     Response getPost(Integer id, Principal principal);
 
@@ -40,5 +32,5 @@ public interface PostService {
 
     Response getMyStatistics(Principal principal);
 
-    Response getAllStatistics(Principal principal);
+    Response getAllStatistics();
 }

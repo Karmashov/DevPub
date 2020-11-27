@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class FileRequestDto {
+
     private String name;
     private MultipartFile file;
 }

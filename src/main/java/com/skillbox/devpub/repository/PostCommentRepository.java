@@ -1,6 +1,5 @@
 package com.skillbox.devpub.repository;
 
-import com.skillbox.devpub.model.Post;
 import com.skillbox.devpub.model.PostComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
