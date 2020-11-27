@@ -28,7 +28,7 @@ public class StatisticsResponseFactory {
                 likes,
                 dislikes,
                 views,
-                firstPost.toEpochSecond(ZoneOffset.UTC)
+                firstPost
         );
     }
 }

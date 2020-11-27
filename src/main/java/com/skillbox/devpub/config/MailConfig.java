@@ -44,6 +44,7 @@ public class MailConfig {
     public SimpleMailMessage templateSimpleMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText("Добрый день, %s!\n%s");
+
         return message;
     }
 }

@@ -25,13 +25,12 @@ public class PostResponseFactory {
         return postToDto(post);
     }
 
-    //@TODO очистка текста от html тэгов?
     private static PostResponseDto postToListDto(Post post) {
         return new PostResponseDto(
                 post.getId(),
 //                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
 //                Timestamp.valueOf(post.getTime()).getTime(),
-                post.getTime().toEpochSecond(ZoneOffset.UTC),
+                post.getTime(),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),
                 Jsoup.parse(post.getText()).text().trim(),
@@ -55,7 +54,7 @@ public class PostResponseFactory {
                 post.getId(),
 //                post.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
 //                Timestamp.valueOf(post.getTime()).getTime(),
-                post.getTime().toEpochSecond(ZoneOffset.UTC),
+                post.getTime(),
 //                post.getTime().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli()),
                 UserResponseFactory.getPostAuthor(post.getUser()),
                 post.getTitle(),

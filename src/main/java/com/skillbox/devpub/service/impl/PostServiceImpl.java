@@ -159,14 +159,14 @@ public class PostServiceImpl implements PostService {
         ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
         List<Post> result;
         if (moderationStatus.equals(ModerationStatus.NEW)) {
-            result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
+            result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBeforeOrderByTimeDesc(
                     true,
                     moderationStatus,
                     LocalDateTime.now()
             );
         } else {
             result = postRepository
-                    .findAllByIsActiveAndModerationStatusAndModeratorAndTimeBefore(
+                    .findAllByIsActiveAndModerationStatusAndModeratorAndTimeBeforeOrderByTimeDesc(
                             true,
                             moderationStatus,
                             userService.findByEmail(principal.getName()),

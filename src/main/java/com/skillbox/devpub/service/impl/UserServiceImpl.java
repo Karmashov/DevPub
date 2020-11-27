@@ -171,7 +171,6 @@ public class UserServiceImpl implements UserService {
 
     //    @Override
 //    public Response editProfile(ProfileEditRequestDto request, Principal principal) {
-//        //@TODO некорректно измененяются параметры (выбивает после смены мейла)
 //        HashMap<String, String> errors = new HashMap<>();
 //        User user = userRepository.findByEmail(principal.getName())
 //                .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));

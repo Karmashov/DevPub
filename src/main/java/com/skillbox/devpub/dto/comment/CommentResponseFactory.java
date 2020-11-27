@@ -16,7 +16,7 @@ public class CommentResponseFactory {
         return new CommentResponseDto(
                 comment.getId(),
 //                comment.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-                comment.getTime().toEpochSecond(ZoneOffset.UTC),
+                comment.getTime(),
                 comment.getText(),
                 UserResponseFactory.getCommentAuthor(comment.getUser())/*,
                 subList*/
