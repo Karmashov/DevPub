@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow
+    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub}
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,3 +37,6 @@ init:
   email: a.v.karmashov@gmail.com
   copyright: Андрей Кармашов
   copyrightFrom: 2020
+
+server:
+  port: ${PORT:8080}
