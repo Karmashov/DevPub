@@ -31,10 +31,7 @@ public class FileServiceImpl implements FileService {
         File fullFile = new File(newFilename);
         ImageIO.write(file, format, fullFile);
 
-        String fileLink = "/" + fullFile.toString().replaceAll("\\\\", "/");
-        System.out.println(fileLink);
-
-        return fileLink;
+        return "/" + fullFile.toString().replaceAll("\\\\", "/");
     }
 
     @Override
