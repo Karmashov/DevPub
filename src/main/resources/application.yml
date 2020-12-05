@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow}
+    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub}
 #    url: jdbc:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow
     username: root
     password: 1234
@@ -11,7 +11,7 @@ spring:
 #    hibernate.ddl-auto: none
 
   liquibase:
-        url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow}
+        url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub}
 #    url: jdbc:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow
     change-log: classpath:db/changelog/db.changelog-master.yaml
     user: root
