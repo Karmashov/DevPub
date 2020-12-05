@@ -63,7 +63,6 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:moderate')")
     public void postModeration(@RequestBody PostModerationRequestDto request,
                                Principal principal) {
-
         postService.postModeration(request, principal);
     }
 
@@ -71,21 +70,18 @@ public class ApiGeneralController {
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> postComment(@RequestBody CommentRequestDto request,
                                          Principal principal) {
-
         return ResponseEntity.ok(commentService.postComment(request, principal));
     }
 
     @GetMapping("/tag")
     public ResponseEntity<?> getTagsWeight(@RequestParam(required = false) String query) {
-
         return ResponseEntity.ok(tagService.getTagsWeight(query));
     }
 
     @PostMapping("/image")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public String saveFile(@RequestParam("image") MultipartFile fileRequest) throws IOException {
-
-        String fileFormat = checkPhoto(fileRequest);
+        String fileFormat = fileService.checkPhoto(fileRequest);
 
         BufferedImage bufferedImage = ImageIO.read(fileRequest.getInputStream());
 
@@ -94,14 +90,12 @@ public class ApiGeneralController {
 
     @GetMapping("/calendar")
     public ResponseEntity<?> getCalendar(@RequestParam(required = false) Integer year) {
-
         return ResponseEntity.ok(postService.getCalendar(year));
     }
 
     @GetMapping("/statistics/my")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> getMyStatistics(Principal principal) {
-
         return ResponseEntity.ok(postService.getMyStatistics(principal));
     }
 
@@ -128,23 +122,6 @@ public class ApiGeneralController {
         settingsService.editSettings(request);
     }
 
-//    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
-//            consumes = {"application/json"})
-//    @PreAuthorize("hasAnyAuthority('user:write')")
-//    public ResponseEntity<?> editProfile(@RequestBody ProfileEditRequestDto request,
-//                                         Principal principal) {
-//        return ResponseEntity.ok(userService.editProfile(request, principal));
-//    }
-//
-//    @RequestMapping(path = "/profile/my", method = RequestMethod.POST,
-//            consumes = {"multipart/form-data"})
-//    @PreAuthorize("hasAnyAuthority('user:write')")
-//    public ResponseEntity<?> editProfileWithPhoto(@ModelAttribute /*@RequestBody*/ ProfileEditRequestDto request,
-//                                                  Principal principal) {
-//        checkPhoto(request.getPhoto());
-//        return ResponseEntity.ok(userService.editProfile(request, principal));
-//    }
-
     @PostMapping(value = "/profile/my", consumes = {"multipart/form-data", "application/json"}, produces="application/json")
     @PreAuthorize("hasAnyAuthority('user:write')")
     public ResponseEntity<?> editProfileWithPhoto(@RequestBody(required = false) String requestBody,
@@ -155,27 +132,8 @@ public class ApiGeneralController {
                                                   @RequestPart(value = "password", required = false) String password,
                                                   @RequestPart(value = "removePhoto", required = false) String removePhoto,
                                                   Principal principal) {
-
-        if (photo != null) {
-            checkPhoto(photo);
-        }
-
         return ResponseEntity.ok(userService.editProfile(requestBody, request, photo, email, name, password, removePhoto, principal));
     }
 
-    private String checkPhoto(MultipartFile photo) {
 
-        String fileFormat = Objects.requireNonNull(
-                photo.getOriginalFilename())
-                .substring(photo.getOriginalFilename()
-                            .lastIndexOf(".") + 1).toLowerCase();
-
-        if (photo.getSize() > 5242880) {
-            throw new MaxUploadSizeException("Фото слишком большое, загрузите фото не более 5 Мб");
-        } else if (!(fileFormat.equals("jpg") || fileFormat.equals("png"))) {
-            throw new IllegalFormatException("Неверный формат изображения. Загрузите .jpg или .png");
-        }
-
-        return fileFormat;
-    }
 }

@@ -28,7 +28,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Response getTagsWeight(String query) {
-
         List<Tag> search = (query != null) ? tagRepository.findAllByNameContains(query) : tagRepository.findAll();
 
         List<Dto> result = new ArrayList<>();

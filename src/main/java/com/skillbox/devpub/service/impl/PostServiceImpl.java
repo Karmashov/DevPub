@@ -43,7 +43,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPosts(Integer offset, Integer limit, String mode) {
-
         List<Post> result = new ArrayList<>();
 
         switch (mode) {
@@ -66,7 +65,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response addPost(PostRequestDto requestDto, Principal principal) {
-
         Response errors = checkErrors(requestDto, principal);
         if (errors != null) {
             return errors;
@@ -97,7 +95,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response editPost(PostRequestDto requestDto, Integer postId, Principal principal) {
-
         Response errors = checkErrors(requestDto, principal);
         if (errors != null) {
             return errors;
@@ -127,7 +124,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPost(Integer id, Principal principal) {
-
         Post post = postRepository.findById(id).orElseThrow(EntityNotFoundException::create);
 
         User user;
@@ -150,7 +146,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getModerationList(Integer offset, Integer limit, String status, Principal principal) {
-
         ModerationStatus moderationStatus = ModerationStatus.valueOf(status.toUpperCase());
 
         List<Post> result;
@@ -174,7 +169,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void postModeration(PostModerationRequestDto request, Principal principal) {
-
         Post post = postRepository.findById(request.getPost()).orElseThrow(EntityNotFoundException::create);
 
         post.setModerationStatus(request.getDecision().equals("accept") ?
@@ -186,7 +180,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getMyPosts(Integer offset, Integer limit, String status, Principal principal) {
-
         User user = userService.findByEmail(principal.getName());
 
         List<Post> result = new ArrayList<>();
@@ -210,7 +203,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response searchPosts(Integer offset, Integer limit, String query) {
-
         List<Post> result = postRepository.findAllByIsActiveAndModerationStatusAndTimeBefore(
                 true,
                 ModerationStatus.ACCEPTED,
@@ -222,7 +214,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPostsByDate(Integer offset, Integer limit, String date) {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate queryDate = LocalDate.parse(date, formatter);
 
@@ -236,13 +227,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getPostsByTag(Integer offset, Integer limit, String tag) {
-
         List<Post> result = new ArrayList<>();
 
         Tag query = tagRepository.findFirstTagByNameIgnoreCase(tag);
         if (query != null) {
             result = postRepository
-                    .findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(
+                    .findAllByIsActiveAndModerationStatusAndTagsAndTimeBeforeOrderByTimeDesc(
                             true,
                             ModerationStatus.ACCEPTED,
                             query,
@@ -254,7 +244,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getCalendar(Integer year) {
-
         int finalYear = LocalDateTime.now().getYear();
 
         if (year != null) {
@@ -289,7 +278,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getMyStatistics(Principal principal) {
-
         List<Post> result = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now())
                 .stream().filter(p -> p.getUser().equals(userService.findByEmail(principal.getName()))).collect(Collectors.toList());
@@ -299,7 +287,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAllStatistics() {
-
         List<Post> result = postRepository
                 .findAllByIsActiveAndModerationStatusAndTimeBefore(true, ModerationStatus.ACCEPTED, LocalDateTime.now());
 
@@ -307,7 +294,6 @@ public class PostServiceImpl implements PostService {
     }
 
     private Response checkErrors(PostRequestDto requestDto, Principal principal) {
-
         if (principal == null) {
             return new BaseResponse(false);
         }
@@ -324,7 +310,6 @@ public class PostServiceImpl implements PostService {
     }
 
     private Set<Tag> setPostTag(Set<Tag> tags, PostRequestDto requestDto) {
-
         requestDto.getTags().forEach(tag -> {
             Tag postTag;
             if (tagRepository.existsTagByNameIgnoreCase(tag)) {
@@ -340,21 +325,18 @@ public class PostServiceImpl implements PostService {
     }
 
     private void checkTitle(String title, HashMap<String, String> errors) {
-
         if (title.length() < 3) {
             errors.put("title", "Заголовок не установлен");
         }
     }
 
     private void checkText(String text, HashMap<String, String> errors) {
-
         if (text.length() < 50) {
             errors.put("text", "Текст публикации слишком короткий");
         }
     }
 
     private LocalDateTime parseDate(long requestDate) {
-
         LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(requestDate),
                 TimeZone.getDefault().toZoneId());
         LocalDateTime now = LocalDateTime.now();

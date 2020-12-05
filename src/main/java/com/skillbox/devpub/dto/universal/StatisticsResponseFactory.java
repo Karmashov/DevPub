@@ -8,7 +8,6 @@ import java.util.List;
 public class StatisticsResponseFactory {
 
     public static Response getStatistics(List<Post> result) {
-
         int likes = 0;
         int dislikes = 0;
         int views = 0;

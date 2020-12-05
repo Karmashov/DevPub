@@ -16,7 +16,6 @@ public enum Role {
     }
 
     public Set<SimpleGrantedAuthority> getAuthorities() {
-
         return permissions.stream()
                 .map(p -> new SimpleGrantedAuthority(p.getPermission()))
                 .collect(Collectors.toSet());

@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub}
+    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow}
+#    url: jdbc:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,8 +11,9 @@ spring:
 #    hibernate.ddl-auto: none
 
   liquibase:
+        url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow}
+#    url: jdbc:mysql://localhost:3306/dev_pub?serverTimezone=Europe/Moscow
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3306/dev_pub}
     user: root
     password: 1234
 
@@ -19,8 +21,8 @@ spring:
     # Логин и пароль пользователя от почты на gmail
     host: smtp.gmail.com
     port: 587
-    username: devpubsocial@gmail.com
-    password: DevPubSocial
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
 
 upload:
   path: "upload"

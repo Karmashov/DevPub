@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-
         User result = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + email + " not found"));
 
@@ -68,7 +67,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response register(RegistrationRequestDto requestDto) {
-
         HashMap<String, String> errors = new HashMap<>();
         checkUserLogin(requestDto.getEmail(), errors);
         checkUserName(requestDto.getName(), errors);
@@ -96,7 +94,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response changePassword(PasswordChangeRequestDto request) {
-
         HashMap<String, String> errors = new HashMap<>();
         checkCode(request.getCode(), errors);
         checkUserPassword(request.getPassword(), errors);
@@ -122,7 +119,6 @@ public class UserServiceImpl implements UserService {
                                 String password,
                                 String removePhoto,
                                 Principal principal) {
-
         HashMap<String, String> errors = new HashMap<>();
 
         ProfileEditRequestDto dto = (request != null) ? new Gson().fromJson(request, ProfileEditRequestDto.class) : requestDto;
@@ -138,17 +134,13 @@ public class UserServiceImpl implements UserService {
         }
 
         if (photo != null) {
-            //@TODO проерка размера фото А надо ли? Проверка в сервисе есть
-            checkPhoto(photo, errors);
+            String fileFormat = fileService.checkPhoto(photo);
 
             if (!errors.containsKey("photo")) {
                 String link = null;
                 try {
                     BufferedImage bufferedImage = ImageIO.read(photo.getInputStream());
                     bufferedImage = fileService.resize(bufferedImage, 36, 36);
-
-                    String fileFormat = Objects.requireNonNull(photo.getOriginalFilename())
-                            .substring(photo.getOriginalFilename().lastIndexOf(".") + 1);
 
                     link = fileService.saveFile(bufferedImage, fileFormat);
                 } catch (IOException e) {
@@ -159,7 +151,6 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!dto.getName().equals(user.getName())) {
-
             checkUserName(dto.getName(), errors);
 
             if (!errors.containsKey("name")) {
@@ -168,7 +159,6 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!dto.getEmail().equals(user.getEmail())) {
-
             checkUserLogin(dto.getEmail(), errors);
 
             if (!errors.containsKey("email")) {
@@ -189,64 +179,7 @@ public class UserServiceImpl implements UserService {
         return ResponseFactory.responseOk();
     }
 
-    //    @Override
-//    public Response editProfile(ProfileEditRequestDto request, Principal principal) {
-//        HashMap<String, String> errors = new HashMap<>();
-//        User user = userRepository.findByEmail(principal.getName())
-//                .orElseThrow(() -> new UsernameNotFoundException("User " + principal.getName() + " not found"));
-//        if (request.getPassword() != null) {
-//            checkUserPassword(request.getPassword(), errors);
-//            if (!errors.containsKey("password")) {
-//                user.setPassword(passwordEncoder.encode(request.getPassword()));
-//            }
-//        }
-//        if (request.getPhoto() != null) {
-//            checkPhoto(request.getPhoto(), errors);
-//            if (!errors.containsKey("photo")) {
-//                String link = null;
-//                try {
-//                    BufferedImage bufferedImage = ImageIO.read(request.getPhoto().getInputStream());
-//                    bufferedImage = fileService.resize(bufferedImage, 36, 36);
-//                    String fileFormat = request.getPhoto().getOriginalFilename().substring(request.getPhoto().getOriginalFilename().lastIndexOf(".") + 1);
-//                    link = fileService.saveFile(bufferedImage, fileFormat);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                user.setPhoto(link);
-//            }
-//        }
-//        if (!request.getName().equals(user.getName())) {
-//            checkUserName(request.getName(), errors);
-//            if (!errors.containsKey("name")) {
-//                user.setName(request.getName());
-//            }
-//        }
-//        if (!request.getEmail().equals(user.getEmail())) {
-//            checkUserLogin(request.getEmail(), errors);
-//            if (!errors.containsKey("email")) {
-//                user.setEmail(request.getEmail());
-//            }
-//        }
-//        if (request.getRemovePhoto() != null && request.getRemovePhoto().equals("1")) {
-//            user.setPhoto(null);
-//        }
-//        if (!errors.isEmpty()) {
-//            return ResponseFactory.getErrorListResponse(errors);
-//        }
-//        userRepository.save(user);
-//        return ResponseFactory.responseOk();
-//    }
-
-    private void checkPhoto(MultipartFile photo, HashMap<String, String> errors) {
-
-        //@TODO проерка размера фото А надо ли? Проверка в сервисе есть
-        if (photo.getSize() > 5242880) {
-            errors.put("photo", "Фото слишком большое, нужно не более 5 Мб");
-        }
-    }
-
     private void checkUserLogin(String email, HashMap<String, String> errors) {
-
         if (userRepository.findByEmail(email).isPresent()) {
             errors.put("email", "Данный e-mail уже зарегистрирован");
         }
@@ -254,21 +187,18 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkUserName(String name, HashMap<String, String> errors) {
-
         if (name.length() < 2) {
             errors.put("name", "Имя указано неверно");
         }
     }
 
     private void checkUserPassword(String password, HashMap<String, String> errors) {
-
         if (password.length() < 6) {
             errors.put("password", "Пароль короче 6-ти символов");
         }
     }
 
     private void checkCaptcha(String captcha, String captchaSecret, HashMap<String, String> errors) {
-
         CaptchaCode captchaCode = captchaRepository.findAllBySecretCode(captchaSecret);
         if (!captcha.equals(captchaCode.getCode())) {
             errors.put("captcha", "Код с картинки введён неверно");
@@ -276,7 +206,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkCode(String code, HashMap<String, String> errors) {
-
         User user = userRepository.findByCode(code);
         if (user == null) {
             errors.put("code", "Ссылка для восстановления пароля устарела. <a href=\"/login/restore-password\">Запросить ссылку снова</a>");

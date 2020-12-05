@@ -41,19 +41,16 @@ public class ApiAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequestDto requestDto) {
-
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
     @GetMapping("/check")
     public ResponseEntity<?> authCheck(Principal principal) {
-
         return ResponseEntity.ok(authService.authCheck(principal));
     }
 
     @GetMapping("/logout")
     public ResponseEntity<?> logout() {
-
         SecurityContextHolder.clearContext();
 
         return ResponseEntity.ok(ResponseFactory.responseOk());
@@ -61,7 +58,6 @@ public class ApiAuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequestDto requestDto) {
-
         if (settingsRepository.findByCode("MULTIUSER_MODE").getValue().equals("NO")) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -71,7 +67,6 @@ public class ApiAuthController {
 
     @GetMapping("/captcha")
     public ResponseEntity<?> getCaptcha() throws IOException {
-
         return ResponseEntity.ok(captchaService.getCaptcha());
     }
 
@@ -88,7 +83,6 @@ public class ApiAuthController {
 
     @PostMapping("/password")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequestDto request) {
-
         return ResponseEntity.ok(authService.changePassword(request));
     }
 }

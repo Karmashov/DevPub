@@ -10,7 +10,6 @@ import java.util.List;
 public class CommentResponseFactory {
 
     public static CommentResponseDto getCommentDto(PostComment comment) {
-
         return new CommentResponseDto(
                 comment.getId(),
                 comment.getTime(),
@@ -20,7 +19,6 @@ public class CommentResponseFactory {
     }
 
     public static CommentResponseDto getSingleCommentDto(PostComment comment) {
-
         return new CommentResponseDto(
                 comment.getId(),
                 null, null, null
@@ -28,7 +26,6 @@ public class CommentResponseFactory {
     }
 
     public static List<Dto> getCommentList(List<PostComment> commentList) {
-
         List<Dto> list = new ArrayList<>();
         if (commentList == null) {
             return list;

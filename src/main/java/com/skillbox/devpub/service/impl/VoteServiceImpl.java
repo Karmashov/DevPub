@@ -30,7 +30,6 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Response postLike(VoteRequestDto request, Principal principal) {
-
         if (principal == null) {
             return new BaseResponse(false);
         }
@@ -60,7 +59,6 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Response postDislike(VoteRequestDto request, Principal principal) {
-
         if (principal == null) {
             return new BaseResponse(false);
         }

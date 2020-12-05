@@ -35,7 +35,6 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public Response getCaptcha() throws IOException {
-
         String secret = UUID.randomUUID().toString().replace("-", "");
 
         Cage cage = new GCage();
@@ -65,7 +64,6 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     private void deleteOldCaptcha() {
-
         LocalDateTime time = LocalDateTime.now();
         List<CaptchaCode> result = codeRepository.findAllByTimeIsBefore(time.minusMinutes(captchaLifetime));
         for (CaptchaCode captcha : result) {

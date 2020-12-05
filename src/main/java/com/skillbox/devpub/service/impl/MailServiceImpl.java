@@ -24,7 +24,6 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendSimpleMessage(String to, String text, String subject) {
-
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
@@ -40,7 +39,6 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendPasswordRecovery(String to, String name, String link) {
-
         template.setText("Добрый день, %s!\nПерейдите по ссылке для восстановления пароля:\n%s");
         String text = String.format(Objects.requireNonNull(template.getText()), name, link);
 
@@ -49,7 +47,6 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendWelcomeMessage(String to, String name) {
-
         template.setText("Добрый день, %s!\nДобро пожаловать на портал " + projectName);
         String text = String.format(Objects.requireNonNull(template.getText()), name);
 

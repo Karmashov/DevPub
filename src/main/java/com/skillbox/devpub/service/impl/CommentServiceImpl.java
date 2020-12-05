@@ -39,7 +39,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Response postComment(CommentRequestDto request, Principal principal) {
-
         Post post = postRepository.findByIdAndIsActiveAndModerationStatusAndTimeBefore(
                 request.getPost(),
                 true,

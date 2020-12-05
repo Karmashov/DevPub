@@ -12,7 +12,6 @@ public class ErrorListResponse implements Response {
     private Boolean result;
     private HashMap<String, String> errors;
 
-
     public ErrorListResponse(HashMap<String, String> errors) {
         this.result = false;
         this.errors = errors;

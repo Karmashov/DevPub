@@ -12,7 +12,6 @@ public class TimeSerializer extends JsonSerializer<LocalDateTime> {
 
     @Override
     public void serialize(LocalDateTime localDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
         jsonGenerator.writeString(localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond() + "");
     }
 }

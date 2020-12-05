@@ -7,7 +7,6 @@ import com.skillbox.devpub.model.User;
 public class AuthResponseFactory {
 
     public static Response getAuthResponse(Boolean result, User user, int moderationCount) {
-
         boolean settings = true;
 
         if (!user.getIsModerator()) {

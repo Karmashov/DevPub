@@ -59,7 +59,6 @@ public class Post {
 
     @Override
     public String toString() {
-
         return id + " " + title + " " + text;
     }
 }

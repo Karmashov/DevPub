@@ -11,12 +11,10 @@ public class FileExceptionHandler {
     }
 
     public Boolean getResult() {
-
         return result;
     }
 
     public String getMessage() {
-
         return message;
     }
 }

@@ -51,7 +51,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response login(AuthRequestDto request) {
-
         try {
             Authentication auth = authenticationManager
                     .authenticate(
@@ -72,7 +71,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response authCheck(Principal principal) {
-
         if (principal == null) {
 
             return new BaseResponse(false);
@@ -87,7 +85,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response passwordRecovery(EmailRequestDto request, String link) {
-
         User user;
 
         try {
@@ -111,12 +108,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response changePassword(PasswordChangeRequestDto request) {
-
         return userService.changePassword(request);
     }
 
     private int getModerationCount(User result) {
-
         int moderationCount = 0;
 
         if (result.getIsModerator()) {

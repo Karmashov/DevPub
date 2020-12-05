@@ -22,7 +22,6 @@ public class PostResponseFactory {
     }
 
     private static PostResponseDto postToListDto(Post post) {
-
         return new PostResponseDto(
                 post.getId(),
                 post.getTime(),
@@ -45,7 +44,6 @@ public class PostResponseFactory {
     }
 
     private static PostResponseDto postToDto(Post post) {
-
         return new PostResponseDto(
                 post.getId(),
                 post.getTime(),
@@ -68,7 +66,6 @@ public class PostResponseFactory {
     }
 
     public static BaseResponseList getPostsListWithLimit(List<Post> result, Integer offset, Integer limit) {
-
         List<Dto> postsDto = new ArrayList<>();
 
         for (Post post : result) {

@@ -28,7 +28,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findAllByUserAndIsActiveAndModerationStatus(User user, Boolean isActive, ModerationStatus status);
 
-    List<Post> findAllByIsActiveAndModerationStatusAndTagsAndTimeBefore(Boolean isActive, ModerationStatus status, Tag tag, LocalDateTime time);
+    List<Post> findAllByIsActiveAndModerationStatusAndTagsAndTimeBeforeOrderByTimeDesc(Boolean isActive, ModerationStatus status, Tag tag, LocalDateTime time);
 
     @Query(value = "SELECT p, COUNT(c.id) AS total FROM Post p " +
             "LEFT JOIN p.comments c ON p.id = c.post.id " +

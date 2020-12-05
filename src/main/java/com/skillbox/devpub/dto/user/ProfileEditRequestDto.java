@@ -8,7 +8,6 @@ public class ProfileEditRequestDto {
     private String name;
     private String email;
     private String password;
-//    private MultipartFile photo;
     private String removePhoto;
 }
 
