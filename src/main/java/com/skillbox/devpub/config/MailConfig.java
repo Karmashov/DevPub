@@ -16,9 +16,9 @@ public class MailConfig {
     private String mailHost;
     @Value("${spring.mail.port}")
     private Integer mailPort;
-    @Value("${spring.mail.username}")
+    @Value("${MAIL_USERNAME}")
     private String username;
-    @Value("${spring.mail.password}")
+    @Value("${MAIL_PASSWORD}")
     private String password;
 
     @Bean
