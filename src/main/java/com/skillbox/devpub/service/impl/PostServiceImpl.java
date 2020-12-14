@@ -45,6 +45,10 @@ public class PostServiceImpl implements PostService {
     public Response getPosts(Integer offset, Integer limit, String mode) {
         List<Post> result = new ArrayList<>();
 
+        if (mode == null) {
+            mode = "recent";
+        }
+
         switch (mode) {
             case "recent":
                 result = postRepository.sortByDateFromLast(LocalDateTime.now());
