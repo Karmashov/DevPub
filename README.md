@@ -1,2 +1,1 @@
-# DevPub
-:newspaper: Blog Engine
+# :newspaper: Blog Engine
